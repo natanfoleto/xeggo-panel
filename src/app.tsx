@@ -12,7 +12,7 @@ import { router } from './routes'
 export function App() {
   return (
     <HelmetProvider>
-      <Helmet titleTemplate="%s | pizza.shop" />
+      <Helmet titleTemplate="%s | xeggo" />
       <ThemeProvider defaultTheme="light" storageKey="ifood-theme">
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
