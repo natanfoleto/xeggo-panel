@@ -7,11 +7,11 @@ export function AuthLayout() {
       <div className="relative hidden h-full flex-col border-r border-foreground/5 bg-muted p-10 text-muted-foreground dark:border-r lg:flex">
         <div className="flex items-center gap-3 text-lg font-medium text-foreground">
           <Pizza className="h-5 w-5" />
-          <span className="font-semibold">pizza.shop</span>
+          <span className="font-semibold">xeggo</span>
         </div>
         <div className="mt-auto">
           <footer className="text-sm">
-            Painel do parceiro &copy; pizza.shop - {new Date().getFullYear()}
+            Painel do parceiro &copy; xeggo - {new Date().getFullYear()}
           </footer>
         </div>
       </div>

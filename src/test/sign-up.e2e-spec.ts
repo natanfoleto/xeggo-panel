@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test('sign up successfully', async ({ page }) => {
   await page.goto('/sign-up', { waitUntil: 'networkidle' })
 
-  await page.getByLabel('Nome do negócio').fill('Pizza Shop')
+  await page.getByLabel('Nome do negócio').fill('Xeggo')
   await page.getByLabel('Seu nome').fill('John Doe')
   await page.getByLabel('Seu e-mail').fill('john.doe@example.com')
   await page.getByLabel('Celular').fill('4799928273')

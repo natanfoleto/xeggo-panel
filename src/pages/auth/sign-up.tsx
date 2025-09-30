@@ -76,7 +76,7 @@ export function SignUp() {
             Criar conta grátis
           </h1>
           <p className="text-sm text-muted-foreground">
-            Seja um parceiro <span className="font-semibold">pizza.shop</span> e
+            Seja um parceiro <span className="font-semibold">xeggo</span> e
             comece suas vendas!
           </p>
         </div>

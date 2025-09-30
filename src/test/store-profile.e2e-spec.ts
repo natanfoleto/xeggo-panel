@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test('update restaurant profile successfully', async ({ page }) => {
   await page.goto('/', { waitUntil: 'networkidle' })
 
-  await page.getByRole('button', { name: 'Pizza Shop' }).click()
+  await page.getByRole('button', { name: 'Xeggo' }).click()
   await page.getByRole('menuitem', { name: 'Perfil da loja' }).click()
 
   await page.getByLabel('Nome').fill('Another Name')
@@ -25,7 +25,7 @@ test('update restaurant profile successfully', async ({ page }) => {
 test('update restaurant profile with error', async ({ page }) => {
   await page.goto('/', { waitUntil: 'networkidle' })
 
-  await page.getByRole('button', { name: 'Pizza Shop' }).click()
+  await page.getByRole('button', { name: 'Xeggo' }).click()
   await page.getByRole('menuitem', { name: 'Perfil da loja' }).click()
 
   await page.getByLabel('Nome').fill('Invalid name')
