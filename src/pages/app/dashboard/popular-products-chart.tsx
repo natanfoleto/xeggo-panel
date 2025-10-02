@@ -7,7 +7,6 @@ import {
   PieChart,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
 } from 'recharts'
 import colors from 'tailwindcss/colors'
 
@@ -20,7 +19,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-function CustomTooltip({ active, payload }: TooltipProps<number, number>) {
+interface CustomTooltipProps {
+  active?: boolean
+  payload?: {
+    name?: string
+    value?: number
+  }[]
+}
+
+function CustomTooltip({ active, payload }: CustomTooltipProps) {
   if (active && payload && payload.length) {
     return (
       <div className="bg-card text-card-foreground flex flex-col gap-2 rounded-lg border p-4 shadow-sm">
@@ -88,6 +95,16 @@ export function PopularProductsChart() {
                   value,
                   index,
                 }) => {
+                  if (
+                    typeof cx !== 'number' ||
+                    typeof cy !== 'number' ||
+                    typeof midAngle !== 'number' ||
+                    typeof innerRadius !== 'number' ||
+                    typeof outerRadius !== 'number'
+                  ) {
+                    return null
+                  }
+
                   const RADIAN = Math.PI / 180
                   const radius = 12 + innerRadius + (outerRadius - innerRadius)
                   const x = cx + radius * Math.cos(-midAngle * RADIAN)
@@ -104,7 +121,7 @@ export function PopularProductsChart() {
                       {popularProducts[index].product
                         .substring(0, 12)
                         .concat('...')}{' '}
-                      ({value})
+                      ({String(value)})
                     </text>
                   )
                 }}

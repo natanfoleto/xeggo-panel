@@ -64,7 +64,7 @@ export function SignUp() {
         href="/sign-in"
         className={twMerge(
           buttonVariants({ variant: 'ghost' }),
-          'absolute right-4 top-4 md:right-8 md:top-8',
+          'absolute top-4 right-4 md:top-8 md:right-8',
         )}
       >
         Fazer login

@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import { CancelOrderParams } from '../cancel-order'
+import type { CancelOrderParams } from '../cancel-order'
 
 export const cancelOrderMock = http.put<CancelOrderParams>(
   '/orders/:orderId/cancel',

@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import { DeliverOrderParams } from '../deliver-order'
+import type { DeliverOrderParams } from '../deliver-order'
 
 export const deliverOrderMock = http.put<DeliverOrderParams>(
   '/orders/:orderId/deliver',

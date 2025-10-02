@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react'
-import userEvent, { UserEvent } from '@testing-library/user-event'
-import { Mock } from 'vitest'
+import userEvent, { type UserEvent } from '@testing-library/user-event'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Pagination } from './pagination'
 
 let user: UserEvent
-let onPageChangeCallback: Mock<[number], void>
+let onPageChangeCallback: ReturnType<typeof vi.fn>
 
 describe('Pagination', () => {
   beforeEach(() => {

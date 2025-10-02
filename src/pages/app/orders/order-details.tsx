@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Loader2 } from 'lucide-react'
+import React from 'react'
 
 import { getOrderDetails } from '@/api/get-order-details'
 import { OrderStatus } from '@/components/order-status'
@@ -130,8 +131,8 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                 const totalWithComplements = itemSubtotal + complementsTotal
 
                 return (
-                  <>
-                    <TableRow key={orderItem.id}>
+                  <React.Fragment key={orderItem.id}>
+                    <TableRow>
                       <TableCell>
                         {orderItem.product?.name ?? (
                           <span className="text-muted-foreground italic">
@@ -160,11 +161,13 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                     </TableRow>
 
                     {orderItem.selectedComplements.length > 0 && (
-                      <TableRow>
+                      // give this row a stable key too (derivative of orderItem.id)
+                      <TableRow key={`${orderItem.id}-complements`}>
                         <TableCell colSpan={4} className="p-0">
                           <Accordion type="single" collapsible>
                             <AccordionItem
-                              value="complements"
+                              // make the accordion value unique per item to avoid collisions
+                              value={`complements-${orderItem.id}`}
                               className="border-0"
                             >
                               <AccordionTrigger className="text-muted-foreground px-4 py-2 text-xs hover:no-underline">
@@ -204,7 +207,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                         </TableCell>
                       </TableRow>
                     )}
-                  </>
+                  </React.Fragment>
                 )
               })}
             </TableBody>

@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-react'
-import { ComponentProps } from 'react'
-import { DateRange } from 'react-day-picker'
+import type { ComponentProps } from 'react'
+import type { DateRange } from 'react-day-picker'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -25,7 +25,7 @@ export function DateRangePicker({
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
-        <PopoverTrigger>
+        <PopoverTrigger asChild>
           <Button
             id="date"
             variant={'outline'}

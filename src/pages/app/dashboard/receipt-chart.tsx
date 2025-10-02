@@ -2,14 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 import { subDays } from 'date-fns'
 import { Loader2, XCircle } from 'lucide-react'
 import { useState } from 'react'
-import { DateRange } from 'react-day-picker'
+import type { DateRange } from 'react-day-picker'
 import {
   CartesianGrid,
   Line,
   LineChart,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from 'recharts'
@@ -36,11 +35,16 @@ export interface ReceiptChartProps {
   data: ReceiptDataPerMonth[]
 }
 
-function CustomTooltip({
-  active,
-  payload,
-  label,
-}: TooltipProps<number, number>) {
+interface CustomTooltipProps {
+  active?: boolean
+  label?: string
+  payload?: {
+    name?: string
+    value?: number
+  }[]
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (active && payload && payload.length) {
     return (
       <div className="bg-card text-card-foreground flex gap-1 rounded-l border p-2 text-sm shadow-sm">

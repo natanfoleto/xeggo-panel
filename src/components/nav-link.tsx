@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 export type NavLinkProps = ComponentProps<typeof Link>

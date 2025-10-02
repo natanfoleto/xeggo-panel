@@ -9,7 +9,7 @@ import { approveOrder } from '@/api/approve-order'
 import { cancelOrder } from '@/api/cancel-order'
 import { deliverOrder } from '@/api/deliver-order'
 import { dispatchOrder } from '@/api/dispatch-order'
-import { GetOrdersResponse } from '@/api/get-orders'
+import type { GetOrdersResponse } from '@/api/get-orders'
 import { OrderStatus } from '@/components/order-status'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -104,7 +104,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
     <TableRow>
       <TableCell>
         <Dialog onOpenChange={setIsOrderDetailsOpen} open={isOrderDetailsOpen}>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button variant="outline" size="xs">
               <Search className="h-3 w-3" />
               <span className="sr-only">Detalhes do pedido</span>

@@ -1,16 +1,9 @@
 import { http, HttpResponse } from 'msw'
 
-import {
-  GetOrderDetailsParams,
-  GetOrderDetailsResponse,
-} from '../get-order-details'
+import type { GetOrderDetailsResponse } from '../get-order-details'
 
-export const getOrderDetailsMock = http.get<
-  GetOrderDetailsParams,
-  never,
-  GetOrderDetailsResponse
->('/orders/:orderId', async () => {
-  return HttpResponse.json({
+export const getOrderDetailsMock = http.get('/orders/:orderId', async () => {
+  return HttpResponse.json<GetOrderDetailsResponse>({
     id: 'custom-order-id',
     customer: {
       name: 'John Doe',
@@ -27,6 +20,24 @@ export const getOrderDetailsMock = http.get<
           name: 'Pepperoni Pizza',
         },
         quantity: 1,
+        selectedComplements: [
+          {
+            id: 'complement-1',
+            quantity: 1,
+            priceInCents: 500,
+            complement: {
+              name: 'Extra Cheese',
+            },
+          },
+          {
+            id: 'complement-2',
+            quantity: 1,
+            priceInCents: 300,
+            complement: {
+              name: 'Bacon',
+            },
+          },
+        ],
       },
       {
         id: 'order-item-2',
@@ -35,8 +46,18 @@ export const getOrderDetailsMock = http.get<
           name: 'Chicken & Barbecue Pizza',
         },
         quantity: 2,
+        selectedComplements: [
+          {
+            id: 'complement-3',
+            quantity: 2,
+            priceInCents: 400,
+            complement: {
+              name: 'Cheddar',
+            },
+          },
+        ],
       },
     ],
-    totalInCents: 3900 + 4900 * 2,
+    totalInCents: 3900 + 500 + 300 + (4900 + 400 * 2) * 2,
   })
 })

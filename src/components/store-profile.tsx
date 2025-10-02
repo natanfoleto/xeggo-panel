@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 import {
   getManagedRestaurant,
-  GetManagedRestaurantResponse,
+  type GetManagedRestaurantResponse,
 } from '@/api/get-managed-restaurant'
 import { updateProfile } from '@/api/update-profile'
 
@@ -138,7 +138,7 @@ export function StoreProfile() {
           </div>
         </div>
         <DialogFooter>
-          <DialogClose>
+          <DialogClose asChild>
             <Button variant="ghost" type="button">
               Cancelar
             </Button>

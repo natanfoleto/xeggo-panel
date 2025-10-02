@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import { DispatchOrderParams } from '../dispatch-order'
+import type { DispatchOrderParams } from '../dispatch-order'
 
 export const dispatchOrderMock = http.put<DispatchOrderParams>(
   '/orders/:orderId/dispatch',
