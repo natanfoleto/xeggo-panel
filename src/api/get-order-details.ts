@@ -19,7 +19,15 @@ export interface GetOrderDetailsResponse {
     quantity: number
     product: {
       name: string
-    }
+    } | null
+    selectedComplements: {
+      id: string
+      quantity: number
+      priceInCents: number
+      complement: {
+        name: string
+      }
+    }[]
   }[]
   status: 'pending' | 'canceled' | 'processing' | 'delivering' | 'delivered'
 }

@@ -46,7 +46,7 @@ export function AccountMenu() {
   return (
     <Dialog>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger>
           <Button
             variant="outline"
             className="flex select-none items-center gap-2"
@@ -69,7 +69,7 @@ export function AccountMenu() {
             ) : (
               <>
                 {profile?.name}
-                <span className="text-xs font-normal text-muted-foreground">
+                <span className="text-muted-foreground text-xs font-normal">
                   {profile?.email}
                 </span>
               </>
@@ -77,14 +77,13 @@ export function AccountMenu() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DialogTrigger asChild>
+            <DialogTrigger>
               <DropdownMenuItem>
                 <Building className="mr-2 h-4 w-4" />
                 <span>Perfil da loja</span>
               </DropdownMenuItem>
             </DialogTrigger>
             <DropdownMenuItem
-              asChild
               className="text-rose-500 dark:text-rose-400"
               disabled={isSigningOut}
             >

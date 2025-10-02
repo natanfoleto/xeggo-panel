@@ -13,7 +13,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { violet } from 'tailwindcss/colors'
+import colors from 'tailwindcss/colors'
 
 import { getDailyReceiptInPeriod } from '@/api/get-daily-receipt-in-period'
 import { Button } from '@/components/ui/button'
@@ -43,7 +43,7 @@ function CustomTooltip({
 }: TooltipProps<number, number>) {
   if (active && payload && payload.length) {
     return (
-      <div className="flex gap-1 rounded-l border bg-card p-2 text-sm text-card-foreground shadow-sm">
+      <div className="bg-card text-card-foreground flex gap-1 rounded-l border p-2 text-sm shadow-sm">
         <span className="font-semibold">{label}</span>
         <span>-</span>
         <span>
@@ -93,7 +93,7 @@ export function ReceiptChart() {
           <CardTitle className="flex items-center gap-2 text-base font-medium">
             Receita no período
             {isLoadingDailyReceiptInPeriod && (
-              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
             )}
           </CardTitle>
           <CardDescription>Receita diária no período</CardDescription>
@@ -136,7 +136,7 @@ export function ReceiptChart() {
                     type="linear"
                     strokeWidth={2}
                     dataKey="receipt"
-                    stroke={violet['500']}
+                    stroke={colors.violet[500]}
                   />
 
                   <Tooltip cursor={false} content={<CustomTooltip />} />
@@ -144,7 +144,7 @@ export function ReceiptChart() {
               </ResponsiveContainer>
             ) : (
               <div className="flex h-[240px] w-full flex-col items-center justify-center gap-0.5">
-                <span className="text-sm text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   Nenhum resultado encontrado para o período.
                 </span>
                 <Button
@@ -175,7 +175,7 @@ export function ReceiptChart() {
           </div>
         ) : (
           <div className="flex h-[240px] w-full items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
           </div>
         )}
       </CardContent>

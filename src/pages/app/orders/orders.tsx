@@ -61,7 +61,7 @@ export function Orders() {
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
           Pedidos
           {isFetchingOrders && (
-            <Loader2Icon className="h-5 w-5 animate-spin text-muted-foreground" />
+            <Loader2Icon className="text-muted-foreground h-5 w-5 animate-spin" />
           )}
         </h1>
         <div className="space-y-2.5">
@@ -92,7 +92,7 @@ export function Orders() {
                   <TableRow>
                     <TableCell
                       colSpan={7}
-                      className="py-10 text-center text-muted-foreground"
+                      className="text-muted-foreground py-10 text-center"
                     >
                       Nenhum resultado encontrado.
                     </TableCell>

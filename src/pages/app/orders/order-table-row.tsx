@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { ArrowRight, Loader2, Search, X } from 'lucide-react'
+import { ArrowRight, Loader2, Search } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -104,7 +104,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
     <TableRow>
       <TableCell>
         <Dialog onOpenChange={setIsOrderDetailsOpen} open={isOrderDetailsOpen}>
-          <DialogTrigger asChild>
+          <DialogTrigger>
             <Button variant="outline" size="xs">
               <Search className="h-3 w-3" />
               <span className="sr-only">Detalhes do pedido</span>
@@ -139,7 +139,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
               currency: 'BRL',
             })}
           </span>
-          <span className="text-xs text-muted-foreground">3 produto(s)</span>
+          <span className="text-muted-foreground text-xs">3 produto(s)</span>
         </div>
       </TableCell>
 

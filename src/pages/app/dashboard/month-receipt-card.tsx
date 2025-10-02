@@ -19,9 +19,9 @@ export function MonthReceiptCard() {
           Receita total (mês)
         </CardTitle>
         {isLoadingMonthReceipt ? (
-          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
         ) : (
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
+          <DollarSign className="text-muted-foreground h-4 w-4" />
         )}
       </CardHeader>
       <CardContent className="space-y-1">
@@ -33,7 +33,7 @@ export function MonthReceiptCard() {
                 style: 'currency',
               })}
             </span>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               <span
                 className={
                   monthReceipt.diffFromLastMonth > 0

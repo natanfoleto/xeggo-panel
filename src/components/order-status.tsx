@@ -36,7 +36,7 @@ export function OrderStatus({ status }: OrderStatusProps) {
         <span className="h-2 w-2 rounded-full bg-emerald-500" />
       )}
 
-      <span className="font-medium text-muted-foreground">
+      <span className="text-muted-foreground font-medium">
         {orderStatusMap[status]}
       </span>
     </div>

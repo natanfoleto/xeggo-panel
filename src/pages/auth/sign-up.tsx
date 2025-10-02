@@ -75,7 +75,7 @@ export function SignUp() {
           <h1 className="text-2xl font-semibold tracking-tight">
             Criar conta grátis
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Seja um parceiro <span className="font-semibold">xeggo</span> e
             comece suas vendas!
           </p>
@@ -133,18 +133,18 @@ export function SignUp() {
           </form>
         </div>
 
-        <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">
+        <p className="text-muted-foreground px-6 text-center text-sm leading-relaxed">
           Ao continuar, você concorda com nossos{' '}
           <a
             href="/terms"
-            className="underline underline-offset-4 hover:text-primary"
+            className="hover:text-primary underline underline-offset-4"
           >
             Termos de serviço
           </a>{' '}
           e{' '}
           <a
             href="/privacy"
-            className="underline underline-offset-4 hover:text-primary"
+            className="hover:text-primary underline underline-offset-4"
           >
             Políticas de privacidade
           </a>

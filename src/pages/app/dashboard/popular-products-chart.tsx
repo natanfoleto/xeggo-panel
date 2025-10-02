@@ -23,7 +23,7 @@ import {
 function CustomTooltip({ active, payload }: TooltipProps<number, number>) {
   if (active && payload && payload.length) {
     return (
-      <div className="flex flex-col gap-2 rounded-lg border bg-card p-4 text-card-foreground shadow-sm">
+      <div className="bg-card text-card-foreground flex flex-col gap-2 rounded-lg border p-4 shadow-sm">
         <span className="text-base font-semibold">{payload[0].name}</span>
         <div className="flex flex-col gap-1">
           <span className="">
@@ -58,10 +58,10 @@ export function PopularProductsChart() {
           <CardTitle className="flex items-center gap-2 text-base font-medium">
             Produtos populares
             {isLoadingPopularProducts && (
-              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
             )}
           </CardTitle>
-          <BarChart className="h-4 w-4 text-muted-foreground" />
+          <BarChart className="text-muted-foreground h-4 w-4" />
         </div>
         <CardDescription>Os 5 produtos com mais vendas</CardDescription>
       </CardHeader>
@@ -126,7 +126,7 @@ export function PopularProductsChart() {
           </ResponsiveContainer>
         ) : (
           <div className="flex h-[240px] w-full items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
           </div>
         )}
       </CardContent>

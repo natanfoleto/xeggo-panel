@@ -22,9 +22,9 @@ export function MonthCanceledOrdersAmountCard() {
           Cancelamentos (mês)
         </CardTitle>
         {isLoadingMonthCanceledOrdersAmount ? (
-          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
         ) : (
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
+          <DollarSign className="text-muted-foreground h-4 w-4" />
         )}
       </CardHeader>
       <CardContent className="space-y-1">
@@ -33,7 +33,7 @@ export function MonthCanceledOrdersAmountCard() {
             <span className="text-2xl font-bold">
               {monthCanceledOrdersAmount.amount.toLocaleString('pt-BR')}
             </span>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               <span
                 className={
                   monthCanceledOrdersAmount.diffFromLastMonth < 0

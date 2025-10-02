@@ -6,6 +6,12 @@ import { Loader2 } from 'lucide-react'
 import { getOrderDetails } from '@/api/get-order-details'
 import { OrderStatus } from '@/components/order-status'
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import {
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -46,7 +52,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
         <DialogTitle className="flex items-center gap-2">
           Pedido: {orderId}
           {isFetchingOrder && (
-            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
           )}
         </DialogTitle>
         <DialogDescription>Detalhes do pedido</DialogDescription>
@@ -76,7 +82,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                 </TableCell>
                 <TableCell className="text-right">
                   {order.customer.phone ?? (
-                    <span className="italic text-muted-foreground">
+                    <span className="text-muted-foreground italic">
                       Não informado
                     </span>
                   )}
@@ -113,28 +119,92 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
             </TableHeader>
             <TableBody>
               {order.orderItems.map((orderItem) => {
+                const itemSubtotal = orderItem.priceInCents * orderItem.quantity
+
+                const complementsTotal = orderItem.selectedComplements.reduce(
+                  (acc, complement) =>
+                    acc + complement.priceInCents * complement.quantity,
+                  0,
+                )
+
+                const totalWithComplements = itemSubtotal + complementsTotal
+
                 return (
-                  <TableRow key={orderItem.id}>
-                    <TableCell>{orderItem.product.name}</TableCell>
-                    <TableCell className="text-right">
-                      {orderItem.quantity}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {(orderItem.priceInCents / 100).toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      })}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {(
-                        (orderItem.priceInCents * orderItem.quantity) /
-                        100
-                      ).toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      })}
-                    </TableCell>
-                  </TableRow>
+                  <>
+                    <TableRow key={orderItem.id}>
+                      <TableCell>
+                        {orderItem.product?.name ?? (
+                          <span className="text-muted-foreground italic">
+                            Produto removido
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {orderItem.quantity}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {(orderItem.priceInCents / 100).toLocaleString(
+                          'pt-BR',
+                          {
+                            style: 'currency',
+                            currency: 'BRL',
+                          },
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {(totalWithComplements / 100).toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </TableCell>
+                    </TableRow>
+
+                    {orderItem.selectedComplements.length > 0 && (
+                      <TableRow>
+                        <TableCell colSpan={4} className="p-0">
+                          <Accordion type="single" collapsible>
+                            <AccordionItem
+                              value="complements"
+                              className="border-0"
+                            >
+                              <AccordionTrigger className="text-muted-foreground px-4 py-2 text-xs hover:no-underline">
+                                Ver complementos (
+                                {orderItem.selectedComplements.length})
+                              </AccordionTrigger>
+                              <AccordionContent className="px-4 pb-2">
+                                <div className="ml-4 space-y-1">
+                                  {orderItem.selectedComplements.map(
+                                    (complement) => (
+                                      <div
+                                        key={complement.id}
+                                        className="text-muted-foreground flex items-center justify-between text-xs"
+                                      >
+                                        <span>
+                                          • {complement.complement.name}
+                                          {complement.quantity > 1 &&
+                                            ` (${complement.quantity}x)`}
+                                        </span>
+                                        <span>
+                                          {(
+                                            (complement.priceInCents *
+                                              complement.quantity) /
+                                            100
+                                          ).toLocaleString('pt-BR', {
+                                            style: 'currency',
+                                            currency: 'BRL',
+                                          })}
+                                        </span>
+                                      </div>
+                                    ),
+                                  )}
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </>
                 )
               })}
             </TableBody>
