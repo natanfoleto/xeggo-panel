@@ -1,19 +1,13 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Edit, Loader2, MoreHorizontal, Trash2 } from 'lucide-react'
+import { Edit } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
-import { deleteProduct } from '@/api/products/delete-product'
-// import type { GetProductsResponse } from '@/api/products/get-products'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
+
+import { DeleteProduct } from './delete-product'
+import { UpdateProduct } from './update-product'
 
 export interface ProductTableRowProps {
   product: {
@@ -32,33 +26,7 @@ export interface ProductTableRowProps {
 }
 
 export function ProductTableRow({ product }: ProductTableRowProps) {
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-  const queryClient = useQueryClient()
-
-  const { mutateAsync: deleteProductFn, isPending: isDeletingProduct } =
-    useMutation({
-      mutationFn: deleteProduct,
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: ['products'],
-        })
-
-        toast.success('Produto excluído com sucesso!')
-      },
-      onError: () => {
-        toast.error('Erro ao excluir produto')
-      },
-    })
-
-  async function handleDeleteProduct() {
-    if (
-      confirm(
-        `Tem certeza que deseja excluir o produto "${product.name}"? Esta ação não pode ser desfeita.`,
-      )
-    ) {
-      await deleteProductFn({ productId: product.id })
-    }
-  }
+  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false)
 
   return (
     <TableRow>
@@ -78,9 +46,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
 
       <TableCell className="font-medium">{product.name}</TableCell>
 
-      <TableCell className="text-center">
-        <Badge variant="outline">{product.category.name}</Badge>
-      </TableCell>
+      <TableCell>{product.category.name}</TableCell>
 
       <TableCell className="text-center font-medium">
         {(product.priceInCents / 100).toLocaleString('pt-BR', {
@@ -91,11 +57,11 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
 
       <TableCell className="text-center">
         {product.active ? (
-          <Badge variant="outline" className="border-green-500 text-green-700">
+          <Badge variant="outline" className="border-green-400 text-green-400">
             Ativo
           </Badge>
         ) : (
-          <Badge variant="outline" className="border-red-500 text-red-700">
+          <Badge variant="outline" className="border-red-400 text-red-400">
             Inativo
           </Badge>
         )}
@@ -105,32 +71,18 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
         {product.description || 'Sem descrição'}
       </TableCell>
 
-      <TableCell className="text-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="xs">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Ações</span>
+      <TableCell className="space-x-1 text-center">
+        <Dialog onOpenChange={setIsUpdateDialogOpen} open={isUpdateDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Edit className="text-muted-foreground size-4" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
-              <Edit className="h-4 w-4" />
-              Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={handleDeleteProduct}
-              disabled={isDeletingProduct}
-            >
-              {isDeletingProduct ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-              Excluir
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </DialogTrigger>
+
+          <UpdateProduct open={isUpdateDialogOpen} productId={product.id} />
+        </Dialog>
+
+        <DeleteProduct productId={product.id} productName={product.name} />
       </TableCell>
     </TableRow>
   )

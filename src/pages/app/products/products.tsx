@@ -47,6 +47,8 @@ export function Products() {
       }),
   })
 
+  console.log(result)
+
   function handlePaginate(pageIndex: number) {
     setSearchParams((prev) => {
       prev.set('page', (pageIndex + 1).toString())
@@ -80,9 +82,7 @@ export function Products() {
                 <TableRow>
                   <TableHead className="w-[64px]"></TableHead>
                   <TableHead className="w-[250px]">Nome</TableHead>
-                  <TableHead className="w-[140px] text-center">
-                    Categoria
-                  </TableHead>
+                  <TableHead className="w-[140px]">Categoria</TableHead>
                   <TableHead className="w-[140px] text-center">Preço</TableHead>
                   <TableHead className="w-[100px] text-center">
                     Status

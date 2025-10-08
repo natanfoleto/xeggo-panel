@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 
 export interface CreateProductRequest {
   name: string
-  description?: string
+  description?: string | null
   priceInCents: number
   categoryId: string
   active?: boolean

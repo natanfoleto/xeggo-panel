@@ -21,7 +21,8 @@ export function NewProduct() {
         <DialogHeader>
           <DialogTitle>Novo produto</DialogTitle>
           <DialogDescription>
-            Crie um novo produto para vender muito
+            Adicione um novo produto ao seu cardápio. Preencha as informações
+            básicas, ingredientes e complementos opcionais.
           </DialogDescription>
         </DialogHeader>
 

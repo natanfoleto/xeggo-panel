@@ -46,6 +46,8 @@ export function Orders() {
       }),
   })
 
+  console.log(result)
+
   function handlePaginate(pageIndex: number) {
     setSearchParams((prev) => {
       prev.set('page', (pageIndex + 1).toString())

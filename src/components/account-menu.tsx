@@ -3,8 +3,8 @@ import { Building, ChevronDown, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 import { signOut } from '@/api/auth/sign-out'
-import { getManagedRestaurant } from '@/api/restaurants/get-managed-restaurant'
 import { getProfile } from '@/api/profile/get-profile'
+import { getManagedRestaurant } from '@/api/restaurants/get-managed-restaurant'
 
 import { StoreProfile } from './store-profile'
 import { Button } from './ui/button'

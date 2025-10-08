@@ -20,14 +20,14 @@ export interface Product {
     name: string
     description: string | null
   }
-  ingredients: Array<{
+  ingredients: {
     id: string
     name: string
     productId: string
     createdAt: Date
     updatedAt: Date
-  }>
-  complementGroups: Array<{
+  }[]
+  complementGroups: {
     id: string
     name: string
     mandatory: boolean
@@ -36,7 +36,7 @@ export interface Product {
     productId: string
     createdAt: Date
     updatedAt: Date
-    complements: Array<{
+    complements: {
       id: string
       name: string
       priceInCents: number | null
@@ -44,8 +44,8 @@ export interface Product {
       complementGroupId: string
       createdAt: Date
       updatedAt: Date
-    }>
-  }>
+    }[]
+  }[]
 }
 
 export interface GetProductResponse {
