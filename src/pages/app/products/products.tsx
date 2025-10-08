@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { NewProduct } from './new-product'
 import { ProductTableFilters } from './product-table-filters'
 import { ProductTableRow } from './product-table-row'
 import { ProductsTableSkeleton } from './products-table-skeleton'
@@ -57,13 +58,19 @@ export function Products() {
   return (
     <>
       <Helmet title="Produtos" />
+
       <div className="flex flex-col gap-4">
-        <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
-          Produtos
-          {isFetchingProducts && (
-            <Loader2Icon className="text-muted-foreground h-5 w-5 animate-spin" />
-          )}
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
+            Produtos
+            {isFetchingProducts && (
+              <Loader2Icon className="text-muted-foreground h-5 w-5 animate-spin" />
+            )}
+          </h1>
+
+          <NewProduct />
+        </div>
+
         <div className="space-y-2.5">
           <ProductTableFilters />
 
@@ -72,12 +79,16 @@ export function Products() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[64px]"></TableHead>
-                  <TableHead className="w-[200px]">Nome</TableHead>
-                  <TableHead className="w-[140px]">Categoria</TableHead>
-                  <TableHead className="w-[140px]">Preço</TableHead>
-                  <TableHead className="w-[100px]">Status</TableHead>
+                  <TableHead className="w-[250px]">Nome</TableHead>
+                  <TableHead className="w-[140px] text-center">
+                    Categoria
+                  </TableHead>
+                  <TableHead className="w-[140px] text-center">Preço</TableHead>
+                  <TableHead className="w-[100px] text-center">
+                    Status
+                  </TableHead>
                   <TableHead>Descrição</TableHead>
-                  <TableHead className="w-[164px]"></TableHead>
+                  <TableHead className="w-[64px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

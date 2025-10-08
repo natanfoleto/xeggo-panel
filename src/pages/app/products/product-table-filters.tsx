@@ -1,8 +1,10 @@
+import { useQuery } from '@tanstack/react-query'
 import { Search, X } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
+import { getCategories } from '@/api/categories/get-categories'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -23,6 +25,13 @@ type ProductFiltersSchema = z.infer<typeof productsFiltersSchema>
 
 export function ProductTableFilters() {
   const [searchParams, setSearchParams] = useSearchParams()
+
+  const { data: responseCategories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => getCategories(),
+  })
+
+  const categories = responseCategories?.categories || []
 
   const productName = searchParams.get('productName')
   const categoryId = searchParams.get('categoryId')
@@ -111,12 +120,15 @@ export function ProductTableFilters() {
               <SelectTrigger className="h-8 w-[180px]">
                 <SelectValue />
               </SelectTrigger>
+
               <SelectContent>
                 <SelectItem value="all">Todas categorias</SelectItem>
-                {/* TODO: Buscar categorias da API */}
-                <SelectItem value="category-1">Lanches</SelectItem>
-                <SelectItem value="category-2">Pizzas</SelectItem>
-                <SelectItem value="category-3">Bebidas</SelectItem>
+
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           )
@@ -147,7 +159,7 @@ export function ProductTableFilters() {
       />
 
       <Button type="submit" variant="secondary" size="xs">
-        <Search className="mr-2 h-4 w-4" />
+        <Search className="h-4 w-4" />
         Filtrar resultados
       </Button>
 
@@ -158,7 +170,7 @@ export function ProductTableFilters() {
         disabled={!hasAnyFilter}
         onClick={handleClearFilters}
       >
-        <X className="mr-2 h-4 w-4" />
+        <X className="h-4 w-4" />
         Remover filtros
       </Button>
     </form>

@@ -71,25 +71,25 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
           />
         ) : (
           <div className="bg-muted flex h-10 w-10 items-center justify-center rounded">
-            <span className="text-muted-foreground text-xs">Sem foto</span>
+            <span className="text-muted-foreground text-xs" />
           </div>
         )}
       </TableCell>
 
       <TableCell className="font-medium">{product.name}</TableCell>
 
-      <TableCell>
+      <TableCell className="text-center">
         <Badge variant="outline">{product.category.name}</Badge>
       </TableCell>
 
-      <TableCell className="font-medium">
+      <TableCell className="text-center font-medium">
         {(product.priceInCents / 100).toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         })}
       </TableCell>
 
-      <TableCell>
+      <TableCell className="text-center">
         {product.active ? (
           <Badge variant="outline" className="border-green-500 text-green-700">
             Ativo
@@ -105,7 +105,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
         {product.description || 'Sem descrição'}
       </TableCell>
 
-      <TableCell>
+      <TableCell className="text-center">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="xs">
@@ -115,18 +115,17 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
-              <Edit className="mr-2 h-4 w-4" />
+              <Edit className="h-4 w-4" />
               Editar
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleDeleteProduct}
               disabled={isDeletingProduct}
-              className="text-red-600"
             >
               {isDeletingProduct ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <Trash2 className="mr-2 h-4 w-4" />
+                <Trash2 className="h-4 w-4" />
               )}
               Excluir
             </DropdownMenuItem>

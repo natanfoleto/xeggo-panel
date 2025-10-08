@@ -36,14 +36,13 @@ export interface OrderTableRowProps {
 
 export function OrderTableRow({ order }: OrderTableRowProps) {
   const [isOrderDetailsOpen, setIsOrderDetailsOpen] = useState(false)
+
   const queryClient = useQueryClient()
 
   function updateOrderStatusOnCache(orderId: string, status: OrderStatus) {
     const ordersListingCache = queryClient.getQueriesData<GetOrdersResponse>({
       queryKey: ['orders'],
     })
-
-    console.log(ordersListingCache)
 
     ordersListingCache.forEach(([cacheKey, cached]) => {
       if (!cached) {
