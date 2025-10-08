@@ -1,4 +1,4 @@
-import { Home, Pizza, UtensilsCrossed } from 'lucide-react'
+import { Hamburger, Home, Pizza, UtensilsCrossed } from 'lucide-react'
 
 import { AccountMenu } from './account-menu'
 import { NavLink } from './nav-link'
@@ -21,6 +21,10 @@ export function Header() {
           <NavLink to="/orders">
             <UtensilsCrossed className="h-4 w-4" />
             Pedidos
+          </NavLink>
+          <NavLink to="/products">
+            <Hamburger className="h-4 w-4" />
+            Produtos
           </NavLink>
         </nav>
 

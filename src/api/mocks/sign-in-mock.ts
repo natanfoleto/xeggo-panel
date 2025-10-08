@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import type { SignInRequest } from '../sign-in'
+import type { SignInRequest } from '../auth/sign-in'
 
 export const signInMock = http.post<never, SignInRequest>(
   '/authenticate',

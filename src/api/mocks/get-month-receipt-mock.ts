@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import type { GetMonthReceiptResponse } from '../get-month-receipt'
+import type { GetMonthReceiptResponse } from '../metrics/get-month-receipt'
 
 export const getMonthReceiptMock = http.get<
   never,

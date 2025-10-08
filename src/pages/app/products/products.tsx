@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { getOrders } from '@/api/orders/get-orders'
+import { getProducts } from '@/api/products/get-products'
 import { Pagination } from '@/components/pagination'
 import {
   Table,
@@ -15,16 +15,16 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { OrderTableFilters } from './order-table-filters'
-import { OrderTableRow } from './order-table-row'
-import { OrdersTableSkeleton } from './orders-table-skeleton'
+import { ProductTableFilters } from './product-table-filters'
+import { ProductTableRow } from './product-table-row'
+import { ProductsTableSkeleton } from './products-table-skeleton'
 
-export function Orders() {
+export function Products() {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const orderId = searchParams.get('orderId')
-  const customerName = searchParams.get('customerName')
-  const status = searchParams.get('status')
+  const productName = searchParams.get('productName')
+  const categoryId = searchParams.get('categoryId')
+  const active = searchParams.get('active')
 
   const pageIndex = z.coerce
     .number()
@@ -33,16 +33,16 @@ export function Orders() {
 
   const {
     data: result,
-    isFetching: isFetchingOrders,
-    isLoading: isLoadingOrders,
+    isFetching: isFetchingProducts,
+    isLoading: isLoadingProducts,
   } = useQuery({
-    queryKey: ['orders', customerName, orderId, status, pageIndex],
+    queryKey: ['products', productName, categoryId, active, pageIndex],
     queryFn: () =>
-      getOrders({
+      getProducts({
         pageIndex,
-        customerName,
-        orderId,
-        status: status === 'all' ? null : status,
+        productName,
+        categoryId: categoryId === 'all' ? null : categoryId,
+        active: active === 'all' || !active ? null : active === 'true',
       }),
   })
 
@@ -56,39 +56,41 @@ export function Orders() {
 
   return (
     <>
-      <Helmet title="Pedidos" />
+      <Helmet title="Produtos" />
       <div className="flex flex-col gap-4">
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
-          Pedidos
-          {isFetchingOrders && (
+          Produtos
+          {isFetchingProducts && (
             <Loader2Icon className="text-muted-foreground h-5 w-5 animate-spin" />
           )}
         </h1>
         <div className="space-y-2.5">
-          <OrderTableFilters />
+          <ProductTableFilters />
+
           <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[64px]"></TableHead>
-                  <TableHead className="w-[140px]">Identificador</TableHead>
-                  <TableHead className="w-[180px]">Realizado há</TableHead>
-                  <TableHead className="w-[140px]">Status</TableHead>
-                  <TableHead>Cliente</TableHead>
-                  <TableHead className="w-[140px]">Total do pedido</TableHead>
+                  <TableHead className="w-[200px]">Nome</TableHead>
+                  <TableHead className="w-[140px]">Categoria</TableHead>
+                  <TableHead className="w-[140px]">Preço</TableHead>
+                  <TableHead className="w-[100px]">Status</TableHead>
+                  <TableHead>Descrição</TableHead>
                   <TableHead className="w-[164px]"></TableHead>
-                  <TableHead className="w-[132px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoadingOrders && !result && <OrdersTableSkeleton />}
+                {isLoadingProducts && !result && <ProductsTableSkeleton />}
 
                 {result &&
-                  result.orders.map((order) => {
-                    return <OrderTableRow key={order.orderId} order={order} />
+                  result.products.map((product) => {
+                    return (
+                      <ProductTableRow key={product.id} product={product} />
+                    )
                   })}
 
-                {result && result.orders.length === 0 && (
+                {result && result.products.length === 0 && (
                   <TableRow>
                     <TableCell
                       colSpan={7}

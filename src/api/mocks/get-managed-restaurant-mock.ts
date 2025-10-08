@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import type { GetManagedRestaurantResponse } from '../get-managed-restaurant'
+import type { GetManagedRestaurantResponse } from '../restaurants/get-managed-restaurant'
 
 export const getManagedRestaurantMock = http.get<
   never,

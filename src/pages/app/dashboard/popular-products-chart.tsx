@@ -10,7 +10,7 @@ import {
 } from 'recharts'
 import colors from 'tailwindcss/colors'
 
-import { getPopularProducts } from '@/api/get-popular-products'
+import { getPopularProducts } from '@/api/metrics/get-popular-products'
 import {
   Card,
   CardContent,

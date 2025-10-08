@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import type { ApproveOrderParams } from '../approve-order'
+import type { ApproveOrderParams } from '../orders/approve-order'
 
 export const approveOrderMock = http.put<ApproveOrderParams>(
   '/orders/:orderId/approve',

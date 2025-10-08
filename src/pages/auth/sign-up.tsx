@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
-import { RegisterRestaurant } from '@/api/register-restaurant'
+import { RegisterRestaurant } from '@/api/restaurants/register-restaurant'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'

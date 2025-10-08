@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import type { GetDayOrdersAmountResponse } from '../get-day-orders-amount'
+import type { GetDayOrdersAmountResponse } from '../metrics/get-day-orders-amount'
 
 export const getDayOrdersAmountMock = http.get<
   never,

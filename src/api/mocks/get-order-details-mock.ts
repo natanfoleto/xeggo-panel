@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import type { GetOrderDetailsResponse } from '../get-order-details'
+import type { GetOrderDetailsResponse } from '../orders/get-order-details'
 
 export const getOrderDetailsMock = http.get('/orders/:orderId', async () => {
   return HttpResponse.json<GetOrderDetailsResponse>({
