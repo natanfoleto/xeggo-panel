@@ -2,29 +2,26 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { ImageIcon, Plus, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
-import {
-  type Control,
-  type FieldErrors,
-  useFieldArray,
-  useForm,
-  type UseFormRegister,
-  type UseFormSetValue,
-  type UseFormWatch,
-} from 'react-hook-form'
+import { type FieldErrors, useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { getCategories } from '@/api/categories/get-categories'
 import { createProduct } from '@/api/products/create-product'
+import { deleteProductImage } from '@/api/products/delete-product-image'
+import { updateProduct } from '@/api/products/update-product'
 import { uploadProductImage } from '@/api/products/upload-product-image'
 import { FormInput } from '@/components/form/form-input'
+import { FormPriceInput } from '@/components/form/form-price-input'
 import { FormSelect } from '@/components/form/form-select'
 import { FormTextarea } from '@/components/form/form-text-area'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { SelectItem } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { queryClient } from '@/lib/react-query'
+
+import { ComplementGroupField } from './complement-group-field'
 
 const productFormSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório').max(100),
@@ -62,7 +59,7 @@ const productFormSchema = z.object({
 export type ProductFormSchema = z.infer<typeof productFormSchema>
 
 interface ProductFormProps {
-  initialData?: Partial<ProductFormSchema>
+  initialData?: Partial<ProductFormSchema> & { id?: string }
   isLoading?: boolean
 }
 
@@ -70,6 +67,9 @@ export function ProductForm({
   initialData,
   isLoading = false,
 }: ProductFormProps) {
+  const [activeTab, setActiveTab] = useState('data')
+  const [openAccordion, setOpenAccordion] = useState<string | undefined>()
+
   const [photo, setPhoto] = useState<File | string | null>(
     initialData?.photoUrl || null,
   )
@@ -80,7 +80,8 @@ export function ProductForm({
     control,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    reset,
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<ProductFormSchema>({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
@@ -122,23 +123,84 @@ export function ProductForm({
 
   const { mutateAsync: createProductFn } = useMutation({
     mutationFn: createProduct,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['products'],
+      })
+
       toast.success('Produto criado com sucesso!')
     },
   })
 
-  const { mutateAsync: uploadPhotoFn } = useMutation({
+  const { mutateAsync: updateProductFn } = useMutation({
+    mutationFn: updateProduct,
+    onSuccess: async (_, data) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['products'],
+      })
+
+      reset(data)
+
+      toast.success('Produto atualizado com sucesso!')
+    },
+  })
+
+  const { mutateAsync: uploadProductImageFn } = useMutation({
     mutationFn: uploadProductImage,
   })
 
-  const onSubmit = async (data: ProductFormSchema) => {
-    const { productId } = await createProductFn(data)
+  const { mutateAsync: deleteProductImageFn } = useMutation({
+    mutationFn: deleteProductImage,
+  })
 
-    if (photo instanceof File) {
-      await uploadPhotoFn({
-        productId,
-        file: photo,
+  const handleFormError = (errors: FieldErrors<ProductFormSchema>) => {
+    if (
+      errors.name ||
+      errors.description ||
+      errors.priceInCents ||
+      errors.categoryId ||
+      errors.photoUrl
+    ) {
+      return setActiveTab('data')
+    }
+
+    if (errors.ingredients) {
+      return setActiveTab('ingredients')
+    }
+
+    if (errors.complementGroups) {
+      return setActiveTab('complements')
+    }
+  }
+
+  const onSubmit = async (data: ProductFormSchema) => {
+    const isUpdating = !!initialData
+
+    if (isUpdating) {
+      await updateProductFn({
+        productId: initialData.id!,
+        ...data,
       })
+
+      if (photo instanceof File) {
+        await uploadProductImageFn({
+          productId: initialData.id!,
+          file: photo,
+        })
+      } else if (photo === null && initialData.photoUrl) {
+        await deleteProductImageFn({
+          productId: initialData.id!,
+        })
+      }
+    } else {
+      const { productId } = await createProductFn(data)
+
+      if (photo instanceof File) {
+        await uploadProductImageFn({
+          productId,
+          file: photo,
+        })
+      }
     }
   }
 
@@ -160,12 +222,26 @@ export function ProductForm({
     setValue('photoUrl', null, { shouldDirty: true })
   }
 
+  const handleAppendComplementGroup = () => {
+    const newIndex = complementGroupFields.length
+
+    appendComplementGroup({
+      name: '',
+      mandatory: false,
+      min: 0,
+      max: 1,
+      complements: [],
+    })
+
+    setOpenAccordion(`group-${newIndex}`)
+  }
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit, handleFormError)}
       className="flex h-full flex-col justify-between space-y-4"
     >
-      <Tabs defaultValue="data" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="data">Dados</TabsTrigger>
           <TabsTrigger value="ingredients">Ingredientes</TabsTrigger>
@@ -177,6 +253,7 @@ export function ProductForm({
             <Label htmlFor="name">Nome</Label>
             <FormInput
               id="name"
+              placeholder="X-Bacon, Pizza Margherita, Açaí 500ml..."
               disabled={isLoading || isSubmitting}
               {...register('name')}
               error={errors.name?.message}
@@ -205,6 +282,7 @@ export function ProductForm({
             <Label htmlFor="description">Descrição</Label>
             <FormTextarea
               id="description"
+              placeholder="Prepare-se para uma explosão de sabor"
               className="h-20"
               disabled={isLoading || isSubmitting}
               {...register('description')}
@@ -214,18 +292,19 @@ export function ProductForm({
 
           <div className="col-span-12 space-y-2">
             <Label htmlFor="priceInCents">Preço</Label>
-            <FormInput
-              id="priceInCents"
-              type="number"
+            <FormPriceInput
+              value={watch('priceInCents')}
+              onChange={(value) =>
+                setValue('priceInCents', value, { shouldDirty: true })
+              }
               disabled={isLoading || isSubmitting}
-              {...register('priceInCents', { valueAsNumber: true })}
               error={errors.priceInCents?.message}
             />
           </div>
 
           <div className="col-span-12 space-y-2">
             <div className="flex items-center justify-between">
-              <Label>Foto do produto</Label>
+              <Label>Foto</Label>
 
               {photo && (
                 <div
@@ -233,10 +312,9 @@ export function ProductForm({
                   className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-0.5 text-xs transition-colors"
                 >
                   <X className="size-4" />
+
                   <span>
-                    {photo instanceof File
-                      ? photo.name
-                      : 'Remover foto do prêmio'}
+                    {photo instanceof File ? photo.name : 'Remover foto'}
                   </span>
                 </div>
               )}
@@ -251,13 +329,13 @@ export function ProductForm({
                       : photo || undefined
                   }
                   alt="Foto do prêmio"
-                  className="h-72 w-full cursor-pointer rounded-sm border object-contain"
+                  className="bg-primary dark:bg-input/30 border-input h-72 w-full cursor-pointer rounded-sm border object-contain"
                   onClick={() => document.getElementById('file')?.click()}
                 />
               ) : (
                 <div
                   onClick={() => document.getElementById('file')?.click()}
-                  className="flex h-72 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-sm border"
+                  className="bg-primary dark:bg-input/30 border-input flex h-72 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-sm border"
                 >
                   <ImageIcon className="text-muted-foreground size-20 stroke-[0.375]" />
 
@@ -276,30 +354,18 @@ export function ProductForm({
               />
             </div>
           </div>
-
-          {initialData && (
-            <div className="col-span-12 flex items-center space-x-2">
-              <Switch
-                id="active"
-                disabled={isLoading || isSubmitting}
-                checked={watch('active')}
-                onCheckedChange={(checked) => setValue('active', checked)}
-              />
-              <Label htmlFor="active">Produto ativo</Label>
-            </div>
-          )}
         </TabsContent>
 
         <TabsContent value="ingredients" className="space-y-6 py-4">
           <div className="space-y-4">
             <Button
               type="button"
-              variant="outline"
-              size="sm"
+              variant="secondary"
+              className="w-full"
               onClick={() => appendIngredient({ name: '' })}
             >
               <Plus className="size-4" />
-              Adicionar ingrediente
+              Novo ingrediente
             </Button>
 
             {ingredientFields.length ? (
@@ -333,20 +399,12 @@ export function ProductForm({
           <div className="space-y-4">
             <Button
               type="button"
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                appendComplementGroup({
-                  name: '',
-                  mandatory: false,
-                  min: 0,
-                  max: 1,
-                  complements: [],
-                })
-              }
+              variant="secondary"
+              className="w-full"
+              onClick={handleAppendComplementGroup}
             >
               <Plus className="size-4" />
-              Adicionar grupo
+              Novo grupo
             </Button>
 
             {complementGroupFields.map((groupField, groupIndex) => (
@@ -359,6 +417,8 @@ export function ProductForm({
                 setValue={setValue}
                 remove={() => removeComplementGroup(groupIndex)}
                 errors={errors}
+                openValue={openAccordion}
+                onOpenChange={setOpenAccordion}
               />
             ))}
           </div>
@@ -368,173 +428,12 @@ export function ProductForm({
       <div className="flex justify-end gap-2">
         <Button
           type="submit"
-          disabled={isLoading || isSubmitting}
+          disabled={isLoading || isSubmitting || !isDirty}
           variant="default"
         >
           {isSubmitting ? 'Salvando...' : 'Salvar produto'}
         </Button>
       </div>
     </form>
-  )
-}
-
-interface ComplementGroupFieldProps {
-  groupIndex: number
-  control: Control<ProductFormSchema>
-  register: UseFormRegister<ProductFormSchema>
-  watch: UseFormWatch<ProductFormSchema>
-  setValue: UseFormSetValue<ProductFormSchema>
-  remove: () => void
-  errors: FieldErrors<ProductFormSchema>
-}
-
-function ComplementGroupField({
-  groupIndex,
-  control,
-  register,
-  watch,
-  setValue,
-  remove,
-  errors,
-}: ComplementGroupFieldProps) {
-  const {
-    fields: complementFields,
-    append: appendComplement,
-    remove: removeComplement,
-  } = useFieldArray({
-    control,
-    name: `complementGroups.${groupIndex}.complements`,
-  })
-
-  return (
-    <div className="space-y-4 rounded-lg border p-4">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex-1 space-y-4">
-          <div className="space-y-2">
-            <Label>Nome do grupo</Label>
-            <FormInput
-              placeholder="Ex: Molhos, Adicionais..."
-              {...register(`complementGroups.${groupIndex}.name`)}
-              error={errors.complementGroups?.[groupIndex]?.name?.message}
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Switch
-              checked={watch(`complementGroups.${groupIndex}.mandatory`)}
-              onCheckedChange={(checked) =>
-                setValue(`complementGroups.${groupIndex}.mandatory`, checked)
-              }
-            />
-            <Label>Obrigatório</Label>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Mínimo</Label>
-              <FormInput
-                type="number"
-                min="0"
-                {...register(`complementGroups.${groupIndex}.min`)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Máximo</Label>
-              <FormInput
-                type="number"
-                min="1"
-                {...register(`complementGroups.${groupIndex}.max`)}
-              />
-            </div>
-          </div>
-        </div>
-
-        <Button type="button" variant="outline" size="icon" onClick={remove}>
-          <Trash2 className="size-4" />
-        </Button>
-      </div>
-
-      <div className="space-y-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() =>
-            appendComplement({
-              name: '',
-              priceInCents: 0,
-              description: null,
-            })
-          }
-        >
-          <Plus className="size-4" />
-          Adicionar complemento
-        </Button>
-
-        {complementFields.map((complementField, complementIndex) => (
-          <div
-            key={complementField.id}
-            className="flex items-center gap-3 rounded border p-3"
-          >
-            <div className="w-full space-y-2">
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <FormInput
-                    placeholder="Nome do complemento"
-                    {...register(
-                      `complementGroups.${groupIndex}.complements.${complementIndex}.name`,
-                    )}
-                    error={
-                      errors.complementGroups?.[groupIndex]?.complements?.[
-                        complementIndex
-                      ]?.name?.message
-                    }
-                  />
-                </div>
-
-                <div className="w-64">
-                  <FormInput
-                    type="number"
-                    placeholder="Preço"
-                    {...(register(
-                      `complementGroups.${groupIndex}.complements.${complementIndex}.priceInCents`,
-                    ),
-                    { valueAsNumber: true })}
-                    error={
-                      errors.complementGroups?.[groupIndex]?.complements?.[
-                        complementIndex
-                      ]?.priceInCents?.message
-                    }
-                  />
-                </div>
-              </div>
-
-              <FormTextarea
-                placeholder="Descrição (opcional)"
-                className="min-h-[60px]"
-                {...register(
-                  `complementGroups.${groupIndex}.complements.${complementIndex}.description`,
-                )}
-                error={
-                  errors.complementGroups?.[groupIndex]?.complements?.[
-                    complementIndex
-                  ]?.description?.message
-                }
-              />
-            </div>
-
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={() => removeComplement(complementIndex)}
-            >
-              <Trash2 className="size-4" />
-            </Button>
-          </div>
-        ))}
-      </div>
-    </div>
   )
 }

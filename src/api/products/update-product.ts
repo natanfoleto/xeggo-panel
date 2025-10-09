@@ -3,10 +3,24 @@ import { api } from '@/lib/axios'
 export interface UpdateProductRequest {
   productId: string
   name?: string
-  description?: string
+  description?: string | null
   priceInCents?: number
   categoryId?: string
   active?: boolean
+  ingredients?: {
+    name: string
+  }[]
+  complementGroups?: {
+    name: string
+    mandatory: boolean
+    min: number
+    max: number
+    complements: {
+      name: string
+      priceInCents?: number | null
+      description?: string | null
+    }[]
+  }[]
 }
 
 export async function updateProduct({
@@ -16,6 +30,8 @@ export async function updateProduct({
   priceInCents,
   categoryId,
   active,
+  ingredients,
+  complementGroups,
 }: UpdateProductRequest) {
   await api.put(`/products/${productId}`, {
     name,
@@ -23,5 +39,7 @@ export async function updateProduct({
     priceInCents,
     categoryId,
     active,
+    ingredients,
+    complementGroups,
   })
 }

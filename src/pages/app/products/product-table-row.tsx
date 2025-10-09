@@ -1,13 +1,12 @@
 import { Edit } from 'lucide-react'
 import { useState } from 'react'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 
-import { DeleteProduct } from './delete-product'
 import { UpdateProduct } from './update-product'
+import { UpdateStatusProduct } from './update-status-product'
 
 export interface ProductTableRowProps {
   product: {
@@ -35,7 +34,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
           <img
             src={product.photoUrl}
             alt={product.name}
-            className="h-10 w-10 rounded object-cover"
+            className="size-10 rounded object-cover"
           />
         ) : (
           <div className="bg-muted flex h-10 w-10 items-center justify-center rounded">
@@ -56,33 +55,27 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
       </TableCell>
 
       <TableCell className="text-center">
-        {product.active ? (
-          <Badge variant="outline" className="border-green-400 text-green-400">
-            Ativo
-          </Badge>
-        ) : (
-          <Badge variant="outline" className="border-red-400 text-red-400">
-            Inativo
-          </Badge>
-        )}
+        <UpdateStatusProduct
+          productId={product.id}
+          productName={product.name}
+          currentStatus={product.active}
+        />
       </TableCell>
 
       <TableCell className="text-muted-foreground max-w-[300px] truncate">
         {product.description || 'Sem descrição'}
       </TableCell>
 
-      <TableCell className="space-x-1 text-center">
-        <Dialog onOpenChange={setIsUpdateDialogOpen} open={isUpdateDialogOpen}>
+      <TableCell className="text-center">
+        <Dialog open={isUpdateDialogOpen} onOpenChange={setIsUpdateDialogOpen}>
           <DialogTrigger asChild>
             <Button variant="ghost" size="icon">
-              <Edit className="text-muted-foreground size-4" />
+              <Edit className="size-4" />
             </Button>
           </DialogTrigger>
 
           <UpdateProduct open={isUpdateDialogOpen} productId={product.id} />
         </Dialog>
-
-        <DeleteProduct productId={product.id} productName={product.name} />
       </TableCell>
     </TableRow>
   )
