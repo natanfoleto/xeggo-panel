@@ -91,7 +91,7 @@ export function Categories() {
                       colSpan={3}
                       className="text-muted-foreground py-10 text-center"
                     >
-                      Nenhuma categoria encontrada.
+                      Nenhum resultado encontrado.
                     </TableCell>
                   </TableRow>
                 )}

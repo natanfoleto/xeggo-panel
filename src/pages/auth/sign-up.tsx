@@ -7,15 +7,18 @@ import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
 import { RegisterRestaurant } from '@/api/restaurants/register-restaurant'
+import { FormInput } from '@/components/form/form-input'
+import { FormPhoneInput } from '@/components/form/form-phone-input'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const signUpSchema = z.object({
-  restaurantName: z.string(),
-  managerName: z.string(),
+  restaurantName: z
+    .string()
+    .min(1, { message: 'Informe o nome do restaurante' }),
+  managerName: z.string().min(1, { message: 'Informe o nome do proprietário' }),
   phone: z.string(),
-  email: z.string().email(),
+  email: z.string().email({ message: 'Informe um e-mail válido' }),
 })
 
 type SignUpSchema = z.infer<typeof signUpSchema>
@@ -26,9 +29,17 @@ export function SignUp() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    setValue,
+    watch,
+    formState: { isSubmitting, errors },
   } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      restaurantName: '',
+      managerName: '',
+      email: '',
+      phone: '',
+    },
   })
 
   const { mutateAsync: registerRestaurant } = useMutation({
@@ -86,43 +97,48 @@ export function SignUp() {
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Nome do negócio</Label>
-                <Input
+                <FormInput
                   id="name"
                   type="text"
                   autoCorrect="off"
                   {...register('restaurantName')}
+                  error={errors.restaurantName?.message}
                 />
               </div>
 
               <div className="grid gap-2">
                 <Label htmlFor="managerName">Seu nome</Label>
-                <Input
+                <FormInput
                   id="managerName"
                   type="text"
                   autoCorrect="off"
                   {...register('managerName')}
+                  error={errors.managerName?.message}
                 />
               </div>
 
               <div className="grid gap-2">
                 <Label htmlFor="email">Seu e-mail</Label>
-                <Input
+                <FormInput
                   id="email"
                   type="email"
                   autoCapitalize="none"
                   autoComplete="email"
                   autoCorrect="off"
                   {...register('email')}
+                  error={errors.email?.message}
                 />
               </div>
 
               <div className="grid gap-2">
                 <Label htmlFor="phone">Celular</Label>
-                <Input
-                  id="phone"
-                  placeholder="(99) 99999-9999"
-                  type="tel"
-                  {...register('phone')}
+                <FormPhoneInput
+                  value={watch('phone')}
+                  onChange={(value) =>
+                    setValue('phone', value, { shouldDirty: true })
+                  }
+                  disabled={isSubmitting}
+                  error={errors.phone?.message}
                 />
               </div>
 

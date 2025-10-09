@@ -27,7 +27,7 @@ test('sign in with wrong credentials', async ({ page }) => {
 test('navigate to new restaurant page', async ({ page }) => {
   await page.goto('/sign-in', { waitUntil: 'networkidle' })
 
-  await page.getByRole('link', { name: 'Novo estabelecimento' }).click()
+  await page.getByRole('link', { name: 'Novo restaurante' }).click()
 
   expect(page.url()).toContain('/sign-up')
 })
