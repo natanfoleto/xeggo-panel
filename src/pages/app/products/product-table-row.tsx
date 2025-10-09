@@ -1,8 +1,11 @@
-import { Edit } from 'lucide-react'
-import { useState } from 'react'
+import { MoreHorizontal } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import { UpdateProduct } from './update-product'
@@ -25,8 +28,6 @@ export interface ProductTableRowProps {
 }
 
 export function ProductTableRow({ product }: ProductTableRowProps) {
-  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false)
-
   return (
     <TableRow>
       <TableCell>
@@ -67,15 +68,17 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
       </TableCell>
 
       <TableCell className="text-center">
-        <Dialog open={isUpdateDialogOpen} onOpenChange={setIsUpdateDialogOpen}>
-          <DialogTrigger asChild>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <Edit className="size-4" />
+              <MoreHorizontal className="size-4" />
             </Button>
-          </DialogTrigger>
+          </DropdownMenuTrigger>
 
-          <UpdateProduct open={isUpdateDialogOpen} productId={product.id} />
-        </Dialog>
+          <DropdownMenuContent align="end">
+            <UpdateProduct productId={product.id} />
+          </DropdownMenuContent>
+        </DropdownMenu>
       </TableCell>
     </TableRow>
   )

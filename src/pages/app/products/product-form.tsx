@@ -174,11 +174,11 @@ export function ProductForm({
   }
 
   const onSubmit = async (data: ProductFormSchema) => {
-    const isUpdating = !!initialData
+    const productId = initialData?.id
 
-    if (isUpdating) {
+    if (productId) {
       await updateProductFn({
-        productId: initialData.id!,
+        productId,
         ...data,
       })
 

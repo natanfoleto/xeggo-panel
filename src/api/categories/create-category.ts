@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 
 export interface CreateCategoryRequest {
   name: string
-  description?: string
+  description?: string | null
 }
 
 export interface CreateCategoryResponse {

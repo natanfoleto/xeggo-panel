@@ -14,10 +14,25 @@ export interface Category {
 
 export interface GetCategoriesResponse {
   categories: Category[]
+  meta: {
+    pageIndex: number
+    totalCount: number
+    perPage: number
+  }
 }
 
-export async function getCategories() {
-  const response = await api.get<GetCategoriesResponse>(`/categories`)
+export interface GetCategoriesQuery {
+  pageIndex?: number
+}
+
+export async function getCategories({
+  pageIndex = 0,
+}: GetCategoriesQuery = {}) {
+  const response = await api.get<GetCategoriesResponse>('/categories', {
+    params: {
+      pageIndex,
+    },
+  })
 
   return response.data
 }

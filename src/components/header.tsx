@@ -1,4 +1,10 @@
-import { Hamburger, Home, Pizza, UtensilsCrossed } from 'lucide-react'
+import {
+  Home,
+  PackageOpen,
+  Pizza,
+  SquareChartGantt,
+  UtensilsCrossed,
+} from 'lucide-react'
 
 import { AccountMenu } from './account-menu'
 import { NavLink } from './nav-link'
@@ -9,7 +15,7 @@ export function Header() {
   return (
     <div className="border-b">
       <div className="flex h-16 items-center gap-6 px-6">
-        <Pizza className="h-6 w-6" />
+        <PackageOpen className="h-6 w-6" />
 
         <Separator orientation="vertical" className="h-6" />
 
@@ -18,12 +24,19 @@ export function Header() {
             <Home className="h-4 w-4" />
             Início
           </NavLink>
+
           <NavLink to="/orders">
             <UtensilsCrossed className="h-4 w-4" />
             Pedidos
           </NavLink>
+
+          <NavLink to="/categories">
+            <SquareChartGantt className="h-4 w-4" />
+            Categorias
+          </NavLink>
+
           <NavLink to="/products">
-            <Hamburger className="h-4 w-4" />
+            <Pizza className="h-4 w-4" />
             Produtos
           </NavLink>
         </nav>

@@ -43,9 +43,6 @@ export function UpdateStatusProduct({
 
       setIsOpen(false)
     },
-    onError: () => {
-      toast.error('Erro ao alterar status do produto.')
-    },
   })
 
   async function handleUpdateStatus() {

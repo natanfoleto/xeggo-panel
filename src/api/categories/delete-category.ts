@@ -5,5 +5,7 @@ export interface DeleteCategoryRequest {
 }
 
 export async function deleteCategory({ categoryId }: DeleteCategoryRequest) {
-  await api.delete(`/categories/${categoryId}`)
+  const response = await api.delete(`/categories/${categoryId}`)
+
+  return response.data
 }

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 
-import { getProduct } from '@/api/products/get-product'
+import { getCategory } from '@/api/categories/get-category'
 import {
   Dialog,
   DialogContent,
@@ -12,21 +12,21 @@ import {
 } from '@/components/ui/dialog'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
-import { ProductForm } from './product-form'
-import { UpdateProductSkeleton } from './update-product-skeleton'
+import { CategoryForm } from './category-form'
+import { UpdateCategorySkeleton } from './update-category-skeleton'
 
-interface UpdateProductProps {
-  productId: string
+interface UpdateCategoryProps {
+  categoryId: string
 }
 
-export function UpdateProduct({ productId }: UpdateProductProps) {
+export function UpdateCategory({ categoryId }: UpdateCategoryProps) {
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ['product', productId],
-    queryFn: () => getProduct({ productId }),
-    staleTime: 1000 * 60 * 15, // 15 minutes
+    queryKey: ['category', categoryId],
+    queryFn: () => getCategory({ categoryId }),
+    staleTime: 1000 * 60 * 15,
   })
 
-  const product = data?.product
+  const category = data?.category
 
   return (
     <Dialog>
@@ -35,28 +35,29 @@ export function UpdateProduct({ productId }: UpdateProductProps) {
           Editar
         </DropdownMenuItem>
       </DialogTrigger>
-      <DialogContent className="flex h-11/12 min-w-2/3 flex-col overflow-y-auto">
+
+      <DialogContent className="max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {isFetching ? (
               <>
-                Carregando produto
+                Carregando categoria
                 <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
               </>
             ) : (
-              product?.name
+              category?.name
             )}
           </DialogTitle>
 
           <DialogDescription>
-            {product && `Atualize as informações de ${product?.name}.`}
+            {category && `Atualize as informações de ${category?.name}.`}
           </DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
-          <UpdateProductSkeleton />
+          <UpdateCategorySkeleton />
         ) : (
-          product && <ProductForm initialData={product} />
+          category && <CategoryForm initialData={category} />
         )}
       </DialogContent>
     </Dialog>
