@@ -350,7 +350,7 @@ export function ProductForm({
                 id="file"
                 type="file"
                 accept="image/*"
-                onChange={(e) => handleFileChange(e)}
+                onChange={handleFileChange}
               />
             </div>
           </div>

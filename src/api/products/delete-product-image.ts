@@ -7,5 +7,7 @@ export interface DeleteProductImageRequest {
 export async function deleteProductImage({
   productId,
 }: DeleteProductImageRequest) {
-  await api.delete(`/products/${productId}/image`)
+  const response = await api.delete(`/products/${productId}/image`)
+
+  return response.data
 }
