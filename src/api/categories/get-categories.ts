@@ -23,14 +23,17 @@ export interface GetCategoriesResponse {
 
 export interface GetCategoriesQuery {
   pageIndex?: number
+  categoryName?: string | null
 }
 
 export async function getCategories({
   pageIndex = 0,
+  categoryName,
 }: GetCategoriesQuery = {}) {
   const response = await api.get<GetCategoriesResponse>('/categories', {
     params: {
       pageIndex,
+      categoryName,
     },
   })
 

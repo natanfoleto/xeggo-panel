@@ -16,11 +16,14 @@ import {
 } from '@/components/ui/table'
 
 import { CategoriesTableSkeleton } from './categories-table-skeleton'
+import { CategoryTableFilters } from './category-table-filters'
 import { CategoryTableRow } from './category-table-row'
 import { NewCategory } from './new-category'
 
 export function Categories() {
   const [searchParams, setSearchParams] = useSearchParams()
+
+  const categoryName = searchParams.get('categoryName')
 
   const pageIndex = z.coerce
     .number()
@@ -32,8 +35,8 @@ export function Categories() {
     isFetching: isFetchingCategories,
     isLoading: isLoadingCategories,
   } = useQuery({
-    queryKey: ['categories', pageIndex],
-    queryFn: () => getCategories({ pageIndex }),
+    queryKey: ['categories', categoryName, pageIndex],
+    queryFn: () => getCategories({ pageIndex, categoryName }),
   })
 
   function handlePaginate(pageIndex: number) {
@@ -61,6 +64,8 @@ export function Categories() {
         </div>
 
         <div className="space-y-2.5">
+          <CategoryTableFilters />
+
           <div className="rounded-md border">
             <Table>
               <TableHeader>
