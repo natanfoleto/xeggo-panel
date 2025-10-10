@@ -7,6 +7,7 @@ import { Categories } from './pages/app/categories/categories'
 import { Dashboard } from './pages/app/dashboard'
 import { Orders } from './pages/app/orders/orders'
 import { Products } from './pages/app/products/products'
+import { Settings } from './pages/app/settings/settings'
 import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
 
@@ -31,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path: '/products',
         element: <Products />,
+      },
+      {
+        path: '/products',
+        element: <Products />,
+      },
+      {
+        path: '/settings',
+        element: <Settings />,
       },
     ],
   },

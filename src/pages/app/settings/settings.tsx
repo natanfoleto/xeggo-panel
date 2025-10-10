@@ -1,0 +1,23 @@
+import { Loader2Icon } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
+
+import { OpeningHoursSettings } from './update-opening-hours'
+
+export function Settings() {
+  return (
+    <>
+      <Helmet title="Categorias" />
+
+      <div className="flex flex-col gap-4">
+        <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
+          Configurações
+          {false && (
+            <Loader2Icon className="text-muted-foreground h-5 w-5 animate-spin" />
+          )}
+        </h1>
+
+        <OpeningHoursSettings />
+      </div>
+    </>
+  )
+}
