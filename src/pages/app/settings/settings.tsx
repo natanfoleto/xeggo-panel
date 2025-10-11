@@ -1,6 +1,7 @@
 import { Loader2Icon } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 
+import { UpdateAddress } from './update-address'
 import { OpeningHoursSettings } from './update-opening-hours'
 import { UpdatePaymentMethods } from './update-payment-methods'
 import { UpdateSegments } from './update-segments'
@@ -18,9 +19,10 @@ export function Settings() {
           )}
         </h1>
 
-        <OpeningHoursSettings />
         <UpdateSegments />
         <UpdatePaymentMethods />
+        <OpeningHoursSettings />
+        <UpdateAddress />
       </div>
     </>
   )

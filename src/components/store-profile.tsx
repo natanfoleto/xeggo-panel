@@ -12,6 +12,7 @@ import {
   type GetManagedRestaurantResponse,
 } from '@/api/restaurants/get-managed-restaurant'
 import { uploadRestaurantAvatar } from '@/api/restaurants/upload-restaurant-avatar'
+import { getInitialsName } from '@/utils/get-initials-name'
 
 import { FormInput } from './form/form-input'
 import { FormTextarea } from './form/form-text-area'
@@ -182,7 +183,7 @@ export function StoreProfile() {
               >
                 <AvatarImage src={avatarPreview || undefined} alt="Avatar" />
                 <AvatarFallback className="hover:text-foreground/75 transition-colors">
-                  NF
+                  {storeProfile ? getInitialsName(storeProfile.name) : ''}
                 </AvatarFallback>
               </Avatar>
 
@@ -192,7 +193,7 @@ export function StoreProfile() {
                   className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-1 text-center text-xs transition-colors"
                 >
                   <span>
-                    {avatar instanceof File ? avatar.name : 'Remover avatar'}
+                    {avatar instanceof File ? avatar.name : 'Remover'}
                   </span>
                   <X className="size-3" />
                 </div>
