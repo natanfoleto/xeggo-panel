@@ -1,0 +1,35 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+
+export function SegmentsSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">Segmentos</CardTitle>
+        <CardDescription>Carregando segmentos...</CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        <div className="flex flex-wrap gap-2">
+          {Array.from({ length: 15 }).map((_, index) => (
+            <Skeleton
+              key={index}
+              className="h-10 rounded-md"
+              style={{ width: `${Math.random() * 40 + 80}px` }}
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-end">
+          <Skeleton className="h-10 w-36" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}

@@ -297,7 +297,7 @@ export function OpeningHoursSettings() {
                 type="submit"
                 disabled={isLoading || isSubmitting || !isDirty}
               >
-                {isSubmitting ? 'Salvando...' : 'Salvar horários'}
+                {isSubmitting ? 'Salvando...' : 'Salvar'}
               </Button>
             </div>
           </form>
