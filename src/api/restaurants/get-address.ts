@@ -15,7 +15,7 @@ export interface GetAddressResponse {
 }
 
 export async function getAddress() {
-  const response = await api.get<GetAddressResponse>('/address')
+  const response = await api.private.get<GetAddressResponse>('/address')
 
   return response.data
 }

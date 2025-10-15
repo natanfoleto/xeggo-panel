@@ -7,5 +7,5 @@ export interface UpdateStatusProductRequest {
 export async function updateStatusProduct({
   productId,
 }: UpdateStatusProductRequest) {
-  await api.patch(`/products/${productId}/status`)
+  await api.private.patch(`/products/${productId}/status`)
 }

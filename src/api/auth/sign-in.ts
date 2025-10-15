@@ -5,5 +5,5 @@ export interface SignInRequest {
 }
 
 export async function signIn({ email }: SignInRequest) {
-  await api.post('/authenticate', { email })
+  await api.public.post('/authenticate', { email })
 }

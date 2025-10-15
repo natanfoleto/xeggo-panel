@@ -21,7 +21,7 @@ export interface GetCategoryResponse {
 }
 
 export async function getCategory({ categoryId }: GetCategoryRequest) {
-  const response = await api.get<GetCategoryResponse>(
+  const response = await api.private.get<GetCategoryResponse>(
     `/categories/${categoryId}`,
   )
 

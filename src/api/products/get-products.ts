@@ -39,7 +39,7 @@ export async function getProducts({
   categoryId,
   active,
 }: GetProductsRequest) {
-  const response = await api.get<GetProductsResponse>(`/products`, {
+  const response = await api.private.get<GetProductsResponse>(`/products`, {
     params: {
       pageIndex,
       productName,

@@ -53,7 +53,7 @@ export interface GetProductResponse {
 }
 
 export async function getProduct({ productId }: GetProductRequest) {
-  const response = await api.get<GetProductResponse>(`/products/${productId}`)
+  const response = await api.private.get<GetProductResponse>(`/products/${productId}`)
 
   return response.data
 }

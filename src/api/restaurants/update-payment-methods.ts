@@ -9,7 +9,7 @@ export interface UpdatePaymentMethodsBody {
 }
 
 export async function updatePaymentMethods(body: UpdatePaymentMethodsBody) {
-  const response = await api.put('/payment-methods', body)
+  const response = await api.private.put('/payment-methods', body)
 
   return response.data
 }

@@ -13,7 +13,7 @@ export interface UpdateAddressBody {
 }
 
 export async function updateAddress(body: UpdateAddressBody) {
-  const response = await api.put('/address', body)
+  const response = await api.private.put('/address', body)
 
   return response.data
 }

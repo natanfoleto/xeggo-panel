@@ -15,7 +15,7 @@ export interface UpdateOpeningHoursBody {
 }
 
 export async function updateOpeningHours(body: UpdateOpeningHoursBody) {
-  const response = await api.put('/opening-hours', body)
+  const response = await api.private.put('/opening-hours', body)
 
   return response.data
 }

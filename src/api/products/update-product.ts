@@ -33,7 +33,7 @@ export async function updateProduct({
   ingredients,
   complementGroups,
 }: UpdateProductRequest) {
-  await api.put(`/products/${productId}`, {
+  await api.private.put(`/products/${productId}`, {
     name,
     description,
     priceInCents,

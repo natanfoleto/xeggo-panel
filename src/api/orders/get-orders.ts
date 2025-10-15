@@ -28,7 +28,7 @@ export async function getOrders({
   orderId,
   status,
 }: GetOrdersQuery) {
-  const response = await api.get<GetOrdersResponse>('/orders', {
+  const response = await api.private.get<GetOrdersResponse>('/orders', {
     params: {
       pageIndex,
       customerName,

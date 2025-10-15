@@ -11,7 +11,7 @@ export interface GetManagedRestaurantResponse {
 }
 
 export async function getManagedRestaurant() {
-  const response = await api.get<GetManagedRestaurantResponse>(
+  const response = await api.private.get<GetManagedRestaurantResponse>(
     '/managed-restaurant',
   )
 

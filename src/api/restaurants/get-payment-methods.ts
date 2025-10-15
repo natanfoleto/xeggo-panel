@@ -13,7 +13,7 @@ export interface GetPaymentMethodsResponse {
 }
 
 export async function getPaymentMethods() {
-  const response = await api.get<GetPaymentMethodsResponse>('/payment-methods')
+  const response = await api.private.get<GetPaymentMethodsResponse>('/payment-methods')
 
   return response.data
 }
