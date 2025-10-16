@@ -9,7 +9,7 @@ export interface UpdateSegmentsBody {
 }
 
 export async function updateSegments(body: UpdateSegmentsBody) {
-  const response = await api.private.put('/segments', body)
+  const response = await api.auth.put('/segments', body)
 
   return response.data
 }

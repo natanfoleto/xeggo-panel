@@ -22,7 +22,7 @@ export interface GetSegmentsResponse {
 }
 
 export async function getSegments() {
-  const response = await api.private.get<GetSegmentsResponse>('/segments')
+  const response = await api.auth.get<GetSegmentsResponse>('/segments')
 
   return response.data
 }

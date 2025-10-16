@@ -5,5 +5,5 @@ export interface ApproveOrderParams {
 }
 
 export async function approveOrder({ orderId }: ApproveOrderParams) {
-  await api.private.patch(`/orders/${orderId}/approve`)
+  await api.auth.patch(`/orders/${orderId}/approve`)
 }

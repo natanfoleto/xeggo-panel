@@ -23,7 +23,7 @@ export function AppLayout() {
   }, [isError, navigate])
 
   useLayoutEffect(() => {
-    const interceptorId = api.private.interceptors.response.use(
+    const interceptorId = api.auth.interceptors.response.use(
       (response) => response,
       (error) => {
         if (isAxiosError(error)) {
@@ -42,7 +42,7 @@ export function AppLayout() {
     )
 
     return () => {
-      api.private.interceptors.response.eject(interceptorId)
+      api.auth.interceptors.response.eject(interceptorId)
     }
   }, [navigate])
 

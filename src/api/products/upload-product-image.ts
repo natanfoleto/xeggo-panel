@@ -17,7 +17,7 @@ export async function uploadProductImage({
 
   if (file) formData.append('file', file)
 
-  const response = await api.private.post<UploadProductImageResponse>(
+  const response = await api.auth.post<UploadProductImageResponse>(
     `/products/${productId}/image`,
     formData,
     {

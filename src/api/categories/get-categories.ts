@@ -30,7 +30,7 @@ export async function getCategories({
   pageIndex = 0,
   categoryName,
 }: GetCategoriesQuery = {}) {
-  const response = await api.private.get<GetCategoriesResponse>('/categories', {
+  const response = await api.auth.get<GetCategoriesResponse>('/categories', {
     params: {
       pageIndex,
       categoryName,

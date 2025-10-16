@@ -23,6 +23,6 @@ export interface GetOpeningHoursResponse {
 }
 
 export async function getOpeningHours() {
-  const response = await api.private.get<GetOpeningHoursResponse>('/opening-hours')
+  const response = await api.auth.get<GetOpeningHoursResponse>('/opening-hours')
   return response.data
 }

@@ -15,7 +15,7 @@ export async function uploadRestaurantAvatar({
 
   if (file) formData.append('file', file)
 
-  const response = await api.private.post<UploadRestaurantAvatarResponse>(
+  const response = await api.auth.post<UploadRestaurantAvatarResponse>(
     '/avatar',
     formData,
     {

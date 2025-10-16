@@ -6,7 +6,7 @@ export interface GetDayOrdersAmountResponse {
 }
 
 export async function getDayOrdersAmount() {
-  const response = await api.private.get<GetDayOrdersAmountResponse>(
+  const response = await api.auth.get<GetDayOrdersAmountResponse>(
     '/metrics/day-orders-amount',
   )
 

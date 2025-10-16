@@ -2,8 +2,8 @@ import { z } from 'zod'
 
 export const envSchema = z.object({
   MODE: z.enum(['production', 'development', 'test']),
-  VITE_PRIVATE_API_URL: z.string(),
-  VITE_PUBLIC_API_URL: z.string(),
+  VITE_AUTH_API_URL: z.string(),
+  VITE_DEAUTH_API_URL: z.string(),
   VITE_ENABLE_API_DELAY: z.string().transform((value) => value === 'true'),
 })
 

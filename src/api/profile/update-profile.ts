@@ -6,5 +6,5 @@ export interface UpdateProfileRequest {
 }
 
 export async function updateProfile(data: UpdateProfileRequest) {
-  await api.private.put('/profile', data)
+  await api.auth.put('/profile', data)
 }

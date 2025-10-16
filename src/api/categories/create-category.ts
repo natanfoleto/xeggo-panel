@@ -13,7 +13,7 @@ export async function createCategory({
   name,
   description,
 }: CreateCategoryRequest) {
-  const response = await api.private.post<CreateCategoryResponse>(`/categories`, {
+  const response = await api.auth.post<CreateCategoryResponse>(`/categories`, {
     name,
     description,
   })

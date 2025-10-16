@@ -13,5 +13,5 @@ export async function RegisterRestaurant({
   email,
   phone,
 }: RegisterRestaurantRequest) {
-  await api.private.post('/restaurants', { restaurantName, managerName, email, phone })
+  await api.auth.post('/restaurants', { restaurantName, managerName, email, phone })
 }

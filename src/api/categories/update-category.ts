@@ -11,5 +11,5 @@ export async function updateCategory({
   name,
   description,
 }: UpdateCategoryRequest) {
-  await api.private.put(`/categories/${categoryId}`, { name, description })
+  await api.auth.put(`/categories/${categoryId}`, { name, description })
 }

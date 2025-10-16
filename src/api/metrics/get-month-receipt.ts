@@ -6,7 +6,7 @@ export interface GetMonthReceiptResponse {
 }
 
 export async function getMonthReceipt() {
-  const response = await api.private.get<GetMonthReceiptResponse>(
+  const response = await api.auth.get<GetMonthReceiptResponse>(
     '/metrics/month-receipt',
   )
 

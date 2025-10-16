@@ -33,7 +33,7 @@ export interface GetOrderDetailsResponse {
 }
 
 export async function getOrderDetails({ orderId }: GetOrderDetailsParams) {
-  const response = await api.private.get<GetOrderDetailsResponse>(`/orders/${orderId}`)
+  const response = await api.auth.get<GetOrderDetailsResponse>(`/orders/${orderId}`)
 
   return response.data
 }

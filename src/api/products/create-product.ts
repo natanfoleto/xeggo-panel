@@ -35,7 +35,7 @@ export async function createProduct({
   ingredients,
   complementGroups,
 }: CreateProductRequest) {
-  const response = await api.private.post<CreateProductResponse>(`/products`, {
+  const response = await api.auth.post<CreateProductResponse>(`/products`, {
     name,
     description,
     priceInCents,

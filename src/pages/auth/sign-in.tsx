@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { Mail } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -7,6 +9,8 @@ import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
 import { signIn } from '@/api/auth/sign-in'
+import { signInWithGoogle } from '@/api/auth/sign-in-with-google'
+import { GoogleIcon } from '@/components/google-icon'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -19,6 +23,7 @@ type SignInSchema = z.infer<typeof signInSchema>
 
 export function SignIn() {
   const [searchParams] = useSearchParams()
+  const [showEmailForm, setShowEmailForm] = useState(false)
 
   const {
     register,
@@ -73,25 +78,54 @@ export function SignIn() {
         </div>
 
         <div className="grid gap-6">
-          <form onSubmit={handleSubmit(handleAuthenticate)}>
+          {showEmailForm ? (
             <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Seu e-mail</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect="off"
-                  {...register('email')}
-                />
-              </div>
+              <form onSubmit={handleSubmit(handleAuthenticate)}>
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="email">Seu e-mail</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      autoCapitalize="none"
+                      autoComplete="email"
+                      autoCorrect="off"
+                      {...register('email')}
+                    />
+                  </div>
 
-              <Button type="submit" disabled={isSubmitting}>
-                Acessar painel
+                  <Button type="submit" disabled={isSubmitting}>
+                    Acessar painel
+                  </Button>
+                </div>
+              </form>
+
+              <Button
+                type="button"
+                variant="link"
+                onClick={() => setShowEmailForm(false)}
+                className="text-muted-foreground"
+              >
+                Outras opções de login
               </Button>
             </div>
-          </form>
+          ) : (
+            <div className="grid gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowEmailForm(true)}
+              >
+                <Mail />
+                Continuar com e-mail
+              </Button>
+
+              <Button onClick={signInWithGoogle} variant="secondary">
+                <GoogleIcon />
+                Continuar com Google
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
