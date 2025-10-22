@@ -14,6 +14,7 @@ import { OrderStatus } from '@/components/order-status'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { formatCurrency } from '@/utils/format-currency'
 
 import { OrderDetails } from './order-details'
 
@@ -133,10 +134,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       <TableCell>
         <div className="flex flex-col gap-0.5">
           <span className="font-medium">
-            {(order.total / 100).toLocaleString('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            })}
+            {formatCurrency(order.total / 100)}
           </span>
           <span className="text-muted-foreground text-xs">3 produto(s)</span>
         </div>

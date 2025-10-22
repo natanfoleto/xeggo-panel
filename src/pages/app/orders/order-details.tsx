@@ -27,6 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { formatCurrency } from '@/utils/format-currency'
 
 import { OrderDetailsSkeleton } from './order-details-skeleton'
 
@@ -144,19 +145,10 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                         {orderItem.quantity}
                       </TableCell>
                       <TableCell className="text-right">
-                        {(orderItem.priceInCents / 100).toLocaleString(
-                          'pt-BR',
-                          {
-                            style: 'currency',
-                            currency: 'BRL',
-                          },
-                        )}
+                        {formatCurrency(orderItem.priceInCents / 100)}
                       </TableCell>
                       <TableCell className="text-right">
-                        {(totalWithComplements / 100).toLocaleString('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        })}
+                        {formatCurrency(totalWithComplements / 100)}
                       </TableCell>
                     </TableRow>
 
@@ -215,10 +207,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
               <TableRow>
                 <TableCell colSpan={3}>Total do pedido</TableCell>
                 <TableCell className="text-right font-medium">
-                  {(order.totalInCents / 100).toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  })}
+                  {formatCurrency(order.totalInCents / 100)}
                 </TableCell>
               </TableRow>
             </TableFooter>

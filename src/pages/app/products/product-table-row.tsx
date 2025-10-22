@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { formatCurrency } from '@/utils/format-currency'
 
 import { UpdateProduct } from './update-product'
 import { UpdateStatusProduct } from './update-status-product'
@@ -49,10 +50,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
       <TableCell>{product.category.name}</TableCell>
 
       <TableCell className="text-center font-medium">
-        {(product.priceInCents / 100).toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        })}
+        {formatCurrency(product.priceInCents / 100)}
       </TableCell>
 
       <TableCell className="text-center">
