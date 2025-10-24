@@ -8,8 +8,8 @@ import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
-import { signIn } from '@/api/auth/sign-in'
 import { signInWithGoogle } from '@/api/auth/sign-in-with-google'
+import { signInWithLink } from '@/api/auth/sign-in-with-link'
 import { GoogleIcon } from '@/components/google-icon'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -23,7 +23,10 @@ type SignInSchema = z.infer<typeof signInSchema>
 
 export function SignIn() {
   const [searchParams] = useSearchParams()
-  const [showEmailForm, setShowEmailForm] = useState(false)
+
+  const email = searchParams.get('email') ?? ''
+
+  const [showEmailForm, setShowEmailForm] = useState(!!email)
 
   const {
     register,
@@ -32,22 +35,22 @@ export function SignIn() {
   } = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: searchParams.get('email') ?? '',
+      email,
     },
   })
 
-  const { mutateAsync: authenticate } = useMutation({
-    mutationFn: signIn,
+  const { mutateAsync: authenticateWithLink } = useMutation({
+    mutationFn: signInWithLink,
   })
 
-  async function handleAuthenticate({ email }: SignInSchema) {
+  async function handleAuthenticateWithLink({ email }: SignInSchema) {
     try {
-      await authenticate({ email })
+      await authenticateWithLink({ email })
 
       toast.success('Enviamos um link de autenticação para seu e-mail.', {
         action: {
           label: 'Reenviar',
-          onClick: () => authenticate({ email }),
+          onClick: () => authenticateWithLink({ email }),
         },
       })
     } catch (err) {
@@ -80,7 +83,7 @@ export function SignIn() {
         <div className="grid gap-6">
           {showEmailForm ? (
             <div className="grid gap-4">
-              <form onSubmit={handleSubmit(handleAuthenticate)}>
+              <form onSubmit={handleSubmit(handleAuthenticateWithLink)}>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Seu e-mail</Label>

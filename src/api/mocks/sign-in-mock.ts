@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw'
 
-import type { SignInRequest } from '../auth/sign-in'
+import type { SignInWithLinkRequest } from '../auth/sign-in-with-link'
 
-export const signInMock = http.post<never, SignInRequest>(
-  '/authenticate',
+export const signInMock = http.post<never, SignInWithLinkRequest>(
+  '/auth/link',
   async ({ request }) => {
     const { email } = await request.json()
 

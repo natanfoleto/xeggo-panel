@@ -231,8 +231,8 @@ export function OpeningHoursSettings() {
           return (
             <div
               key={id}
-              className={`rounded bg-green-100 px-2 py-1.5 text-center text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ${
-                isNew ? 'ring-2 ring-green-500' : ''
+              className={`rounded bg-violet-100 px-2 py-1.5 text-center text-xs font-medium text-violet-700 dark:bg-violet-900/30 dark:text-violet-400 ${
+                isNew ? 'ring-2 ring-violet-500' : ''
               }`}
             >
               {openTime} - {closeTime}
