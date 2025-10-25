@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { updateProfile } from '@/api/profile/update-profile'
 import { deleteRestaurantAvatar } from '@/api/restaurants/delete-restaurant-avatar'
 import {
   getManagedRestaurant,
   type GetManagedRestaurantResponse,
 } from '@/api/restaurants/get-managed-restaurant'
+import { updateRestaurant } from '@/api/restaurants/update-restaurant'
 import { uploadRestaurantAvatar } from '@/api/restaurants/upload-restaurant-avatar'
 import { getInitialsName } from '@/utils/get-initials-name'
 
@@ -28,26 +28,30 @@ import {
 } from './ui/dialog'
 import { Label } from './ui/label'
 
-const storeProfileSchema = z.object({
+const restaurantProfileSchema = z.object({
   name: z.string().min(1),
   description: z.string().nullable(),
+  primaryColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, 'Formato inválido. Use #RRGGBB')
+    .nullable(),
 })
 
-type StoreProfileSchema = z.infer<typeof storeProfileSchema>
+type RestaurantProfileSchema = z.infer<typeof restaurantProfileSchema>
 
-type UpdateProfilePayload = Omit<StoreProfileSchema, 'avatarUrl'>
+type UpdateRestaurantPayload = Omit<RestaurantProfileSchema, 'avatarUrl'>
 
-export function StoreProfile() {
+export function RestaurantProfile() {
   const queryClient = useQueryClient()
 
-  const { data: storeProfile, isLoading: isLoadingStoreProfile } = useQuery({
+  const { data: restaurant, isLoading: isLoadingRestaurant } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
     staleTime: Infinity,
   })
 
   const [avatar, setAvatar] = useState<File | string | null>(
-    storeProfile?.avatarUrl || null,
+    restaurant?.avatarUrl || null,
   )
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [isAvatarDirty, setIsAvatarDirty] = useState(false)
@@ -56,19 +60,20 @@ export function StoreProfile() {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isDirty },
-  } = useForm<StoreProfileSchema>({
-    resolver: zodResolver(storeProfileSchema),
+  } = useForm<RestaurantProfileSchema>({
+    resolver: zodResolver(restaurantProfileSchema),
     values: {
-      name: storeProfile?.name ?? '',
-      description: storeProfile?.description ?? '',
+      name: restaurant?.name ?? '',
+      description: restaurant?.description ?? '',
+      primaryColor: restaurant?.primaryColor ?? '#d4d4d8',
     },
   })
 
   useEffect(() => {
-    if (storeProfile?.avatarUrl) {
-      setAvatar(storeProfile.avatarUrl)
+    if (restaurant?.avatarUrl) {
+      setAvatar(restaurant.avatarUrl)
     }
-  }, [storeProfile?.avatarUrl])
+  }, [restaurant?.avatarUrl])
 
   useEffect(() => {
     if (avatar instanceof File) {
@@ -82,7 +87,11 @@ export function StoreProfile() {
     }
   }, [avatar])
 
-  function updateProfileDataOnCache({ name, description }: StoreProfileSchema) {
+  function updateRestaurantDataOnCache({
+    name,
+    description,
+    primaryColor,
+  }: RestaurantProfileSchema) {
     const cached = queryClient.getQueryData<GetManagedRestaurantResponse>([
       'managed-restaurant',
     ])
@@ -94,6 +103,7 @@ export function StoreProfile() {
           ...cached,
           name,
           description,
+          primaryColor,
         },
       )
     }
@@ -101,19 +111,24 @@ export function StoreProfile() {
     return { cached }
   }
 
-  const { mutateAsync: updateProfileFn } = useMutation({
-    mutationFn: updateProfile,
-    onMutate: ({ name, description }: UpdateProfilePayload) => {
-      const { cached } = updateProfileDataOnCache({
+  const { mutateAsync: updateRestaurantFn } = useMutation({
+    mutationFn: updateRestaurant,
+    onMutate: ({
+      name,
+      description,
+      primaryColor,
+    }: UpdateRestaurantPayload) => {
+      const { cached } = updateRestaurantDataOnCache({
         name,
         description,
+        primaryColor,
       })
 
-      return { previousProfile: cached }
+      return { previousRestaurant: cached }
     },
     onError(_, __, context) {
-      if (context?.previousProfile) {
-        updateProfileDataOnCache(context.previousProfile)
+      if (context?.previousRestaurant) {
+        updateRestaurantDataOnCache(context.previousRestaurant)
       }
     },
   })
@@ -126,12 +141,12 @@ export function StoreProfile() {
     mutationFn: deleteRestaurantAvatar,
   })
 
-  async function handleUpdateProfile(data: StoreProfileSchema) {
-    await updateProfileFn(data)
+  async function handleUpdateRestaurant(data: RestaurantProfileSchema) {
+    await updateRestaurantFn(data)
 
     if (avatar instanceof File) {
       await uploadAvatarFn({ file: avatar })
-    } else if (avatar === null && storeProfile?.avatarUrl) {
+    } else if (avatar === null && restaurant?.avatarUrl) {
       await deleteAvatarFn()
     }
 
@@ -173,7 +188,7 @@ export function StoreProfile() {
         </DialogDescription>
       </DialogHeader>
 
-      <form onSubmit={handleSubmit(handleUpdateProfile)}>
+      <form onSubmit={handleSubmit(handleUpdateRestaurant)}>
         <div className="grid gap-4 py-4">
           <div className="mb-4 flex justify-center">
             <div className="flex flex-col items-center gap-3">
@@ -183,7 +198,7 @@ export function StoreProfile() {
               >
                 <AvatarImage src={avatarPreview || undefined} alt="Avatar" />
                 <AvatarFallback className="hover:text-foreground/75 transition-colors">
-                  {storeProfile ? getInitialsName(storeProfile.name) : ''}
+                  {restaurant ? getInitialsName(restaurant.name) : ''}
                 </AvatarFallback>
               </Avatar>
 
@@ -215,9 +230,22 @@ export function StoreProfile() {
             </Label>
             <FormInput
               id="name"
-              disabled={isLoadingStoreProfile}
+              disabled={isLoadingRestaurant}
               {...register('name')}
               error={errors.name?.message}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="primaryColor" className="text-right">
+              Cor primária
+            </Label>
+            <FormInput
+              id="primaryColor"
+              type="color"
+              disabled={isLoadingRestaurant}
+              {...register('primaryColor')}
+              error={errors.primaryColor?.message}
             />
           </div>
 
@@ -228,7 +256,7 @@ export function StoreProfile() {
             <FormTextarea
               id="description"
               className="min-h-[100px]"
-              disabled={isLoadingStoreProfile}
+              disabled={isLoadingRestaurant}
               {...register('description')}
               error={errors.description?.message}
             />
@@ -245,7 +273,7 @@ export function StoreProfile() {
           <Button
             type="submit"
             variant="success"
-            disabled={isLoadingStoreProfile || isSubmitting || !hasChanges}
+            disabled={isLoadingRestaurant || isSubmitting || !hasChanges}
           >
             {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>

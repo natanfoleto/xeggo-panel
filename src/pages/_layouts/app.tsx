@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react'
 import { useLayoutEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { getProfile } from '@/api/profile/get-profile'
+import { authCheckManager } from '@/api/profile/auth-check-manager'
 import { Header } from '@/components/header'
 import { api } from '@/lib/axios'
 
@@ -13,7 +13,7 @@ export function AppLayout() {
 
   const { isLoading, isError } = useQuery({
     queryKey: ['auth-check'],
-    queryFn: getProfile,
+    queryFn: authCheckManager,
     retry: false,
     staleTime: Infinity,
   })

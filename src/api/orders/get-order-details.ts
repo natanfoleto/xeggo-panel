@@ -8,6 +8,8 @@ export interface GetOrderDetailsResponse {
   id: string
   createdAt: string
   totalInCents: number
+  deliveryAddress: string
+  paymentMethods: string[]
   customer: {
     name: string
     email: string
@@ -33,7 +35,9 @@ export interface GetOrderDetailsResponse {
 }
 
 export async function getOrderDetails({ orderId }: GetOrderDetailsParams) {
-  const response = await api.auth.get<GetOrderDetailsResponse>(`/orders/${orderId}`)
+  const response = await api.auth.get<GetOrderDetailsResponse>(
+    `/orders/${orderId}`,
+  )
 
   return response.data
 }

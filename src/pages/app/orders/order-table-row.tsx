@@ -30,6 +30,7 @@ export interface OrderTableRowProps {
     orderId: string
     createdAt: string
     customerName: string
+    totalItemsQuantity: number
     total: number
     status: OrderStatus
   }
@@ -136,7 +137,10 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           <span className="font-medium">
             {formatCurrency(order.total / 100)}
           </span>
-          <span className="text-muted-foreground text-xs">3 produto(s)</span>
+
+          <span className="text-muted-foreground text-xs">
+            {order.totalItemsQuantity} produto(s)
+          </span>
         </div>
       </TableCell>
 

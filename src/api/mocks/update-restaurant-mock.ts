@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw'
 
-import type { UpdateProfileRequest } from '../profile/update-profile'
+import type { UpdateRestaurantRequest } from '../restaurants/update-restaurant'
 
-export const updateProfileMock = http.put<never, UpdateProfileRequest>(
-  '/profile',
+export const updateRestaurantMock = http.put<never, UpdateRestaurantRequest>(
+  '/profile/manager',
   async ({ request }) => {
     const { name } = await request.json()
 

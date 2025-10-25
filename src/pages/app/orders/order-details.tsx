@@ -36,6 +36,15 @@ interface OrderDetailsProps {
   open: boolean
 }
 
+const PAYMENT_METHODS: Record<string, string> = {
+  cash: 'Dinheiro',
+  creditCard: 'Cartão de Crédito',
+  debitCard: 'Cartão de Débito',
+  pix: 'PIX',
+  voucher: 'Voucher',
+  bankTransfer: 'Transferência Bancária',
+}
+
 export function OrderDetails({ orderId, open }: OrderDetailsProps) {
   const {
     data: order,
@@ -49,7 +58,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
   })
 
   return (
-    <DialogContent className="sm:max-w-[520px]">
+    <DialogContent className="max-w-[95vw] sm:max-w-[640px] lg:max-w-[768px]">
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
           Pedido: {orderId}
@@ -67,19 +76,23 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
           <Table>
             <TableBody>
               <TableRow>
-                <TableCell className="text-muted-foreground">Status</TableCell>
+                <TableCell className="text-muted-foreground w-32">
+                  Status
+                </TableCell>
                 <TableCell className="flex justify-end">
                   <OrderStatus status={order.status} />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="text-muted-foreground">Cliente</TableCell>
+                <TableCell className="text-muted-foreground w-32">
+                  Cliente
+                </TableCell>
                 <TableCell className="text-right">
                   {order.customer.name}
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="text-muted-foreground">
+                <TableCell className="text-muted-foreground w-32">
                   Telefone
                 </TableCell>
                 <TableCell className="text-right">
@@ -91,13 +104,33 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="text-muted-foreground">E-mail</TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-muted-foreground w-32">
+                  E-mail
+                </TableCell>
+                <TableCell className="text-right break-words">
                   {order.customer.email}
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="text-muted-foreground">
+                <TableCell className="text-muted-foreground w-32 align-top">
+                  Endereço
+                </TableCell>
+                <TableCell className="text-right text-sm break-words">
+                  {order.deliveryAddress}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="text-muted-foreground w-32">
+                  Pagamento
+                </TableCell>
+                <TableCell className="text-right text-sm">
+                  {order.paymentMethods
+                    .map((method) => PAYMENT_METHODS[method] || method)
+                    .join(', ')}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="text-muted-foreground w-32">
                   Criado há
                 </TableCell>
                 <TableCell className="text-right">
@@ -114,9 +147,9 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
             <TableHeader>
               <TableRow>
                 <TableHead>Produto</TableHead>
-                <TableHead className="text-right">Qtd.</TableHead>
-                <TableHead className="text-right">Preço</TableHead>
-                <TableHead className="text-right">Subtotal</TableHead>
+                <TableHead className="w-16 text-right">Qtd.</TableHead>
+                <TableHead className="w-24 text-right">Preço</TableHead>
+                <TableHead className="w-24 text-right">Subtotal</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -144,21 +177,19 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                       <TableCell className="text-right">
                         {orderItem.quantity}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right whitespace-nowrap">
                         {formatCurrency(orderItem.priceInCents / 100)}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right whitespace-nowrap">
                         {formatCurrency(totalWithComplements / 100)}
                       </TableCell>
                     </TableRow>
 
                     {orderItem.selectedComplements.length > 0 && (
-                      // give this row a stable key too (derivative of orderItem.id)
                       <TableRow key={`${orderItem.id}-complements`}>
                         <TableCell colSpan={4} className="p-0">
                           <Accordion type="single" collapsible>
                             <AccordionItem
-                              // make the accordion value unique per item to avoid collisions
                               value={`complements-${orderItem.id}`}
                               className="border-0"
                             >
@@ -166,6 +197,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                                 Ver complementos (
                                 {orderItem.selectedComplements.length})
                               </AccordionTrigger>
+
                               <AccordionContent className="px-4 pb-2">
                                 <div className="ml-4 space-y-1">
                                   {orderItem.selectedComplements.map(
@@ -175,11 +207,11 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                                         className="text-muted-foreground flex items-center justify-between text-xs"
                                       >
                                         <span>
-                                          • {complement.complement.name}
-                                          {complement.quantity > 1 &&
-                                            ` (${complement.quantity}x)`}
+                                          {complement.quantity}x{' '}
+                                          {complement.complement.name}
                                         </span>
-                                        <span>
+
+                                        <span className="whitespace-nowrap">
                                           {(
                                             (complement.priceInCents *
                                               complement.quantity) /
@@ -203,10 +235,12 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                 )
               })}
             </TableBody>
+
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={3}>Total do pedido</TableCell>
-                <TableCell className="text-right font-medium">
+
+                <TableCell className="text-right font-medium whitespace-nowrap">
                   {formatCurrency(order.totalInCents / 100)}
                 </TableCell>
               </TableRow>

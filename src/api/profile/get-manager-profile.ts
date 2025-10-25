@@ -1,17 +1,17 @@
 import { api } from '@/lib/axios'
 
-export interface GetProfileResponse {
+export interface GetManagerProfileResponse {
   name: string
   id: string
   email: string
   phone: string | null
-  role: 'manager' | 'customer'
   createdAt: Date | null
   updatedAt: Date | null
 }
 
-export async function getProfile() {
-  const response = await api.auth.get<GetProfileResponse>('/me')
+export async function getManagerProfile() {
+  const response =
+    await api.auth.get<GetManagerProfileResponse>('/profile/manager')
 
   return response.data
 }
