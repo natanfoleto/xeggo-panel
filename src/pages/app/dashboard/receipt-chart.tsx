@@ -97,7 +97,7 @@ export function ReceiptChart() {
           <CardTitle className="flex items-center gap-2 text-base font-medium">
             Receita no período
             {isLoadingDailyReceiptInPeriod && (
-              <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+              <Loader2 className="text-muted-foreground size-4 animate-spin" />
             )}
           </CardTitle>
           <CardDescription>Receita diária no período</CardDescription>
@@ -179,7 +179,7 @@ export function ReceiptChart() {
           </div>
         ) : (
           <div className="flex h-[240px] w-full items-center justify-center">
-            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+            <Loader2 className="text-muted-foreground size-8 animate-spin" />
           </div>
         )}
       </CardContent>

@@ -18,9 +18,9 @@ export function MonthOrdersAmountCard() {
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-base font-semibold">Pedidos (mês)</CardTitle>
         {isLoadingMonthOrdersAmount ? (
-          <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+          <Loader2 className="text-muted-foreground size-4 animate-spin" />
         ) : (
-          <Utensils className="text-muted-foreground h-4 w-4" />
+          <Utensils className="text-muted-foreground size-4" />
         )}
       </CardHeader>
       <CardContent className="space-y-1">

@@ -63,7 +63,7 @@ export function Orders() {
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
           Pedidos
           {isFetchingOrders && (
-            <Loader2Icon className="text-muted-foreground h-5 w-5 animate-spin" />
+            <Loader2Icon className="text-muted-foreground size-5 animate-spin" />
           )}
         </h1>
         <div className="space-y-2.5">

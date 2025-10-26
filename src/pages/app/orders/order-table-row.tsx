@@ -107,7 +107,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
         <Dialog onOpenChange={setIsOrderDetailsOpen} open={isOrderDetailsOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" size="xs">
-              <Search className="h-3 w-3" />
+              <Search className="size-3" />
               <span className="sr-only">Detalhes do pedido</span>
             </Button>
           </DialogTrigger>
@@ -154,9 +154,9 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           >
             Em entrega
             {isDispatchingOrder ? (
-              <Loader2 className="ml-2 h-3 w-3 animate-spin" />
+              <Loader2 className="ml-2 size-3 animate-spin" />
             ) : (
-              <ArrowRight className="ml-2 h-3 w-3" />
+              <ArrowRight className="ml-2 size-3" />
             )}
           </Button>
         )}
@@ -170,9 +170,9 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           >
             Entregue
             {isDeliveringOrder ? (
-              <Loader2 className="ml-2 h-3 w-3 animate-spin" />
+              <Loader2 className="ml-2 size-3 animate-spin" />
             ) : (
-              <ArrowRight className="ml-2 h-3 w-3" />
+              <ArrowRight className="ml-2 size-3" />
             )}
           </Button>
         )}
@@ -186,9 +186,9 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           >
             Aprovar
             {isApprovingOrder ? (
-              <Loader2 className="ml-2 h-3 w-3 animate-spin" />
+              <Loader2 className="ml-2 size-3 animate-spin" />
             ) : (
-              <ArrowRight className="ml-2 h-3 w-3" />
+              <ArrowRight className="ml-2 size-3" />
             )}
           </Button>
         )}
@@ -205,9 +205,9 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           size="xs"
         >
           {isCancelingOrder ? (
-            <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+            <Loader2 className="mr-2 size-3 animate-spin" />
           ) : (
-            <ArrowRight className="mr-2 h-3 w-3" />
+            <ArrowRight className="mr-2 size-3" />
           )}
           Cancelar
         </Button>

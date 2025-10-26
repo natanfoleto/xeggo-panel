@@ -9,6 +9,8 @@ import {
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatCurrency } from '@/utils/format-currency'
 
+import { CopyProduct } from './copy-product'
+import { DeleteProduct } from './delete-product'
 import { UpdateProduct } from './update-product'
 import { UpdateStatusProduct } from './update-status-product'
 
@@ -39,7 +41,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
             className="size-10 rounded object-cover"
           />
         ) : (
-          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded">
+          <div className="bg-muted flex size-10 items-center justify-center rounded">
             <span className="text-muted-foreground text-xs" />
           </div>
         )}
@@ -75,6 +77,8 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
 
           <DropdownMenuContent align="end">
             <UpdateProduct productId={product.id} />
+            <DeleteProduct productId={product.id} productName={product.name} />
+            <CopyProduct productId={product.id} productName={product.name} />
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

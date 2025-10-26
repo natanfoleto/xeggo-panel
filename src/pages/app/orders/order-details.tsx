@@ -63,7 +63,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
         <DialogTitle className="flex items-center gap-2">
           Pedido: {orderId}
           {isFetchingOrder && (
-            <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+            <Loader2 className="text-muted-foreground size-4 animate-spin" />
           )}
         </DialogTitle>
         <DialogDescription>Detalhes do pedido</DialogDescription>

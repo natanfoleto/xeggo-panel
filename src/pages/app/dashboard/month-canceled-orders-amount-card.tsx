@@ -22,9 +22,9 @@ export function MonthCanceledOrdersAmountCard() {
           Cancelamentos (mês)
         </CardTitle>
         {isLoadingMonthCanceledOrdersAmount ? (
-          <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+          <Loader2 className="text-muted-foreground size-4 animate-spin" />
         ) : (
-          <DollarSign className="text-muted-foreground h-4 w-4" />
+          <DollarSign className="text-muted-foreground size-4" />
         )}
       </CardHeader>
       <CardContent className="space-y-1">

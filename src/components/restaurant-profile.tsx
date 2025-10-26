@@ -16,6 +16,16 @@ import { getInitialsName } from '@/utils/get-initials-name'
 
 import { FormInput } from './form/form-input'
 import { FormTextarea } from './form/form-text-area'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from './ui/alert-dialog'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import {
@@ -55,6 +65,7 @@ export function RestaurantProfile() {
   )
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [isAvatarDirty, setIsAvatarDirty] = useState(false)
+  const [showNameChangeAlert, setShowNameChangeAlert] = useState(false)
 
   const {
     register,
@@ -151,6 +162,15 @@ export function RestaurantProfile() {
     }
 
     setIsAvatarDirty(false)
+    setShowNameChangeAlert(false)
+  }
+
+  function handleFormSubmit(data: RestaurantProfileSchema) {
+    if (restaurant?.name !== data.name) {
+      setShowNameChangeAlert(true)
+    } else {
+      handleUpdateRestaurant(data)
+    }
   }
 
   function handleInputClick() {
@@ -179,106 +199,135 @@ export function RestaurantProfile() {
   const hasChanges = isDirty || isAvatarDirty
 
   return (
-    <DialogContent className="sm:max-w-[520px]">
-      <DialogHeader>
-        <DialogTitle>Perfil da loja</DialogTitle>
-        <DialogDescription>
-          Atualize as informações do seu estabelecimento visíveis aos seus
-          clientes.
-        </DialogDescription>
-      </DialogHeader>
+    <>
+      <DialogContent className="sm:max-w-[520px]">
+        <DialogHeader>
+          <DialogTitle>Perfil da loja</DialogTitle>
+          <DialogDescription>
+            Atualize as informações do seu estabelecimento visíveis aos seus
+            clientes.
+          </DialogDescription>
+        </DialogHeader>
 
-      <form onSubmit={handleSubmit(handleUpdateRestaurant)}>
-        <div className="grid gap-4 py-4">
-          <div className="mb-4 flex justify-center">
-            <div className="flex flex-col items-center gap-3">
-              <Avatar
-                className="size-20 cursor-pointer"
-                onClick={handleInputClick}
-              >
-                <AvatarImage src={avatarPreview || undefined} alt="Avatar" />
-                <AvatarFallback className="hover:text-foreground/75 transition-colors">
-                  {restaurant ? getInitialsName(restaurant.name) : ''}
-                </AvatarFallback>
-              </Avatar>
-
-              {avatar && (
-                <div
-                  onClick={handleFileRemove}
-                  className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-1 text-center text-xs transition-colors"
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
+          <div className="grid gap-4 py-4">
+            <div className="mb-4 flex justify-center">
+              <div className="flex flex-col items-center gap-3">
+                <Avatar
+                  className="size-20 cursor-pointer"
+                  onClick={handleInputClick}
                 >
-                  <span>
-                    {avatar instanceof File ? avatar.name : 'Remover'}
-                  </span>
-                  <X className="size-3" />
-                </div>
-              )}
+                  <AvatarImage src={avatarPreview || undefined} alt="Avatar" />
+                  <AvatarFallback className="hover:text-foreground/75 transition-colors">
+                    {restaurant ? getInitialsName(restaurant.name) : ''}
+                  </AvatarFallback>
+                </Avatar>
+
+                {avatar && (
+                  <div
+                    onClick={handleFileRemove}
+                    className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-1 text-center text-xs transition-colors"
+                  >
+                    <span>
+                      {avatar instanceof File ? avatar.name : 'Remover'}
+                    </span>
+                    <X className="size-3" />
+                  </div>
+                )}
+              </div>
+
+              <input
+                hidden
+                id="avatar"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
             </div>
 
-            <input
-              hidden
-              id="avatar"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-right">
+                Nome
+              </Label>
+              <FormInput
+                id="name"
+                disabled={isLoadingRestaurant}
+                {...register('name')}
+                error={errors.name?.message}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="primaryColor" className="text-right">
+                Cor primária
+              </Label>
+              <FormInput
+                id="primaryColor"
+                type="color"
+                disabled={isLoadingRestaurant}
+                {...register('primaryColor')}
+                error={errors.primaryColor?.message}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="description" className="text-right">
+                Descrição
+              </Label>
+              <FormTextarea
+                id="description"
+                className="min-h-[100px]"
+                disabled={isLoadingRestaurant}
+                {...register('description')}
+                error={errors.description?.message}
+              />
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-right">
-              Nome
-            </Label>
-            <FormInput
-              id="name"
-              disabled={isLoadingRestaurant}
-              {...register('name')}
-              error={errors.name?.message}
-            />
-          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="ghost" type="button">
+                Cancelar
+              </Button>
+            </DialogClose>
 
-          <div className="space-y-2">
-            <Label htmlFor="primaryColor" className="text-right">
-              Cor primária
-            </Label>
-            <FormInput
-              id="primaryColor"
-              type="color"
-              disabled={isLoadingRestaurant}
-              {...register('primaryColor')}
-              error={errors.primaryColor?.message}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description" className="text-right">
-              Descrição
-            </Label>
-            <FormTextarea
-              id="description"
-              className="min-h-[100px]"
-              disabled={isLoadingRestaurant}
-              {...register('description')}
-              error={errors.description?.message}
-            />
-          </div>
-        </div>
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="ghost" type="button">
-              Cancelar
+            <Button
+              type="submit"
+              variant="success"
+              disabled={isLoadingRestaurant || isSubmitting || !hasChanges}
+            >
+              {isSubmitting ? 'Salvando...' : 'Salvar'}
             </Button>
-          </DialogClose>
+          </DialogFooter>
+        </form>
+      </DialogContent>
 
-          <Button
-            type="submit"
-            variant="success"
-            disabled={isLoadingRestaurant || isSubmitting || !hasChanges}
-          >
-            {isSubmitting ? 'Salvando...' : 'Salvar'}
-          </Button>
-        </DialogFooter>
-      </form>
-    </DialogContent>
+      <AlertDialog
+        open={showNameChangeAlert}
+        onOpenChange={setShowNameChangeAlert}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              Atenção ao alterar o nome do restaurante
+            </AlertDialogTitle>
+
+            <AlertDialogDescription className="space-y-2">
+              <p>
+                Quando você altera o nome do restaurante, o link do seu cardápio
+                também muda. Não esqueça de enviar o novo link para seus
+                clientes para que eles possam continuar pedindo normalmente!
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleSubmit(handleUpdateRestaurant)}>
+              Confirmar alteração
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   )
 }

@@ -8,7 +8,7 @@ export function ProductsTableSkeleton() {
         return (
           <TableRow key={i}>
             <TableCell>
-              <Skeleton className="h-10 w-10 rounded" />
+              <Skeleton className="size-10 rounded" />
             </TableCell>
 
             <TableCell className="font-medium">

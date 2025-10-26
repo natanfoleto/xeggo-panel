@@ -65,13 +65,15 @@ export function PopularProductsChart() {
           <CardTitle className="flex items-center gap-2 text-base font-medium">
             Produtos populares
             {isLoadingPopularProducts && (
-              <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+              <Loader2 className="text-muted-foreground size-4 animate-spin" />
             )}
           </CardTitle>
-          <BarChart className="text-muted-foreground h-4 w-4" />
+
+          <BarChart className="text-muted-foreground size-4" />
         </div>
         <CardDescription>Os 5 produtos com mais vendas</CardDescription>
       </CardHeader>
+
       <CardContent>
         {popularProducts ? (
           <ResponsiveContainer width="100%" height={240}>
@@ -143,7 +145,7 @@ export function PopularProductsChart() {
           </ResponsiveContainer>
         ) : (
           <div className="flex h-[240px] w-full items-center justify-center">
-            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+            <Loader2 className="text-muted-foreground size-8 animate-spin" />
           </div>
         )}
       </CardContent>

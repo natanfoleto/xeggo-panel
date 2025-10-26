@@ -35,13 +35,14 @@ export function UpdateProduct({ productId }: UpdateProductProps) {
           Editar
         </DropdownMenuItem>
       </DialogTrigger>
+
       <DialogContent className="flex h-11/12 min-w-2/3 flex-col overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {isFetching ? (
               <>
                 Carregando produto
-                <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+                <Loader2 className="text-muted-foreground size-4 animate-spin" />
               </>
             ) : (
               product?.name

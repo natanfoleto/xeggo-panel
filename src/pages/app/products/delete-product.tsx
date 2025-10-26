@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { deleteCategory } from '@/api/categories/delete-category'
+import { deleteProduct } from '@/api/products/delete-product'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,32 +18,29 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { queryClient } from '@/lib/react-query'
 
-interface DeleteCategoryProps {
-  categoryId: string
-  categoryName: string
+interface DeleteProductProps {
+  productId: string
+  productName: string
 }
 
-export function DeleteCategory({
-  categoryId,
-  categoryName,
-}: DeleteCategoryProps) {
+export function DeleteProduct({ productId, productName }: DeleteProductProps) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const { mutateAsync: deleteCategoryFn, isPending } = useMutation({
-    mutationFn: deleteCategory,
+  const { mutateAsync: deleteProductFn, isPending } = useMutation({
+    mutationFn: deleteProduct,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['categories'],
+        queryKey: ['products'],
       })
 
-      toast.success('Categoria deletada com sucesso!')
+      toast.success('Produto deletado com sucesso!')
 
       setIsOpen(false)
     },
   })
 
-  async function handleDeleteCategory() {
-    await deleteCategoryFn({ categoryId })
+  async function handleDeleteProduct() {
+    await deleteProductFn({ productId })
   }
 
   return (
@@ -56,19 +53,18 @@ export function DeleteCategory({
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Deletar {categoryName}?</AlertDialogTitle>
+          <AlertDialogTitle>Deletar {productName}?</AlertDialogTitle>
           <AlertDialogDescription>
-            Tem certeza que deseja excluir a categoria {categoryName}? Essa ação
-            não pode ser desfeita.
+            Tem certeza que deseja excluir o produto{' '}
+            <strong>{productName}</strong>? Essa ação não pode ser desfeita.
+            Caso queira remover do cardápio sem excluir, basta desativar o
+            produto.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending}>Cancelar</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={handleDeleteCategory}
-            disabled={isPending}
-          >
+          <AlertDialogAction onClick={handleDeleteProduct} disabled={isPending}>
             {isPending ? (
               <>
                 <Loader2 className="mr-2 size-4 animate-spin" />

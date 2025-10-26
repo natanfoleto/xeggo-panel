@@ -42,7 +42,7 @@ export function UpdateCategory({ categoryId }: UpdateCategoryProps) {
             {isFetching ? (
               <>
                 Carregando categoria
-                <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+                <Loader2 className="text-muted-foreground size-4 animate-spin" />
               </>
             ) : (
               category?.name

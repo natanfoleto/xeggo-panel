@@ -35,7 +35,7 @@ export function Pagination({
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden size-8 p-0 lg:flex"
             onClick={() => onPageChange(0)}
             disabled={pageIndex === 0}
           >
@@ -44,7 +44,7 @@ export function Pagination({
           </Button>
           <Button
             variant="outline"
-            className="h-8 w-8 p-0"
+            className="size-8 p-0"
             onClick={() => onPageChange(pageIndex - 1)}
             disabled={pageIndex === 0}
           >
@@ -53,7 +53,7 @@ export function Pagination({
           </Button>
           <Button
             variant="outline"
-            className="h-8 w-8 p-0"
+            className="size-8 p-0"
             onClick={() => onPageChange(pageIndex + 1)}
             disabled={pages <= pageIndex + 1}
           >
@@ -62,7 +62,7 @@ export function Pagination({
           </Button>
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden size-8 p-0 lg:flex"
             onClick={() => onPageChange(pages - 1)}
             disabled={pages <= pageIndex + 1}
           >
