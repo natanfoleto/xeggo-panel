@@ -4,6 +4,7 @@ import {
   Pizza,
   Settings,
   SquareChartGantt,
+  Ticket,
   UtensilsCrossed,
 } from 'lucide-react'
 
@@ -39,6 +40,11 @@ export function Header() {
           <NavLink to="/products">
             <Pizza className="h-4 w-4" />
             Produtos
+          </NavLink>
+
+          <NavLink to="/coupons">
+            <Ticket className="h-4 w-4" />
+            Cupons
           </NavLink>
 
           <NavLink to="/settings">

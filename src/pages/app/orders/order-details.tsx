@@ -45,6 +45,11 @@ const PAYMENT_METHODS: Record<string, string> = {
   bankTransfer: 'Transferência Bancária',
 }
 
+const ORDER_TYPES: Record<string, string> = {
+  delivery: 'Entrega',
+  pickup: 'Retirada',
+}
+
 export function OrderDetails({ orderId, open }: OrderDetailsProps) {
   const {
     data: order,
@@ -56,6 +61,8 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
     staleTime: 1000 * 60 * 15, // 15 minutes
     enabled: open,
   })
+
+  const hasCashPayment = order?.paymentMethods.includes('cash')
 
   return (
     <DialogContent className="max-w-[95vw] sm:max-w-[640px] lg:max-w-[768px]">
@@ -72,7 +79,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
       {isLoadingOrder && <OrderDetailsSkeleton />}
 
       {order && (
-        <div className="space-y-6">
+        <div className="max-h-[80vh] space-y-6 overflow-y-auto pr-2">
           <Table>
             <TableBody>
               <TableRow>
@@ -83,6 +90,16 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   <OrderStatus status={order.status} />
                 </TableCell>
               </TableRow>
+
+              <TableRow>
+                <TableCell className="text-muted-foreground w-32">
+                  Tipo
+                </TableCell>
+                <TableCell className="text-right">
+                  {ORDER_TYPES[order.orderType] || order.orderType}
+                </TableCell>
+              </TableRow>
+
               <TableRow>
                 <TableCell className="text-muted-foreground w-32">
                   Cliente
@@ -91,6 +108,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   {order.customer.name}
                 </TableCell>
               </TableRow>
+
               <TableRow>
                 <TableCell className="text-muted-foreground w-32">
                   Telefone
@@ -103,6 +121,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   )}
                 </TableCell>
               </TableRow>
+
               <TableRow>
                 <TableCell className="text-muted-foreground w-32">
                   E-mail
@@ -111,14 +130,18 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   {order.customer.email}
                 </TableCell>
               </TableRow>
-              <TableRow>
-                <TableCell className="text-muted-foreground w-32 align-top">
-                  Endereço
-                </TableCell>
-                <TableCell className="text-right text-sm break-words">
-                  {order.deliveryAddress}
-                </TableCell>
-              </TableRow>
+
+              {order.deliveryAddress && (
+                <TableRow>
+                  <TableCell className="text-muted-foreground w-32 align-top">
+                    Endereço
+                  </TableCell>
+                  <TableCell className="text-right text-sm break-words">
+                    {order.deliveryAddress}
+                  </TableCell>
+                </TableRow>
+              )}
+
               <TableRow>
                 <TableCell className="text-muted-foreground w-32">
                   Pagamento
@@ -129,6 +152,62 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                     .join(', ')}
                 </TableCell>
               </TableRow>
+
+              {hasCashPayment && order.changeForInCents && (
+                <TableRow>
+                  <TableCell className="text-muted-foreground w-32">
+                    Troco para
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {formatCurrency(order.changeForInCents / 100)}
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {order.couponCode && (
+                <TableRow>
+                  <TableCell className="text-muted-foreground w-32">
+                    Cupom
+                  </TableCell>
+                  <TableCell className="text-right font-mono text-sm">
+                    {order.couponCode}
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {order.estimatedDeliveryTime && (
+                <TableRow>
+                  <TableCell className="text-muted-foreground w-32">
+                    Tempo estimado
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {order.estimatedDeliveryTime} minutos
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {order.observations && (
+                <TableRow>
+                  <TableCell className="text-muted-foreground w-32 align-top">
+                    Observações
+                  </TableCell>
+                  <TableCell className="text-right text-sm break-words">
+                    {order.observations}
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {order.cancellationReason && (
+                <TableRow>
+                  <TableCell className="text-muted-foreground w-32 align-top">
+                    Motivo do cancelamento
+                  </TableCell>
+                  <TableCell className="text-right text-sm break-words text-red-600">
+                    {order.cancellationReason}
+                  </TableCell>
+                </TableRow>
+              )}
+
               <TableRow>
                 <TableCell className="text-muted-foreground w-32">
                   Criado há
@@ -147,11 +226,12 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
             <TableHeader>
               <TableRow>
                 <TableHead>Produto</TableHead>
-                <TableHead className="w-16 text-right">Qtd.</TableHead>
-                <TableHead className="w-24 text-right">Preço</TableHead>
+                <TableHead className="w-16 text-center">Qtd.</TableHead>
+                <TableHead className="w-24 text-center">Preço</TableHead>
                 <TableHead className="w-24 text-right">Subtotal</TableHead>
               </TableRow>
             </TableHeader>
+
             <TableBody>
               {order.orderItems.map((orderItem) => {
                 const itemSubtotal = orderItem.priceInCents * orderItem.quantity
@@ -174,55 +254,65 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                           </span>
                         )}
                       </TableCell>
-                      <TableCell className="text-right">
+
+                      <TableCell className="text-center">
                         {orderItem.quantity}
                       </TableCell>
-                      <TableCell className="text-right whitespace-nowrap">
+
+                      <TableCell className="text-center whitespace-nowrap">
                         {formatCurrency(orderItem.priceInCents / 100)}
                       </TableCell>
+
                       <TableCell className="text-right whitespace-nowrap">
                         {formatCurrency(totalWithComplements / 100)}
                       </TableCell>
                     </TableRow>
 
-                    {orderItem.selectedComplements.length > 0 && (
-                      <TableRow key={`${orderItem.id}-complements`}>
+                    {(orderItem.selectedComplements.length > 0 ||
+                      orderItem.observations) && (
+                      <TableRow key={`${orderItem.id}-details`}>
                         <TableCell colSpan={4} className="p-0">
                           <Accordion type="single" collapsible>
                             <AccordionItem
-                              value={`complements-${orderItem.id}`}
+                              value={`details-${orderItem.id}`}
                               className="border-0"
                             >
-                              <AccordionTrigger className="text-muted-foreground px-4 py-2 text-xs hover:no-underline">
-                                Ver complementos (
-                                {orderItem.selectedComplements.length})
+                              <AccordionTrigger className="text-muted-foreground px-2 py-1 text-xs hover:no-underline">
+                                Ver mais
                               </AccordionTrigger>
 
-                              <AccordionContent className="px-4 pb-2">
+                              <AccordionContent className="py-1 pr-2">
                                 <div className="ml-4 space-y-1">
-                                  {orderItem.selectedComplements.map(
-                                    (complement) => (
-                                      <div
-                                        key={complement.id}
-                                        className="text-muted-foreground flex items-center justify-between text-xs"
-                                      >
-                                        <span>
-                                          {complement.quantity}x{' '}
-                                          {complement.complement.name}
-                                        </span>
+                                  {orderItem.selectedComplements.length > 0 && (
+                                    <div className="space-y-0.5">
+                                      {orderItem.selectedComplements.map(
+                                        (complement) => (
+                                          <div
+                                            key={complement.id}
+                                            className="text-muted-foreground flex items-center justify-between text-xs"
+                                          >
+                                            <span>
+                                              {complement.quantity}x{' '}
+                                              {complement.complement.name}
+                                            </span>
 
-                                        <span className="whitespace-nowrap">
-                                          {(
-                                            (complement.priceInCents *
-                                              complement.quantity) /
-                                            100
-                                          ).toLocaleString('pt-BR', {
-                                            style: 'currency',
-                                            currency: 'BRL',
-                                          })}
-                                        </span>
-                                      </div>
-                                    ),
+                                            <span className="whitespace-nowrap">
+                                              {formatCurrency(
+                                                (complement.priceInCents *
+                                                  complement.quantity) /
+                                                  100,
+                                              )}
+                                            </span>
+                                          </div>
+                                        ),
+                                      )}
+                                    </div>
+                                  )}
+
+                                  {orderItem.observations && (
+                                    <p className="text-muted-foreground text-xs">
+                                      {orderItem.observations}
+                                    </p>
                                   )}
                                 </div>
                               </AccordionContent>
@@ -237,11 +327,47 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
             </TableBody>
 
             <TableFooter>
-              <TableRow>
-                <TableCell colSpan={3}>Total do pedido</TableCell>
+              <TableRow className="text-xs">
+                <TableCell colSpan={3}>Subtotal</TableCell>
 
                 <TableCell className="text-right font-medium whitespace-nowrap">
                   {formatCurrency(order.totalInCents / 100)}
+                </TableCell>
+              </TableRow>
+
+              {order.deliveryFeeInCents !== null &&
+                order.deliveryFeeInCents > 0 && (
+                  <TableRow className="text-xs">
+                    <TableCell colSpan={3}>Taxa de entrega</TableCell>
+
+                    <TableCell className="text-right font-medium whitespace-nowrap">
+                      {formatCurrency(order.deliveryFeeInCents / 100)}
+                    </TableCell>
+                  </TableRow>
+                )}
+
+              {order.discountInCents !== null && order.discountInCents > 0 && (
+                <TableRow className="text-xs">
+                  <TableCell colSpan={3}>Desconto</TableCell>
+
+                  <TableCell className="text-right font-medium whitespace-nowrap text-green-600">
+                    -{formatCurrency(order.discountInCents / 100)}
+                  </TableCell>
+                </TableRow>
+              )}
+
+              <TableRow>
+                <TableCell colSpan={3} className="font-medium">
+                  Total do pedido
+                </TableCell>
+
+                <TableCell className="text-right font-medium whitespace-nowrap">
+                  {formatCurrency(
+                    (order.totalInCents +
+                      (order.deliveryFeeInCents || 0) -
+                      (order.discountInCents || 0)) /
+                      100,
+                  )}
                 </TableCell>
               </TableRow>
             </TableFooter>

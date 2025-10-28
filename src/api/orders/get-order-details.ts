@@ -1,3 +1,4 @@
+// src/api/orders/get-order-details.ts
 import { api } from '@/lib/axios'
 
 export interface GetOrderDetailsParams {
@@ -7,9 +8,18 @@ export interface GetOrderDetailsParams {
 export interface GetOrderDetailsResponse {
   id: string
   createdAt: string
+  status: 'pending' | 'canceled' | 'processing' | 'delivering' | 'delivered'
+  orderType: 'delivery' | 'pickup'
   totalInCents: number
-  deliveryAddress: string
+  deliveryAddress: string | null
   paymentMethods: string[]
+  changeForInCents: number | null
+  deliveryFeeInCents: number | null
+  discountInCents: number | null
+  couponCode: string | null
+  observations: string | null
+  estimatedDeliveryTime: number | null
+  cancellationReason: string | null
   customer: {
     name: string
     email: string
@@ -19,6 +29,7 @@ export interface GetOrderDetailsResponse {
     id: string
     priceInCents: number
     quantity: number
+    observations: string | null
     product: {
       name: string
     } | null
@@ -31,7 +42,6 @@ export interface GetOrderDetailsResponse {
       }
     }[]
   }[]
-  status: 'pending' | 'canceled' | 'processing' | 'delivering' | 'delivered'
 }
 
 export async function getOrderDetails({ orderId }: GetOrderDetailsParams) {

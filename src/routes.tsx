@@ -4,6 +4,7 @@ import { AppLayout } from './pages/_layouts/app'
 import { AuthLayout } from './pages/_layouts/auth'
 import { NotFound } from './pages/404'
 import { Categories } from './pages/app/categories/categories'
+import { Coupons } from './pages/app/coupons/coupons'
 import { Dashboard } from './pages/app/dashboard/dashboard'
 import { Orders } from './pages/app/orders/orders'
 import { Products } from './pages/app/products/products'
@@ -34,8 +35,8 @@ export const router = createBrowserRouter([
         element: <Products />,
       },
       {
-        path: '/products',
-        element: <Products />,
+        path: '/coupons',
+        element: <Coupons />,
       },
       {
         path: '/settings',

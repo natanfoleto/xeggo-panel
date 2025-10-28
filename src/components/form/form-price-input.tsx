@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { FormInput } from '@/components/form/form-input'
+import { formatCurrency } from '@/utils/format-currency'
 
 interface PriceInputProps {
   value: number
@@ -15,16 +16,8 @@ export function FormPriceInput({
   disabled,
   error,
 }: PriceInputProps) {
-  const formatCentsToReal = (cents: number): string => {
-    const reais = cents / 100
-    return reais.toLocaleString('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
-  }
-
   const [displayValue, setDisplayValue] = useState<string>(
-    formatCentsToReal(value),
+    formatCurrency(value / 100),
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +33,8 @@ export function FormPriceInput({
 
     const cents = parseInt(onlyNumbers, 10)
 
-    setDisplayValue(formatCentsToReal(cents))
+    setDisplayValue(formatCurrency(cents / 100))
+
     onChange(cents)
   }
 
@@ -49,21 +43,14 @@ export function FormPriceInput({
   }
 
   return (
-    <div className="relative">
-      <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 text-sm">
-        R$
-      </span>
-
-      <FormInput
-        type="text"
-        inputMode="numeric"
-        value={displayValue}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        disabled={disabled}
-        error={error}
-        className="pl-10"
-      />
-    </div>
+    <FormInput
+      type="text"
+      inputMode="numeric"
+      value={displayValue}
+      onChange={handleChange}
+      onFocus={handleFocus}
+      disabled={disabled}
+      error={error}
+    />
   )
 }
