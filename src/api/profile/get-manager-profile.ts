@@ -11,7 +11,7 @@ export interface GetManagerProfileResponse {
 
 export async function getManagerProfile() {
   const response =
-    await api.auth.get<GetManagerProfileResponse>('/profile/manager')
+    await api.auth.get<GetManagerProfileResponse>('/managers/profile')
 
   return response.data
 }

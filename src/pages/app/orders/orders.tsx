@@ -46,8 +46,6 @@ export function Orders() {
       }),
   })
 
-  console.log(result)
-
   function handlePaginate(pageIndex: number) {
     setSearchParams((prev) => {
       prev.set('page', (pageIndex + 1).toString())
@@ -59,6 +57,7 @@ export function Orders() {
   return (
     <>
       <Helmet title="Pedidos" />
+
       <div className="flex flex-col gap-4">
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
           Pedidos
@@ -66,8 +65,10 @@ export function Orders() {
             <Loader2Icon className="text-muted-foreground size-5 animate-spin" />
           )}
         </h1>
+
         <div className="space-y-2.5">
           <OrderTableFilters />
+
           <div className="rounded-md border">
             <Table>
               <TableHeader>
