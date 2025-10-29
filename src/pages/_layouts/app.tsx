@@ -4,23 +4,27 @@ import { Loader2 } from 'lucide-react'
 import { useLayoutEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { authCheckManager } from '@/api/profile/auth-check-manager'
+import { authCheckManager } from '@/api/managers/auth-check-manager'
 import { Header } from '@/components/header'
 import { api } from '@/lib/axios'
 
 export function AppLayout() {
   const navigate = useNavigate()
 
-  const { isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['auth-check'],
     queryFn: authCheckManager,
     retry: false,
     staleTime: Infinity,
   })
 
+  const isAuthenticated = data?.authenticated === true
+
   useLayoutEffect(() => {
-    if (isError) navigate('/sign-in', { replace: true })
-  }, [isError, navigate])
+    if (!isLoading && !isAuthenticated) {
+      navigate('/sign-in', { replace: true })
+    }
+  }, [isAuthenticated, isLoading, navigate])
 
   useLayoutEffect(() => {
     const interceptorId = api.auth.interceptors.response.use(
@@ -55,7 +59,7 @@ export function AppLayout() {
     )
   }
 
-  if (isError) return null
+  if (!isAuthenticated) return null
 
   return (
     <div className="flex min-h-screen flex-col antialiased">

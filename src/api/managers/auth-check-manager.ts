@@ -6,7 +6,7 @@ export interface AuthCheckManagerResponse {
 
 export async function authCheckManager() {
   const response = await api.auth.get<AuthCheckManagerResponse>(
-    '/auth/check/manager',
+    '/managers/auth/check',
   )
 
   return response.data
