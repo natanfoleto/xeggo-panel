@@ -50,7 +50,7 @@ export function AppLayout() {
     }
   }, [navigate])
 
-  if (!isLoading) {
+  if (isLoading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-1">
         <Loader2 className="size-5 animate-spin" />
