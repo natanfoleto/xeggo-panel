@@ -1,8 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import { AppLayout } from './pages/_layouts/app'
-import { AuthLayout } from './pages/_layouts/auth'
-import { NotFound } from './pages/404'
 import { Categories } from './pages/app/categories'
 import { Coupons } from './pages/app/coupons'
 import { Dashboard } from './pages/app/dashboard'
@@ -11,6 +8,9 @@ import { Products } from './pages/app/products'
 import { Settings } from './pages/app/settings'
 import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
+import { AppLayout } from './pages/layouts/app'
+import { AuthLayout } from './pages/layouts/auth'
+import { NotFound } from './pages/not-found'
 
 export const router = createBrowserRouter([
   {
