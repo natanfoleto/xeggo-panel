@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { Loader2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { getAddressByCep } from '@/api/addresses/get-address-by-cep'
 import { getAddress } from '@/api/restaurants/get-address'
 import { updateAddress } from '@/api/restaurants/update-address'
 import { FormInput } from '@/components/form/form-input'
@@ -18,6 +20,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { queryClient } from '@/lib/react-query'
+import { formatCEP } from '@/utils/format-cep'
 
 import { AddressSkeleton } from './address-skeleton'
 
@@ -44,6 +47,8 @@ const addressSchema = z.object({
 type AddressSchema = z.infer<typeof addressSchema>
 
 export function UpdateAddress() {
+  const [isSearchingCep, setIsSearchingCep] = useState(false)
+
   const { data, isLoading } = useQuery({
     queryKey: ['address'],
     queryFn: getAddress,
@@ -53,6 +58,8 @@ export function UpdateAddress() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { isSubmitting, errors, isDirty },
   } = useForm<AddressSchema>({
     resolver: zodResolver(addressSchema),
@@ -66,6 +73,8 @@ export function UpdateAddress() {
       state: '',
     },
   })
+
+  const zipCode = watch('zipCode')
 
   useEffect(() => {
     if (data?.address) {
@@ -92,20 +101,49 @@ export function UpdateAddress() {
     },
   })
 
-  const onSubmit = async (formData: AddressSchema) => {
+  const { mutateAsync: getAddressByCepFn } = useMutation({
+    mutationFn: getAddressByCep,
+  })
+
+  const onSubmit = async (data: AddressSchema) => {
     await updateAddressFn({
       address: {
-        zipCode: formData.zipCode || null,
-        street: formData.street || null,
-        number: formData.number || null,
-        complement: formData.complement || null,
-        neighborhood: formData.neighborhood || null,
-        city: formData.city || null,
-        state: formData.state || null,
+        zipCode: data.zipCode || null,
+        street: data.street || null,
+        number: data.number || null,
+        complement: data.complement || null,
+        neighborhood: data.neighborhood || null,
+        city: data.city || null,
+        state: data.state || null,
       },
     })
+  }
 
-    reset(formData)
+  const handleZipCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue('zipCode', formatCEP(event.target.value))
+  }
+
+  const handleZipCodeBlur = async () => {
+    if (!zipCode || zipCode.replace(/\D/g, '').length !== 8) return
+
+    setIsSearchingCep(true)
+
+    try {
+      const addressData = await getAddressByCepFn(zipCode.replace(/\D/g, ''))
+
+      if (!addressData) return setIsSearchingCep(false)
+
+      setValue('street', addressData.street, { shouldDirty: true })
+      setValue('neighborhood', addressData.neighborhood, { shouldDirty: true })
+      setValue('city', addressData.city, { shouldDirty: true })
+      setValue('state', addressData.state, { shouldDirty: true })
+
+      if (addressData.complement)
+        setValue('complement', addressData.complement, { shouldDirty: true })
+    } catch (error) {
+    } finally {
+      setIsSearchingCep(false)
+    }
   }
 
   if (isLoading) return <AddressSkeleton />
@@ -125,12 +163,22 @@ export function UpdateAddress() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="zipCode">CEP</Label>
-              <FormInput
-                id="zipCode"
-                placeholder="00000-000"
-                {...register('zipCode')}
-                error={errors.zipCode?.message}
-              />
+              <div className="relative">
+                <FormInput
+                  id="zipCode"
+                  placeholder="00000-000"
+                  maxLength={9}
+                  {...register('zipCode')}
+                  onChange={handleZipCodeChange}
+                  onBlur={handleZipCodeBlur}
+                  error={errors.zipCode?.message}
+                  disabled={isSearchingCep}
+                />
+
+                {isSearchingCep && (
+                  <Loader2 className="text-muted-foreground absolute top-1/2 right-3 size-4 -translate-y-1/2 animate-spin" />
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">
