@@ -1,5 +1,3 @@
-import { api } from '@/lib/axios'
-
 export interface GetAddressByCepResponse {
   cep: string
   street: string
@@ -10,9 +8,24 @@ export interface GetAddressByCepResponse {
 }
 
 export async function getAddressByCep(cep: string) {
-  const response = await api.deauth.get<GetAddressByCepResponse>(
-    `/addresses/cep/${cep}`,
-  )
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
 
-  return response.data
+    if (!response.ok) return null
+
+    const data = await response.json()
+
+    if (data.erro) return null
+
+    return {
+      cep: data.cep,
+      street: data.logradouro,
+      complement: data.complemento || null,
+      neighborhood: data.bairro,
+      city: data.localidade,
+      state: data.uf,
+    }
+  } catch {
+    return null
+  }
 }
