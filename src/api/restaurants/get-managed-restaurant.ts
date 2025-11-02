@@ -4,6 +4,7 @@ export interface GetManagedRestaurantResponse {
   id: string
   name: string
   description: string | null
+  slug: string
   primaryColor: string | null
   avatarUrl: string | null
   managerId: string | null

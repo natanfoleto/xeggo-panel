@@ -6,6 +6,7 @@ import { MonthOrdersAmountCard } from './month-orders-amount-card'
 import { MonthReceiptCard } from './month-receipt-card'
 import { PopularProductsChart } from './popular-products-chart'
 import { ReceiptChart } from './receipt-chart'
+import { RestaurantShareLink } from './restaurant-share-link'
 
 export function Dashboard() {
   return (
@@ -26,6 +27,8 @@ export function Dashboard() {
           <ReceiptChart />
           <PopularProductsChart />
         </div>
+
+        <RestaurantShareLink />
       </div>
     </>
   )
