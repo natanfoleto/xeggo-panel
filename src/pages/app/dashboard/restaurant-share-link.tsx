@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
+import { env } from '@/env'
 
 export function RestaurantShareLink() {
   const [showQRDialog, setShowQRDialog] = useState(false)
@@ -54,7 +55,7 @@ export function RestaurantShareLink() {
 
   if (!managedRestaurant) return null
 
-  const restaurantUrl = `${window.location.origin}/${managedRestaurant.slug}`
+  const restaurantUrl = `${env.VITE_APP_MENU_URL}/${managedRestaurant.slug}`
 
   const handleCopyLink = async () => {
     await navigator.clipboard.writeText(restaurantUrl)
