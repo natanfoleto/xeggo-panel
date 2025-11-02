@@ -18,6 +18,7 @@ if (env.VITE_ENABLE_API_DELAY) {
       await new Promise((resolve) =>
         setTimeout(resolve, Math.round(Math.random() * 4000)),
       )
+
       return config
     })
   }
