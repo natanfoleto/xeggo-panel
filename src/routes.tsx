@@ -8,6 +8,7 @@ import { Products } from './pages/app/products'
 import { Settings } from './pages/app/settings'
 import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
+import { WrongAccount } from './pages/auth/wrong-account'
 import { AppLayout } from './pages/layouts/app'
 import { AuthLayout } from './pages/layouts/auth'
 import { NotFound } from './pages/not-found'
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: '/sign-up',
         element: <SignUp />,
+      },
+      {
+        path: '/wrong-account',
+        element: <WrongAccount />,
       },
     ],
   },

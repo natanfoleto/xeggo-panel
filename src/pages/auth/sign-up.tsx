@@ -52,21 +52,17 @@ export function SignUp() {
     email,
     phone,
   }: SignUpSchema) {
-    try {
-      await registerRestaurant({ restaurantName, managerName, email, phone })
+    await registerRestaurant({ restaurantName, managerName, email, phone })
 
-      toast.success('Restaurante cadastrado!', {
-        description: '',
-        action: {
-          label: 'Login',
-          onClick: () => {
-            navigate(`/sign-in?email=${email}`)
-          },
+    toast.success('Restaurante cadastrado!', {
+      description: '',
+      action: {
+        label: 'Login',
+        onClick: () => {
+          navigate(`/sign-in?email=${email}`)
         },
-      })
-    } catch (err) {
-      toast.error('Erro ao registrar restaurante!')
-    }
+      },
+    })
   }
 
   return (

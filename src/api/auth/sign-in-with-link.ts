@@ -5,5 +5,5 @@ export interface SignInWithLinkRequest {
 }
 
 export async function signInWithLink({ email }: SignInWithLinkRequest) {
-  await api.deauth.post('/auth/link', { email })
+  await api.deauth.post('/auth/link?app=panel', { email })
 }

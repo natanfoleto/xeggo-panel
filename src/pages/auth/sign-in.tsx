@@ -44,18 +44,14 @@ export function SignIn() {
   })
 
   async function handleAuthenticateWithLink({ email }: SignInSchema) {
-    try {
-      await authenticateWithLink({ email })
+    await authenticateWithLink({ email })
 
-      toast.success('Enviamos um link de autenticação para seu e-mail.', {
-        action: {
-          label: 'Reenviar',
-          onClick: () => authenticateWithLink({ email }),
-        },
-      })
-    } catch (err) {
-      toast.error('Credenciais inválidas')
-    }
+    toast.success('Enviamos um link de autenticação para seu e-mail.', {
+      action: {
+        label: 'Reenviar',
+        onClick: () => authenticateWithLink({ email }),
+      },
+    })
   }
 
   return (
@@ -123,7 +119,7 @@ export function SignIn() {
                 Continuar com e-mail
               </Button>
 
-              <Button onClick={signInWithGoogle} variant="secondary">
+              <Button onClick={() => signInWithGoogle()} variant="secondary">
                 <GoogleIcon />
                 Continuar com Google
               </Button>
