@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { approveOrder } from '@/api/orders/approve-order'
-import { cancelOrder } from '@/api/orders/cancel-order'
 import { deliverOrder } from '@/api/orders/deliver-order'
 import { dispatchOrder } from '@/api/orders/dispatch-order'
 import type { GetOrdersResponse } from '@/api/orders/get-orders'
@@ -16,6 +15,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatCurrency } from '@/utils/format-currency'
 
+import { CancelOrder } from './cancel-order'
 import { OrderDetails } from './order-details'
 
 type OrderStatus =
@@ -38,6 +38,7 @@ export interface OrderTableRowProps {
 
 export function OrderTableRow({ order }: OrderTableRowProps) {
   const [isOrderDetailsOpen, setIsOrderDetailsOpen] = useState(false)
+  const [isCancelOrderOpen, setIsCancelOrderOpen] = useState(false)
 
   const queryClient = useQueryClient()
 
@@ -74,14 +75,6 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       mutationFn: approveOrder,
       onSuccess: async (_, { orderId }) => {
         updateOrderStatusOnCache(orderId, 'processing')
-      },
-    })
-
-  const { mutateAsync: cancelOrderFn, isPending: isCancelingOrder } =
-    useMutation({
-      mutationFn: cancelOrder,
-      onSuccess: async (_, { orderId }) => {
-        updateOrderStatusOnCache(orderId, 'canceled')
       },
     })
 
@@ -195,22 +188,20 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       </TableCell>
 
       <TableCell>
-        <Button
-          onClick={() => cancelOrderFn({ orderId: order.orderId })}
-          disabled={
-            !['pending', 'processing'].includes(order.status) ||
-            isCancelingOrder
-          }
-          variant="ghost"
-          size="xs"
-        >
-          {isCancelingOrder ? (
-            <Loader2 className="mr-2 size-3 animate-spin" />
-          ) : (
-            <ArrowRight className="mr-2 size-3" />
+        <Dialog open={isCancelOrderOpen} onOpenChange={setIsCancelOrderOpen}>
+          {['pending', 'processing'].includes(order.status) && (
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="xs">
+                Cancelar
+              </Button>
+            </DialogTrigger>
           )}
-          Cancelar
-        </Button>
+
+          <CancelOrder
+            orderId={order.orderId}
+            onClose={() => setIsCancelOrderOpen(false)}
+          />
+        </Dialog>
       </TableCell>
     </TableRow>
   )
