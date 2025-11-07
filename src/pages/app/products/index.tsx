@@ -78,7 +78,7 @@ export function Products() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[64px]"></TableHead>
+                  <TableHead className="w-16"></TableHead>
                   <TableHead className="w-[250px]">Nome</TableHead>
                   <TableHead className="w-[140px]">Categoria</TableHead>
                   <TableHead className="w-[140px] text-center">Preço</TableHead>
@@ -86,7 +86,7 @@ export function Products() {
                     Status
                   </TableHead>
                   <TableHead>Descrição</TableHead>
-                  <TableHead className="w-[64px]"></TableHead>
+                  <TableHead className="w-16"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

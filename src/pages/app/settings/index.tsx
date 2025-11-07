@@ -10,7 +10,7 @@ import { UpdateSegments } from './update-segments'
 export function Settings() {
   return (
     <>
-      <Helmet title="Categorias" />
+      <Helmet title="Configurações" />
 
       <div className="flex flex-col gap-4">
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
