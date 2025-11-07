@@ -1,11 +1,3 @@
-import { MoreHorizontal } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatCurrency } from '@/utils/format-currency'
 
@@ -67,20 +59,10 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
         {product.description || 'Sem descrição'}
       </TableCell>
 
-      <TableCell className="text-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreHorizontal className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end">
-            <UpdateProduct productId={product.id} />
-            <DeleteProduct productId={product.id} productName={product.name} />
-            <CopyProduct productId={product.id} productName={product.name} />
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <TableCell className="text-muted-foreground flex gap-2">
+        <UpdateProduct productId={product.id} />
+        <CopyProduct productId={product.id} productName={product.name} />
+        <DeleteProduct productId={product.id} productName={product.name} />
       </TableCell>
     </TableRow>
   )

@@ -1,11 +1,3 @@
-import { MoreHorizontal } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import { DeleteCategory } from './delete-category'
@@ -28,23 +20,9 @@ export function CategoryTableRow({ category }: CategoryTableRowProps) {
         {category.description || 'Sem descrição'}
       </TableCell>
 
-      <TableCell className="text-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreHorizontal className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end">
-            <UpdateCategory categoryId={category.id} />
-
-            <DeleteCategory
-              categoryId={category.id}
-              categoryName={category.name}
-            />
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <TableCell className="text-muted-foreground flex gap-2">
+        <UpdateCategory categoryId={category.id} />
+        <DeleteCategory categoryId={category.id} categoryName={category.name} />
       </TableCell>
     </TableRow>
   )

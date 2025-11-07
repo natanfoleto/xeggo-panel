@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import {
@@ -10,6 +9,7 @@ import {
   type WeekDay,
 } from '@/api/restaurants/get-opening-hours'
 import { updateOpeningHours } from '@/api/restaurants/update-opening-hours'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -100,7 +100,8 @@ export function OpeningHoursSettings() {
       await queryClient.invalidateQueries({
         queryKey: ['opening-hours'],
       })
-      toast.success('Horários atualizados com sucesso!')
+
+      appalert.success('Excelente', 'Horários atualizados com sucesso.')
     },
   })
 
@@ -115,8 +116,9 @@ export function OpeningHoursSettings() {
     closeTime: string
   }) => {
     if (hour.openTime >= hour.closeTime) {
-      return toast.error(
-        'O horário de fechamento deve ser maior que o de abertura',
+      return appalert.error(
+        'Ooops',
+        'O horário de fechamento deve ser maior que o de abertura.',
       )
     }
 
@@ -128,7 +130,10 @@ export function OpeningHoursSettings() {
     )
 
     if (isDuplicate) {
-      return toast.error('Este horário já foi adicionado para este dia')
+      return appalert.error(
+        'Ooops',
+        'Este horário já foi adicionado para este dia.',
+      )
     }
 
     append(hour)
@@ -161,8 +166,9 @@ export function OpeningHoursSettings() {
 
     for (const hour of newOrUpdatedHours) {
       if (hour.openTime >= hour.closeTime)
-        return toast.error(
-          'O horário de fechamento deve ser maior que o de abertura',
+        return appalert.error(
+          'Ooops',
+          'O horário de fechamento deve ser maior que o de abertura.',
         )
     }
 

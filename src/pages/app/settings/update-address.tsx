@@ -3,12 +3,12 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { getAddressByCep } from '@/api/addresses/get-address-by-cep'
 import { getAddress } from '@/api/restaurants/get-address'
 import { updateAddress } from '@/api/restaurants/update-address'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
 import { Button } from '@/components/ui/button'
 import {
@@ -97,7 +97,7 @@ export function UpdateAddress() {
         queryKey: ['address'],
       })
 
-      toast.success('Endereço atualizado com sucesso!')
+      appalert.success('Excelente', 'Endereço atualizado com sucesso.')
     },
   })
 

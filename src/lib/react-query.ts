@@ -1,6 +1,7 @@
 import { QueryClient } from '@tanstack/react-query'
 import { isAxiosError } from 'axios'
-import { toast } from 'sonner'
+
+import { appalert } from '@/components/app-alert/app-alert-context'
 
 let displayedNetworkFailureError = false
 
@@ -12,7 +13,7 @@ export const queryClient = new QueryClient({
           if (displayedNetworkFailureError === false) {
             displayedNetworkFailureError = true
 
-            toast.error(
+            appalert.error(
               'A aplicação está demorando mais que o esperado para carregar, tente novamente em alguns minutos.',
               {
                 onDismiss: () => {
@@ -32,9 +33,9 @@ export const queryClient = new QueryClient({
       onError(error) {
         if (isAxiosError(error)) {
           if ('message' in error.response?.data) {
-            toast.error(error.response?.data.message)
+            appalert.error(error.response?.data.message)
           } else {
-            toast.error('Erro ao processar operação!')
+            appalert.error('Erro ao processar operação.')
           }
         }
       },

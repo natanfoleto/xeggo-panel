@@ -1,12 +1,11 @@
-// src/pages/manager/coupons/coupon-form.tsx
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { createCoupon } from '@/api/coupons/create-coupon'
 import { updateCoupon } from '@/api/coupons/update-coupon'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
 import { FormPriceInput } from '@/components/form/form-price-input'
 import { FormSelect } from '@/components/form/form-select'
@@ -69,7 +68,7 @@ export function CouponForm({
         queryKey: ['coupons'],
       })
 
-      toast.success('Cupom criado com sucesso!')
+      appalert.success('Excelente', 'Cupom criado com sucesso.')
     },
   })
 
@@ -82,7 +81,7 @@ export function CouponForm({
 
       reset(data)
 
-      toast.success('Cupom atualizado com sucesso!')
+      appalert.success('Excelente', 'Cupom atualizado com sucesso.')
     },
   })
 

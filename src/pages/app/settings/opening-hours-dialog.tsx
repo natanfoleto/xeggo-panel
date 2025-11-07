@@ -177,14 +177,14 @@ export function OpeningHoursDialog({
                     <Input
                       disabled
                       value={hour.openTime}
-                      className="disabled:!bg-foreground/25"
+                      className="disabled:bg-foreground/25!"
                     />
 
                     <Input
                       readOnly
                       disabled
                       value={hour.closeTime}
-                      className="disabled:!bg-foreground/25"
+                      className="disabled:bg-foreground/25!"
                     />
                   </div>
 

@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { getDeliverySettings } from '@/api/restaurants/get-delivery-settings'
 import { updateDeliverySettings } from '@/api/restaurants/update-delivery-settings'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormPriceInput } from '@/components/form/form-price-input'
 import { Button } from '@/components/ui/button'
 import {
@@ -64,7 +64,10 @@ export function UpdateDeliverySettings() {
         queryKey: ['delivery-settings'],
       })
 
-      toast.success('Configurações de entrega atualizadas com sucesso!')
+      appalert.success(
+        'Excelente',
+        'Configurações de entrega atualizadas com sucesso.',
+      )
     },
   })
 

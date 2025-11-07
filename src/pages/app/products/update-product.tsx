@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Pencil } from 'lucide-react'
 
 import { getProduct } from '@/api/products/get-product'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 import { ProductForm } from './product-form'
 import { UpdateProductSkeleton } from './update-product-skeleton'
@@ -31,9 +31,9 @@ export function UpdateProduct({ productId }: UpdateProductProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Editar
-        </DropdownMenuItem>
+        <Button className="size-8" variant="outline" title="Editar">
+          <Pencil />
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="flex h-11/12 min-w-2/3 flex-col overflow-y-auto">

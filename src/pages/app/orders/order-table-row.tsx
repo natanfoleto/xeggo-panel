@@ -3,12 +3,12 @@ import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ArrowRight, Loader2, Search } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 import { approveOrder } from '@/api/orders/approve-order'
 import { deliverOrder } from '@/api/orders/deliver-order'
 import { dispatchOrder } from '@/api/orders/dispatch-order'
 import type { GetOrdersResponse } from '@/api/orders/get-orders'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { OrderStatus } from '@/components/order-status'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -67,7 +67,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       })
     })
 
-    toast.success('Pedido alterado com sucesso!')
+    appalert.success('Excelente', 'Pedido alterado com sucesso.')
   }
 
   const { mutateAsync: approveOrderFn, isPending: isApprovingOrder } =

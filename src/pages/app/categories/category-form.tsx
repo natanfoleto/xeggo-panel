@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { createCategory } from '@/api/categories/create-category'
 import { updateCategory } from '@/api/categories/update-category'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
 import { FormTextarea } from '@/components/form/form-text-area'
 import { Button } from '@/components/ui/button'
@@ -48,7 +48,7 @@ export function CategoryForm({
         queryKey: ['categories'],
       })
 
-      toast.success('Categoria criada com sucesso!')
+      appalert.success('Excelente', 'Categoria criada com sucesso.')
     },
   })
 
@@ -61,7 +61,7 @@ export function CategoryForm({
 
       reset(data)
 
-      toast.success('Categoria atualizada com sucesso!')
+      appalert.success('Excelente', 'Categoria atualizada com sucesso.')
     },
   })
 

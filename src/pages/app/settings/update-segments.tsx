@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { getSegments, type Segment } from '@/api/restaurants/get-segments'
 import { updateSegments } from '@/api/restaurants/update-segments'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -91,7 +91,7 @@ export function UpdateSegments() {
         queryKey: ['segments'],
       })
 
-      toast.success('Segmentos atualizados com sucesso!')
+      appalert.success('Excelente', 'Segmentos atualizados com sucesso.')
     },
   })
 
