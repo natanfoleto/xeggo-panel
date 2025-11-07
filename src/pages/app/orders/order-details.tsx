@@ -58,14 +58,14 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
   } = useQuery({
     queryKey: ['order', orderId],
     queryFn: () => getOrderDetails({ orderId }),
-    staleTime: 1000 * 60 * 15, // 15 minutes
+    staleTime: 1000 * 60 * 15,
     enabled: open,
   })
 
   const hasCashPayment = order?.paymentMethods.includes('cash')
 
   return (
-    <DialogContent className="max-w-[95vw] sm:max-w-[640px] lg:max-w-[768px]">
+    <DialogContent className="max-w-[95vw] sm:max-w-[640px] lg:max-w-3xl">
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
           Pedido: {orderId}
@@ -126,7 +126,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                 <TableCell className="text-muted-foreground w-32">
                   E-mail
                 </TableCell>
-                <TableCell className="text-right break-words">
+                <TableCell className="text-right wrap-break-word">
                   {order.customer.email}
                 </TableCell>
               </TableRow>
@@ -136,7 +136,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   <TableCell className="text-muted-foreground w-32 align-top">
                     Endereço
                   </TableCell>
-                  <TableCell className="text-right text-sm break-words">
+                  <TableCell className="text-right text-sm wrap-break-word">
                     {order.deliveryAddress}
                   </TableCell>
                 </TableRow>
@@ -191,7 +191,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   <TableCell className="text-muted-foreground w-32 align-top">
                     Observações
                   </TableCell>
-                  <TableCell className="text-right text-sm break-words">
+                  <TableCell className="text-right text-sm wrap-break-word">
                     {order.observations}
                   </TableCell>
                 </TableRow>
@@ -202,7 +202,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   <TableCell className="text-muted-foreground w-32 align-top">
                     Motivo do cancelamento
                   </TableCell>
-                  <TableCell className="text-right text-sm break-words text-red-600">
+                  <TableCell className="text-right text-sm wrap-break-word text-red-400">
                     {order.cancellationReason}
                   </TableCell>
                 </TableRow>
