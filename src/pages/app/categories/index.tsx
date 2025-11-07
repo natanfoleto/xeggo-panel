@@ -72,7 +72,7 @@ export function Categories() {
                 <TableRow>
                   <TableHead className="w-[250px]">Nome</TableHead>
                   <TableHead>Descrição</TableHead>
-                  <TableHead className="w-[64px]"></TableHead>
+                  <TableHead className="w-16"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
