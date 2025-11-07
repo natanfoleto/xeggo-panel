@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import { Download, MessageCircle, QrCode } from 'lucide-react'
 import { QRCodeCanvas } from 'qrcode.react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 import { getManagedRestaurant } from '@/api/restaurants/get-managed-restaurant'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -60,7 +60,10 @@ export function RestaurantShareLink() {
   const handleCopyLink = async () => {
     await navigator.clipboard.writeText(restaurantUrl)
 
-    toast.success('Link copiado!')
+    appalert.success(
+      'Link copiado',
+      'Você pode compartilhar esse link com os seus clientes.',
+    )
   }
 
   const handleShareWhatsApp = () => {
@@ -83,7 +86,7 @@ export function RestaurantShareLink() {
     link.href = url
     link.click()
 
-    toast.success('QR Code baixado!')
+    appalert.success('Excelente', 'O QR Code foi baixado.')
   }
 
   return (

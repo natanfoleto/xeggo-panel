@@ -4,12 +4,12 @@ import { Mail } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
-import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
 import { signInWithGoogle } from '@/api/auth/sign-in-with-google'
 import { signInWithLink } from '@/api/auth/sign-in-with-link'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { GoogleIcon } from '@/components/google-icon'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -46,12 +46,10 @@ export function SignIn() {
   async function handleAuthenticateWithLink({ email }: SignInSchema) {
     await authenticateWithLink({ email })
 
-    toast.success('Enviamos um link de autenticação para seu e-mail.', {
-      action: {
-        label: 'Reenviar',
-        onClick: () => authenticateWithLink({ email }),
-      },
-    })
+    appalert.info(
+      'Excelente',
+      'Enviamos um link de autenticação para seu e-mail.',
+    )
   }
 
   return (

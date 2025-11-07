@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
 import { RegisterRestaurant } from '@/api/restaurants/register-restaurant'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
 import { FormPhoneInput } from '@/components/form/form-phone-input'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -54,15 +54,21 @@ export function SignUp() {
   }: SignUpSchema) {
     await registerRestaurant({ restaurantName, managerName, email, phone })
 
-    toast.success('Restaurante cadastrado!', {
-      description: '',
-      action: {
-        label: 'Login',
-        onClick: () => {
+    appalert.success(
+      'Restaurante cadastrado',
+      'Clique no botão a baixo para fazer login.',
+      {
+        action: {
+          label: 'Login',
+          onClick: () => {
+            navigate(`/sign-in?email=${email}`)
+          },
+        },
+        onDismiss: () => {
           navigate(`/sign-in?email=${email}`)
         },
       },
-    })
+    )
   }
 
   return (

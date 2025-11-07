@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import {
@@ -10,6 +9,7 @@ import {
   type PaymentMethod,
 } from '@/api/restaurants/get-payment-methods'
 import { updatePaymentMethods } from '@/api/restaurants/update-payment-methods'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -76,7 +76,10 @@ export function UpdatePaymentMethods() {
         queryKey: ['payment-methods'],
       })
 
-      toast.success('Métodos de pagamento atualizados com sucesso!')
+      appalert.success(
+        'Excelente',
+        'Métodos de pagamento atualizados com sucesso.',
+      )
     },
   })
 

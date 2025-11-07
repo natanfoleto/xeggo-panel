@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Copy, Loader2 } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 import { copyProduct } from '@/api/products/copy-product'
 import { getProduct } from '@/api/products/get-product'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -23,7 +24,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 import { ProductForm } from './product-form'
 import { UpdateProductSkeleton } from './update-product-skeleton'
@@ -48,10 +48,7 @@ export function CopyProduct({ productId, productName }: CopyProductProps) {
 
       queryClient.invalidateQueries({ queryKey: ['products'] })
 
-      toast.success('Produto duplicado com sucesso!')
-    },
-    onError: () => {
-      toast.error('Erro ao duplicar produto')
+      appalert.success('Excelente', 'Produto duplicado com sucesso.')
     },
   })
 
@@ -78,9 +75,9 @@ export function CopyProduct({ productId, productName }: CopyProductProps) {
     <>
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogTrigger asChild>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            Duplicar
-          </DropdownMenuItem>
+          <Button className="size-8" variant="outline" title="Duplicar">
+            <Copy />
+          </Button>
         </AlertDialogTrigger>
 
         <AlertDialogContent>

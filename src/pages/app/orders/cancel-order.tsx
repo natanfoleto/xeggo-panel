@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { cancelOrder } from '@/api/orders/cancel-order'
 import type { GetOrdersResponse } from '@/api/orders/get-orders'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormTextarea } from '@/components/form/form-text-area'
 import { Button } from '@/components/ui/button'
 import {
@@ -69,7 +69,7 @@ export function CancelOrder({ orderId, onClose }: CancelOrderProps) {
     mutationFn: cancelOrder,
     onSuccess: (_, { orderId }) => {
       updateOrderStatusOnCache(orderId)
-      toast.success('Pedido cancelado com sucesso!')
+      appalert.success('Excelente', 'Pedido cancelado com sucesso.')
       onClose()
     },
   })

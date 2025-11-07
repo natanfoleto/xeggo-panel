@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Pencil } from 'lucide-react'
 
 import { getCoupon } from '@/api/coupons/get-coupon'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 import { CouponForm } from './coupon-form'
 import { UpdateCouponSkeleton } from './update-coupon-skeleton'
@@ -31,9 +31,9 @@ export function UpdateCoupon({ couponId }: UpdateCouponProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Editar
-        </DropdownMenuItem>
+        <Button className="size-8" variant="outline">
+          <Pencil />
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-[600px]">

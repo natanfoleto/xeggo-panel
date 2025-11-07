@@ -3,7 +3,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { ImageIcon, Plus, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
 import { type FieldErrors, useFieldArray, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { getCategories } from '@/api/categories/get-categories'
@@ -11,6 +10,7 @@ import { createProduct } from '@/api/products/create-product'
 import { deleteProductImage } from '@/api/products/delete-product-image'
 import { updateProduct } from '@/api/products/update-product'
 import { uploadProductImage } from '@/api/products/upload-product-image'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
 import { FormPriceInput } from '@/components/form/form-price-input'
 import { FormSelect } from '@/components/form/form-select'
@@ -128,7 +128,7 @@ export function ProductForm({
         queryKey: ['products'],
       })
 
-      toast.success('Produto criado com sucesso!')
+      appalert.success('Excelente', 'Produto criado com sucesso.')
     },
   })
 
@@ -141,7 +141,7 @@ export function ProductForm({
 
       reset(data)
 
-      toast.success('Produto atualizado com sucesso!')
+      appalert.success('Excelente', 'Produto atualizado com sucesso.')
     },
   })
 

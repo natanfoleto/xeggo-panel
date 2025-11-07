@@ -86,7 +86,7 @@ export function Products() {
                     Status
                   </TableHead>
                   <TableHead>Descrição</TableHead>
-                  <TableHead className="w-16"></TableHead>
+                  <TableHead className="w-32"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

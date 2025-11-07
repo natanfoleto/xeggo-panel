@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 import { deleteCategory } from '@/api/categories/delete-category'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
 import { queryClient } from '@/lib/react-query'
 
 interface DeleteCategoryProps {
@@ -36,7 +36,7 @@ export function DeleteCategory({
         queryKey: ['categories'],
       })
 
-      toast.success('Categoria deletada com sucesso!')
+      appalert.success('Excelente', 'Categoria deletada com sucesso.')
 
       setIsOpen(false)
     },
@@ -49,9 +49,9 @@ export function DeleteCategory({
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Excluir
-        </DropdownMenuItem>
+        <Button className="size-8" variant="outline">
+          <Trash2 />
+        </Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>

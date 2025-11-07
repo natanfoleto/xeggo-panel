@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Pencil } from 'lucide-react'
 
 import { getCategory } from '@/api/categories/get-category'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 import { CategoryForm } from './category-form'
 import { UpdateCategorySkeleton } from './update-category-skeleton'
@@ -31,9 +31,9 @@ export function UpdateCategory({ categoryId }: UpdateCategoryProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Editar
-        </DropdownMenuItem>
+        <Button className="size-8" variant="outline">
+          <Pencil />
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-[600px]">

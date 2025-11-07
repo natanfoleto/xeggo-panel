@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 import { deleteCoupon } from '@/api/coupons/delete-coupon'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
 import { queryClient } from '@/lib/react-query'
 
 interface DeleteCouponProps {
@@ -33,7 +33,7 @@ export function DeleteCoupon({ couponId, couponCode }: DeleteCouponProps) {
         queryKey: ['coupons'],
       })
 
-      toast.success('Cupom deletado com sucesso!')
+      appalert.success('Excelente', 'Cupom deletado com sucesso.')
 
       setIsOpen(false)
     },
@@ -46,9 +46,9 @@ export function DeleteCoupon({ couponId, couponCode }: DeleteCouponProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Excluir
-        </DropdownMenuItem>
+        <Button className="size-8" variant="outline">
+          <Trash2 />
+        </Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>

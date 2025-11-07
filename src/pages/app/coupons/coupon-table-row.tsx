@@ -1,13 +1,6 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { MoreHorizontal } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatCurrency } from '@/utils/format-currency'
 
@@ -83,20 +76,9 @@ export function CouponTableRow({ coupon }: CouponTableRowProps) {
         />
       </TableCell>
 
-      <TableCell className="text-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreHorizontal className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end">
-            <UpdateCoupon couponId={coupon.id} />
-
-            <DeleteCoupon couponId={coupon.id} couponCode={coupon.code} />
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <TableCell className="text-muted-foreground flex gap-2">
+        <UpdateCoupon couponId={coupon.id} />
+        <DeleteCoupon couponId={coupon.id} couponCode={coupon.code} />
       </TableCell>
     </TableRow>
   )

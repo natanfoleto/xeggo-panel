@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 import { updateStatusCoupon } from '@/api/coupons/update-status-coupon'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,8 +37,9 @@ export function UpdateStatusCoupon({
         queryKey: ['coupons'],
       })
 
-      toast.success(
-        `Cupom ${currentStatus ? 'desativado' : 'ativado'} com sucesso!`,
+      appalert.success(
+        'Excelente',
+        `Cupom ${currentStatus ? 'desativado' : 'ativado'} com sucesso.`,
       )
 
       setIsOpen(false)

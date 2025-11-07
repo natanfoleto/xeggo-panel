@@ -83,7 +83,7 @@ export function Coupons() {
                   <TableHead className="w-[100px] text-center">Usos</TableHead>
                   <TableHead className="w-[250px]">Expira em</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead className="w-16"></TableHead>
+                  <TableHead className="w-22"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

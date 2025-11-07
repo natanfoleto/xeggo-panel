@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 import { updateStatusProduct } from '@/api/products/update-status-product'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,8 +37,9 @@ export function UpdateStatusProduct({
         queryKey: ['products'],
       })
 
-      toast.success(
-        `Produto ${currentStatus ? 'desativado' : 'ativado'} com sucesso!`,
+      appalert.success(
+        'Excelente',
+        `Produto ${currentStatus ? 'desativado' : 'ativado'} com sucesso.`,
       )
 
       setIsOpen(false)
