@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { ArrowRight, Loader2, Search } from 'lucide-react'
+import { ArrowRight, Ban, Loader2, RefreshCcw, Search } from 'lucide-react'
 import { useState } from 'react'
 
 import { approveOrder } from '@/api/orders/approve-order'
 import { deliverOrder } from '@/api/orders/deliver-order'
 import { dispatchOrder } from '@/api/orders/dispatch-order'
 import type { GetOrdersResponse } from '@/api/orders/get-orders'
-import { appalert } from '@/components/app-alert/app-alert-context'
+import { resetOrder } from '@/api/orders/reset-order'
 import { OrderStatus } from '@/components/order-status'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -66,8 +66,6 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
         }),
       })
     })
-
-    appalert.success('Excelente', 'Pedido alterado com sucesso.')
   }
 
   const { mutateAsync: approveOrderFn, isPending: isApprovingOrder } =
@@ -91,6 +89,14 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       mutationFn: deliverOrder,
       onSuccess: async (_, { orderId }) => {
         updateOrderStatusOnCache(orderId, 'delivered')
+      },
+    })
+
+  const { mutateAsync: resetOrderFn, isPending: isResettingOrder } =
+    useMutation({
+      mutationFn: resetOrder,
+      onSuccess: async (_, { orderId }) => {
+        updateOrderStatusOnCache(orderId, 'pending')
       },
     })
 
@@ -137,71 +143,90 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
         </div>
       </TableCell>
 
-      <TableCell>
+      <TableCell className="space-x-2 text-right">
         {order.status === 'processing' && (
           <Button
+            title="Marca para pedido em entrega"
             variant="outline"
             size="xs"
             disabled={isDispatchingOrder}
             onClick={() => dispatchOrderFn({ orderId: order.orderId })}
           >
-            Em entrega
             {isDispatchingOrder ? (
-              <Loader2 className="ml-2 size-3 animate-spin" />
+              <Loader2 className="size-3 animate-spin" />
             ) : (
-              <ArrowRight className="ml-2 size-3" />
+              <ArrowRight className="size-3" />
             )}
+            Em entrega
           </Button>
         )}
 
         {order.status === 'delivering' && (
           <Button
+            title="Marca como entregue"
             variant="outline"
             size="xs"
             disabled={isDeliveringOrder}
             onClick={() => deliverOrderFn({ orderId: order.orderId })}
           >
-            Entregue
             {isDeliveringOrder ? (
-              <Loader2 className="ml-2 size-3 animate-spin" />
+              <Loader2 className="size-3 animate-spin" />
             ) : (
-              <ArrowRight className="ml-2 size-3" />
+              <ArrowRight className="size-3" />
             )}
+            Entregue
           </Button>
         )}
 
         {order.status === 'pending' && (
           <Button
+            title="Aprova para o preparo"
             variant="outline"
             size="xs"
             disabled={isApprovingOrder}
             onClick={() => approveOrderFn({ orderId: order.orderId })}
           >
-            Aprovar
             {isApprovingOrder ? (
-              <Loader2 className="ml-2 size-3 animate-spin" />
+              <Loader2 className="size-3 animate-spin" />
             ) : (
-              <ArrowRight className="ml-2 size-3" />
+              <ArrowRight className="size-3" />
             )}
+            Aprovar
           </Button>
         )}
-      </TableCell>
 
-      <TableCell>
-        <Dialog open={isCancelOrderOpen} onOpenChange={setIsCancelOrderOpen}>
-          {['pending', 'processing'].includes(order.status) && (
+        {order.status !== 'pending' && (
+          <Button
+            title="Marca como pendente"
+            variant="outline"
+            size="xs"
+            disabled={isResettingOrder}
+            onClick={() => resetOrderFn({ orderId: order.orderId })}
+          >
+            {isResettingOrder ? (
+              <Loader2 className="size-3 animate-spin" />
+            ) : (
+              <RefreshCcw className="size-3" />
+            )}
+            Reiniciar
+          </Button>
+        )}
+
+        {['pending', 'processing'].includes(order.status) && (
+          <Dialog open={isCancelOrderOpen} onOpenChange={setIsCancelOrderOpen}>
             <DialogTrigger asChild>
-              <Button variant="ghost" size="xs">
+              <Button title="Cancela o pedido" variant="outline" size="xs">
+                <Ban className="size-3" />
                 Cancelar
               </Button>
             </DialogTrigger>
-          )}
 
-          <CancelOrder
-            orderId={order.orderId}
-            onClose={() => setIsCancelOrderOpen(false)}
-          />
-        </Dialog>
+            <CancelOrder
+              orderId={order.orderId}
+              onClose={() => setIsCancelOrderOpen(false)}
+            />
+          </Dialog>
+        )}
       </TableCell>
     </TableRow>
   )

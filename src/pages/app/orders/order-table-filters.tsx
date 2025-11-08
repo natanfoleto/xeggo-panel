@@ -27,10 +27,10 @@ type OrderStatusType =
 
 const statusOptions: Array<{ value: OrderStatusType; label: string }> = [
   { value: 'pending', label: 'Pendente' },
-  { value: 'canceled', label: 'Cancelado' },
   { value: 'processing', label: 'Em preparo' },
   { value: 'delivering', label: 'Em entrega' },
   { value: 'delivered', label: 'Entregue' },
+  { value: 'canceled', label: 'Cancelado' },
 ]
 
 type QuickDateFilterType = 'today' | 'yesterday' | 'last7days'

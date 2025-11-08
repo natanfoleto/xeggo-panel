@@ -6,7 +6,6 @@ import { z } from 'zod'
 
 import { cancelOrder } from '@/api/orders/cancel-order'
 import type { GetOrdersResponse } from '@/api/orders/get-orders'
-import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormTextarea } from '@/components/form/form-text-area'
 import { Button } from '@/components/ui/button'
 import {
@@ -69,7 +68,7 @@ export function CancelOrder({ orderId, onClose }: CancelOrderProps) {
     mutationFn: cancelOrder,
     onSuccess: (_, { orderId }) => {
       updateOrderStatusOnCache(orderId)
-      appalert.success('Excelente', 'Pedido cancelado com sucesso.')
+
       onClose()
     },
   })
