@@ -248,7 +248,7 @@ export function UpdateAddress() {
               type="submit"
               disabled={isLoading || isSubmitting || !isDirty}
             >
-              {isSubmitting ? 'Salvando...' : 'Salvar'}
+              {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
             </Button>
           </div>
         </form>

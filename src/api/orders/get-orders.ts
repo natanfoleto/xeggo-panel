@@ -5,6 +5,8 @@ export interface GetOrdersQuery {
   customerName?: string | null
   orderId?: string | null
   status?: string | null
+  from?: string | null
+  to?: string | null
 }
 
 export interface GetOrdersResponse {
@@ -28,6 +30,8 @@ export async function getOrders({
   customerName,
   orderId,
   status,
+  from,
+  to,
 }: GetOrdersQuery) {
   const response = await api.auth.get<GetOrdersResponse>('/orders', {
     params: {
@@ -35,6 +39,8 @@ export async function getOrders({
       customerName,
       orderId,
       status,
+      from,
+      to,
     },
   })
 

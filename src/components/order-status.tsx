@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 type OrderStatus =
   | 'pending'
   | 'canceled'
@@ -7,6 +9,7 @@ type OrderStatus =
 
 interface OrderStatusProps {
   status: OrderStatus
+  className?: string
 }
 
 const orderStatusMap: Record<OrderStatus, string> = {
@@ -17,9 +20,11 @@ const orderStatusMap: Record<OrderStatus, string> = {
   delivered: 'Entregue',
 }
 
-export function OrderStatus({ status }: OrderStatusProps) {
+export function OrderStatus({ status, className }: OrderStatusProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div
+      className={cn('text-muted-foreground flex items-center gap-2', className)}
+    >
       {['pending'].includes(status) && (
         <span className="size-2 rounded-full bg-slate-400" />
       )}
@@ -36,9 +41,7 @@ export function OrderStatus({ status }: OrderStatusProps) {
         <span className="size-2 rounded-full bg-emerald-500" />
       )}
 
-      <span className="text-muted-foreground font-medium">
-        {orderStatusMap[status]}
-      </span>
+      <span className="font-medium">{orderStatusMap[status]}</span>
     </div>
   )
 }

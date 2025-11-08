@@ -25,6 +25,8 @@ export function Orders() {
   const orderId = searchParams.get('orderId')
   const customerName = searchParams.get('customerName')
   const status = searchParams.get('status')
+  const from = searchParams.get('from')
+  const to = searchParams.get('to')
 
   const pageIndex = z.coerce
     .number()
@@ -36,13 +38,15 @@ export function Orders() {
     isFetching: isFetchingOrders,
     isLoading: isLoadingOrders,
   } = useQuery({
-    queryKey: ['orders', customerName, orderId, status, pageIndex],
+    queryKey: ['orders', customerName, orderId, status, from, to, pageIndex],
     queryFn: () =>
       getOrders({
         pageIndex,
         customerName,
         orderId,
         status: status === 'all' ? null : status,
+        from,
+        to,
       }),
   })
 
@@ -66,7 +70,7 @@ export function Orders() {
           )}
         </h1>
 
-        <div className="space-y-2.5">
+        <div className="space-y-3">
           <OrderTableFilters />
 
           <div className="rounded-md border">
@@ -74,13 +78,13 @@ export function Orders() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-16"></TableHead>
-                  <TableHead className="w-[140px]">Identificador</TableHead>
-                  <TableHead className="w-[180px]">Realizado há</TableHead>
-                  <TableHead className="w-[140px]">Status</TableHead>
+                  <TableHead className="w-52">Identificador</TableHead>
+                  <TableHead className="w-28">Realizado há</TableHead>
+                  <TableHead className="w-36">Status</TableHead>
                   <TableHead>Cliente</TableHead>
-                  <TableHead className="w-[140px]">Total do pedido</TableHead>
-                  <TableHead className="w-[164px]"></TableHead>
-                  <TableHead className="w-[132px]"></TableHead>
+                  <TableHead className="w-36">Total do pedido</TableHead>
+                  <TableHead className="w-40"></TableHead>
+                  <TableHead className="w-32"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
