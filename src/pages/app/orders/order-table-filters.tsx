@@ -69,8 +69,11 @@ export function OrderTableFilters() {
   const currentStatus = watch('status')
   const watchedCustomerName = watch('customerName')
 
-  // Debounce para o nome do cliente
   useEffect(() => {
+    const currentCustomerNameInURL = searchParams.get('customerName') ?? ''
+
+    if (watchedCustomerName === currentCustomerNameInURL) return
+
     const timer = setTimeout(() => {
       setSearchParams((prev) => {
         if (watchedCustomerName) {
@@ -84,7 +87,7 @@ export function OrderTableFilters() {
     }, 500)
 
     return () => clearTimeout(timer)
-  }, [watchedCustomerName, setSearchParams])
+  }, [watchedCustomerName, searchParams, setSearchParams])
 
   function handleFilter(data: OrderFiltersSchema) {
     const orderId = data.orderId?.toString()
