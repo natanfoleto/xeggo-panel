@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { X } from 'lucide-react'
+import { Loader2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -70,7 +70,7 @@ export function RestaurantProfile() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors, isDirty },
+    formState: { errors, isDirty },
   } = useForm<RestaurantProfileSchema>({
     resolver: zodResolver(restaurantProfileSchema),
     values: {
@@ -122,35 +122,41 @@ export function RestaurantProfile() {
     return { cached }
   }
 
-  const { mutateAsync: updateRestaurantFn } = useMutation({
-    mutationFn: updateRestaurant,
-    onMutate: ({
-      name,
-      description,
-      primaryColor,
-    }: UpdateRestaurantPayload) => {
-      const { cached } = updateRestaurantDataOnCache({
+  const { mutateAsync: updateRestaurantFn, isPending: isUpdatingRestaurant } =
+    useMutation({
+      mutationFn: updateRestaurant,
+      onMutate: ({
         name,
         description,
         primaryColor,
-      })
+      }: UpdateRestaurantPayload) => {
+        const { cached } = updateRestaurantDataOnCache({
+          name,
+          description,
+          primaryColor,
+        })
 
-      return { previousRestaurant: cached }
-    },
-    onError(_, __, context) {
-      if (context?.previousRestaurant) {
-        updateRestaurantDataOnCache(context.previousRestaurant)
-      }
-    },
-  })
+        return { previousRestaurant: cached }
+      },
+      onError(_, __, context) {
+        if (context?.previousRestaurant) {
+          updateRestaurantDataOnCache(context.previousRestaurant)
+        }
+      },
+    })
 
-  const { mutateAsync: uploadAvatarFn } = useMutation({
-    mutationFn: uploadRestaurantAvatar,
-  })
+  const { mutateAsync: uploadAvatarFn, isPending: isUploadingAvatar } =
+    useMutation({
+      mutationFn: uploadRestaurantAvatar,
+    })
 
-  const { mutateAsync: deleteAvatarFn } = useMutation({
-    mutationFn: deleteRestaurantAvatar,
-  })
+  const { mutateAsync: deleteAvatarFn, isPending: isDeletingAvatar } =
+    useMutation({
+      mutationFn: deleteRestaurantAvatar,
+    })
+
+  const isLoading =
+    isUpdatingRestaurant || isUploadingAvatar || isDeletingAvatar
 
   async function handleUpdateRestaurant(data: RestaurantProfileSchema) {
     await updateRestaurantFn(data)
@@ -294,9 +300,9 @@ export function RestaurantProfile() {
             <Button
               type="submit"
               variant="success"
-              disabled={isLoadingRestaurant || isSubmitting || !hasChanges}
+              disabled={isLoadingRestaurant || isLoading || !hasChanges}
             >
-              {isSubmitting ? 'Salvando...' : 'Salvar'}
+              {!isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
             </Button>
           </DialogFooter>
         </form>

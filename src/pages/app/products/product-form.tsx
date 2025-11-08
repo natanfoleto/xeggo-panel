@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { ImageIcon, Plus, Trash2, X } from 'lucide-react'
+import { ImageIcon, Loader2, Plus, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
 import { type FieldErrors, useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -431,7 +431,11 @@ export function ProductForm({
           disabled={isLoading || isSubmitting || !isDirty}
           variant="default"
         >
-          {isSubmitting ? 'Salvando...' : 'Salvar produto'}
+          {isSubmitting ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            'Salvar produto'
+          )}
         </Button>
       </div>
     </form>

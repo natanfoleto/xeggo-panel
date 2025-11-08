@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -219,7 +220,7 @@ export function CouponForm({
 
       <div className="flex justify-end gap-2">
         <Button type="submit" disabled={isLoading || isSubmitting || !isDirty}>
-          {isSubmitting ? 'Salvando...' : 'Salvar cupom'}
+          {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar cupom'}
         </Button>
       </div>
     </form>

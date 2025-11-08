@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -295,7 +296,7 @@ export function OpeningHoursSettings() {
                 type="submit"
                 disabled={isLoading || isSubmitting || !isDirty}
               >
-                {isSubmitting ? 'Salvando...' : 'Salvar'}
+                {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
               </Button>
             </div>
           </form>

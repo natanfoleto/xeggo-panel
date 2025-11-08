@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -165,7 +166,7 @@ export function UpdateSegments() {
               type="submit"
               disabled={isLoading || isSubmitting || !isDirty}
             >
-              {isSubmitting ? 'Salvando...' : 'Salvar'}
+              {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
             </Button>
           </div>
         </form>

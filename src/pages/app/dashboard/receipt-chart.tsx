@@ -107,6 +107,7 @@ export function ReceiptChart() {
           <DateRangePicker date={period} onDateChange={setPeriod} />
         </div>
       </CardHeader>
+
       <CardContent>
         {dailyReceiptInPeriod ? (
           <>
@@ -134,7 +135,7 @@ export function ReceiptChart() {
                     }
                   />
 
-                  <CartesianGrid className="!stroke-muted" vertical={false} />
+                  <CartesianGrid className="stroke-muted!" vertical={false} />
 
                   <Line
                     type="linear"
@@ -147,10 +148,11 @@ export function ReceiptChart() {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-[240px] w-full flex-col items-center justify-center gap-0.5">
+              <div className="flex h-60 w-full flex-col items-center justify-center gap-0.5">
                 <span className="text-muted-foreground text-sm">
                   Nenhum resultado encontrado para o período.
                 </span>
+
                 <Button
                   variant="link"
                   size="xs"
@@ -163,11 +165,12 @@ export function ReceiptChart() {
             )}
           </>
         ) : dailyReceiptError ? (
-          <div className="flex h-[240px] w-full flex-col items-center justify-center gap-0.5">
+          <div className="flex h-60 w-full flex-col items-center justify-center gap-0.5">
             <span className="flex items-center gap-2 text-sm text-red-500 dark:text-red-400">
               <XCircle className="h-4 w-4" />
               Erro ao obter dados do período.
             </span>
+
             <Button
               variant="link"
               size="xs"
@@ -178,7 +181,7 @@ export function ReceiptChart() {
             </Button>
           </div>
         ) : (
-          <div className="flex h-[240px] w-full items-center justify-center">
+          <div className="flex h-60 w-full items-center justify-center">
             <Loader2 className="text-muted-foreground size-8 animate-spin" />
           </div>
         )}
