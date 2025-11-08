@@ -83,8 +83,7 @@ export function Orders() {
                   <TableHead className="w-36">Status</TableHead>
                   <TableHead>Cliente</TableHead>
                   <TableHead className="w-36">Total do pedido</TableHead>
-                  <TableHead className="w-40"></TableHead>
-                  <TableHead className="w-32"></TableHead>
+                  <TableHead className="w-[348px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
