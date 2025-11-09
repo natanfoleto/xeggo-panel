@@ -2,7 +2,7 @@ import { AlertCircle } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 
 import { signInWithGoogle } from '@/api/auth/sign-in-with-google'
-import { GoogleIcon } from '@/components/google-icon'
+import { GoogleIcon } from '@/components/icon/google-icon'
 import { Button } from '@/components/ui/button'
 import {
   Card,

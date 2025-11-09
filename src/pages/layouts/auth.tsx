@@ -1,5 +1,6 @@
-import { Smile } from 'lucide-react'
 import { Outlet } from 'react-router-dom'
+
+import { LogoIcon } from '@/components/icon/logo-icon'
 
 export function AuthLayout() {
   return (
@@ -10,7 +11,7 @@ export function AuthLayout() {
         </div>
 
         <div className="flex flex-1 flex-col items-center justify-center gap-3 text-zinc-100">
-          <Smile className="size-16 stroke-1" />
+          <LogoIcon className="size-20" />
 
           <div className="text-center">
             <h1 className="text-3xl">
@@ -28,7 +29,8 @@ export function AuthLayout() {
         </div>
       </div>
 
-      <div className="relative flex min-h-screen flex-col items-center justify-center">
+      <div className="relative flex min-h-screen flex-col items-center justify-center gap-2">
+        <LogoIcon className="size-14 lg:hidden" />
         <Outlet />
       </div>
     </div>
