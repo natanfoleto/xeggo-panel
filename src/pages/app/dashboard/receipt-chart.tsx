@@ -91,8 +91,8 @@ export function ReceiptChart() {
   }
 
   return (
-    <Card className="col-span-6">
-      <CardHeader className="flex flex-row items-center justify-between pb-8">
+    <Card className="col-span-8">
+      <CardHeader className="flex flex-col items-center justify-between gap-4 pb-8 sm:flex-row">
         <div className="space-y-1">
           <CardTitle className="flex items-center gap-2 text-base font-medium">
             Receita no período
@@ -102,7 +102,8 @@ export function ReceiptChart() {
           </CardTitle>
           <CardDescription>Receita diária no período</CardDescription>
         </div>
-        <div className="flex items-center gap-3">
+
+        <div className="flex items-center gap-2">
           <Label>Período</Label>
           <DateRangePicker date={period} onDateChange={setPeriod} />
         </div>

@@ -36,7 +36,7 @@ export function UpdateCoupon({ couponId }: UpdateCouponProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-[600px]">
+      <DialogContent className="min-w-11/12 sm:min-w-1/3">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {isFetching ? (

@@ -23,15 +23,16 @@ export function Pagination({
   const pages = Math.ceil(totalCount / perPage) || 1
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-wrap items-center justify-between gap-2">
       <span className="text-muted-foreground text-sm">
         Total de {totalCount} item(s)
       </span>
 
-      <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+      <div className="flex flex-wrap items-center gap-2 space-x-2 lg:space-x-4">
+        <div className="flex items-center justify-center text-sm font-medium">
           Página {pageIndex + 1} de {pages}
         </div>
+
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
@@ -42,6 +43,7 @@ export function Pagination({
             <span className="sr-only">Primeira página</span>
             <ChevronsLeft className="h-4 w-4" />
           </Button>
+
           <Button
             variant="outline"
             className="size-8 p-0"
@@ -51,6 +53,7 @@ export function Pagination({
             <span className="sr-only">Página anterior</span>
             <ChevronLeft className="h-4 w-4" />
           </Button>
+
           <Button
             variant="outline"
             className="size-8 p-0"
@@ -60,6 +63,7 @@ export function Pagination({
             <span className="sr-only">Próxima página</span>
             <ChevronRight className="h-4 w-4" />
           </Button>
+
           <Button
             variant="outline"
             className="hidden size-8 p-0 lg:flex"

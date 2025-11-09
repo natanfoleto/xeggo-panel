@@ -52,7 +52,7 @@ export function Categories() {
       <Helmet title="Categorias" />
 
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
             Categorias
             {isFetchingCategories && (

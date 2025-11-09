@@ -53,12 +53,12 @@ export function SignIn() {
   }
 
   return (
-    <div className="lg:p-8">
+    <div className="px-8 lg:p-8">
       <a
         href="/sign-up"
         className={twMerge(
           buttonVariants({ variant: 'ghost' }),
-          'absolute top-4 right-4 md:top-8 md:right-8',
+          'absolute top-8 right-8',
         )}
       >
         Novo restaurante
