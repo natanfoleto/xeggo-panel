@@ -1,7 +1,6 @@
 import {
-  Home,
+  ChartPie,
   Menu,
-  PackageOpen,
   Pizza,
   Settings,
   SquareChartGantt,
@@ -11,6 +10,7 @@ import {
 import { useState } from 'react'
 
 import { AccountMenu } from './account-menu'
+import { LogoIcon } from './icon/logo-icon'
 import { NavLink } from './nav-link'
 import { ModeToggle } from './theme-toggle'
 import { Button } from './ui/button'
@@ -29,14 +29,18 @@ export function Header() {
   return (
     <div className="border-b">
       <div className="flex h-16 items-center gap-6 px-6">
-        <PackageOpen className="hidden size-6 lg:block" />
+        <div className="hidden lg:block">
+          <NavLink to="/">
+            <LogoIcon className="size-8 text-violet-400" />
+          </NavLink>
+        </div>
 
-        <Separator orientation="vertical" className="hidden h-6 lg:block" />
+        <Separator orientation="vertical" className="hidden h-6! lg:block" />
 
         <nav className="hidden items-center space-x-4 lg:flex lg:space-x-6">
           <NavLink to="/">
-            <Home className="size-4" />
-            Início
+            <ChartPie className="size-4" />
+            Dashboard
           </NavLink>
 
           <NavLink to="/orders">
@@ -79,7 +83,7 @@ export function Header() {
 
             <nav className="flex flex-col space-y-4 px-4">
               <NavLink to="/" onClick={() => setIsOpen(false)}>
-                Início
+                Dashboard
               </NavLink>
 
               <NavLink to="/orders" onClick={() => setIsOpen(false)}>
