@@ -24,6 +24,7 @@ export function MonthReceiptCard() {
           <DollarSign className="text-muted-foreground size-4" />
         )}
       </CardHeader>
+
       <CardContent className="space-y-1">
         {monthReceipt ? (
           <>
