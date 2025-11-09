@@ -59,10 +59,12 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
         {product.description || 'Sem descrição'}
       </TableCell>
 
-      <TableCell className="text-muted-foreground flex gap-2">
-        <UpdateProduct productId={product.id} />
-        <CopyProduct productId={product.id} productName={product.name} />
-        <DeleteProduct productId={product.id} productName={product.name} />
+      <TableCell className="text-muted-foreground">
+        <div className="flex h-full items-center gap-2">
+          <UpdateProduct productId={product.id} />
+          <CopyProduct productId={product.id} productName={product.name} />
+          <DeleteProduct productId={product.id} productName={product.name} />
+        </div>
       </TableCell>
     </TableRow>
   )

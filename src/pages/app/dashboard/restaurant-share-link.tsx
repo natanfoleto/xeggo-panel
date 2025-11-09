@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { Download, MessageCircle, QrCode } from 'lucide-react'
+import { Download, Link, MessageCircle, QrCode } from 'lucide-react'
 import { QRCodeCanvas } from 'qrcode.react'
 import { useState } from 'react'
 
@@ -93,45 +93,37 @@ export function RestaurantShareLink() {
     <>
       <Card>
         <CardHeader className="space-y-0 pb-3">
-          <CardTitle className="text-base font-semibold">
+          <CardTitle className="flex items-center justify-between text-base font-semibold">
             Link do cardápio
+            <Link className="text-muted-foreground size-4" />
           </CardTitle>
+
           <p className="text-muted-foreground text-xs">
             Compartilhe este link com seus clientes
           </p>
         </CardHeader>
 
-        <CardContent className="space-y-3">
-          <div className="flex gap-2">
+        <CardContent>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button variant="outline" onClick={handleShareWhatsApp}>
+              <MessageCircle className="size-4" />
+              WhatsApp
+            </Button>
+
+            <Button variant="outline" onClick={() => setShowQRDialog(true)}>
+              <QrCode className="size-4" />
+              QR Code
+            </Button>
+
             <Input
               readOnly
               value={restaurantUrl}
-              className="cursor-pointer font-mono text-xs"
+              className="cursor-pointer text-center font-mono sm:text-left"
               onClick={(e) => {
                 e.currentTarget.select()
                 handleCopyLink()
               }}
             />
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handleShareWhatsApp}
-            >
-              <MessageCircle className="size-4" />
-              WhatsApp
-            </Button>
-
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => setShowQRDialog(true)}
-            >
-              <QrCode className="size-4" />
-              QR Code
-            </Button>
           </div>
         </CardContent>
       </Card>
