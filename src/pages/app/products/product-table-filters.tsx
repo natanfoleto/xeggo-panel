@@ -98,9 +98,8 @@ export function ProductTableFilters() {
   return (
     <form
       onSubmit={handleSubmit(handleFilter)}
-      className="flex items-center gap-2"
+      className="flex flex-wrap items-center gap-2"
     >
-      <span className="text-sm font-semibold">Filtros:</span>
       <Input
         placeholder="Nome do produto"
         className="h-8 w-[320px]"

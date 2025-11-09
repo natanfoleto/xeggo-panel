@@ -59,7 +59,7 @@ export function PopularProductsChart() {
     })
 
   return (
-    <Card className="col-span-3">
+    <Card className="col-span-4">
       <CardHeader className="pb-8">
         <div className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-base font-medium">
@@ -144,7 +144,7 @@ export function PopularProductsChart() {
             </PieChart>
           </ResponsiveContainer>
         ) : (
-          <div className="flex h-[240px] w-full items-center justify-center">
+          <div className="flex h-60 w-full items-center justify-center">
             <Loader2 className="text-muted-foreground size-8 animate-spin" />
           </div>
         )}

@@ -17,7 +17,7 @@ export function NewCoupon() {
         <Button variant="outline">Novo cupom</Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-[600px]">
+      <DialogContent className="min-w-11/12 sm:min-w-1/3">
         <DialogHeader>
           <DialogTitle>Novo cupom</DialogTitle>
           <DialogDescription>

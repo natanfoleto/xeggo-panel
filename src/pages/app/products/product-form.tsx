@@ -249,7 +249,7 @@ export function ProductForm({
         </TabsList>
 
         <TabsContent value="data" className="grid grid-cols-12 gap-4 py-4">
-          <div className="col-span-8 space-y-1.5">
+          <div className="col-span-12 space-y-1.5 md:col-span-8">
             <Label htmlFor="name">Nome</Label>
             <FormInput
               id="name"
@@ -260,7 +260,7 @@ export function ProductForm({
             />
           </div>
 
-          <div className="col-span-4 space-y-1.5">
+          <div className="col-span-12 space-y-1.5 md:col-span-4">
             <Label htmlFor="categoryId">Categoria</Label>
 
             <FormSelect

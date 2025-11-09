@@ -57,31 +57,31 @@ export function CategoryTableFilters() {
   return (
     <form
       onSubmit={handleSubmit(handleFilter)}
-      className="flex items-center gap-2"
+      className="flex flex-col items-center gap-2 md:flex-row"
     >
-      <span className="text-sm font-semibold">Filtros:</span>
-
       <Input
         placeholder="Nome da categoria"
-        className="h-8 w-[320px]"
+        className="h-8 w-full md:w-[320px]"
         {...register('categoryName')}
       />
 
-      <Button type="submit" variant="secondary" size="xs">
-        <Search className="h-4 w-4" />
-        Filtrar resultados
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        <Button type="submit" variant="secondary" size="xs">
+          <Search className="size-4" />
+          Filtrar resultados
+        </Button>
 
-      <Button
-        type="button"
-        variant="outline"
-        size="xs"
-        disabled={!hasAnyFilter}
-        onClick={handleClearFilters}
-      >
-        <X className="h-4 w-4" />
-        Remover filtros
-      </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="xs"
+          disabled={!hasAnyFilter}
+          onClick={handleClearFilters}
+        >
+          <X className="size-4" />
+          Remover filtros
+        </Button>
+      </div>
     </form>
   )
 }

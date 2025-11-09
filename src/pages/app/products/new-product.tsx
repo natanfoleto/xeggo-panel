@@ -17,7 +17,7 @@ export function NewProduct() {
         <Button variant="outline">Novo produto</Button>
       </DialogTrigger>
 
-      <DialogContent className="flex h-11/12 min-w-2/3 flex-col overflow-y-auto">
+      <DialogContent className="flex h-11/12 min-w-11/12 flex-col overflow-y-auto lg:min-w-2/3">
         <DialogHeader>
           <DialogTitle>Novo produto</DialogTitle>
           <DialogDescription>

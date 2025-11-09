@@ -205,13 +205,13 @@ export function OrderTableFilters() {
     !!period?.to
 
   return (
-    <form onSubmit={handleSubmit(handleFilter)} className="space-y-2">
-      <div className="flex items-center justify-between gap-2">
+    <form onSubmit={handleSubmit(handleFilter)} className="flex flex-col gap-8">
+      <div className="flex flex-col gap-2 lg:flex-row">
         <div className="flex items-center gap-2">
-          <div className="relative">
+          <div className="relative w-64">
             <Input
               placeholder="ID do pedido"
-              className="h-8 w-64"
+              className="h-8"
               {...register('orderId')}
             />
 
@@ -227,7 +227,7 @@ export function OrderTableFilters() {
 
           <Input
             placeholder="Nome do cliente"
-            className="h-8 w-96"
+            className="h-8 w-full lg:w-96"
             {...register('customerName')}
           />
         </div>
@@ -244,8 +244,8 @@ export function OrderTableFilters() {
         </Button>
       </div>
 
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col justify-between gap-2 xl:flex-row xl:items-center">
+        <div className="flex flex-wrap items-center gap-2">
           {statusOptions.map((option) => (
             <Button
               key={option.value}
@@ -253,6 +253,7 @@ export function OrderTableFilters() {
               variant={currentStatus === option.value ? 'default' : 'outline'}
               size="xs"
               onClick={() => handleStatusChange(option.value)}
+              className="w-auto"
             >
               <OrderStatus
                 status={option.value}
@@ -266,7 +267,7 @@ export function OrderTableFilters() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             type="button"
             variant={activeQuickFilter === 'today' ? 'default' : 'outline'}

@@ -266,29 +266,25 @@ export function OpeningHoursSettings() {
 
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            <div className="overflow-x-auto">
-              <div className="inline-grid min-w-full grid-cols-7 gap-4">
-                {weekDayOptions.map((day) => (
-                  <div key={day} className="text-center">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+              {weekDayOptions.map((day) => (
+                <div key={day} className="flex flex-col gap-2">
+                  <div className="text-center">
                     <div className="font-semibold">{weekDayLabels[day]}</div>
-
                     <span className="text-muted-foreground text-xs">
                       Aberto por {calculateTotalHours(day)}
                     </span>
                   </div>
-                ))}
 
-                {weekDayOptions.map((day) => (
                   <button
-                    key={day}
                     type="button"
                     onClick={() => handleOpenDialog(day)}
-                    className="hover:bg-muted min-h-[120px] cursor-pointer rounded-lg border p-2 transition-colors"
+                    className="hover:bg-muted min-h-[120px] flex-1 cursor-pointer rounded-lg border p-2 transition-colors"
                   >
                     {renderDaySchedule(day)}
                   </button>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
 
             <div className="flex items-center justify-end gap-2">

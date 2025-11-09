@@ -77,10 +77,8 @@ export function CouponTableFilters() {
   return (
     <form
       onSubmit={handleSubmit(handleFilter)}
-      className="flex items-center gap-2"
+      className="flex flex-wrap items-center gap-2"
     >
-      <span className="text-sm font-semibold">Filtros:</span>
-
       <Input
         placeholder="Código do cupom"
         className="h-8 w-[200px]"

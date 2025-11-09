@@ -101,7 +101,7 @@ export function CouponForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="code">Código</Label>
           <FormInput
@@ -133,7 +133,7 @@ export function CouponForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="value">
             {couponType === 'percentage' ? 'Porcentagem (%)' : 'Valor'}
@@ -190,7 +190,7 @@ export function CouponForm({
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="expiresAt">Data de expiração</Label>
           <FormInput
