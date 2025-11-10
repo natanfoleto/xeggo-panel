@@ -5,8 +5,8 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { getSegments, type Segment } from '@/api/restaurants/get-segments'
-import { updateSegments } from '@/api/restaurants/update-segments'
+import { getSegments, type Segment } from '@/api/manager/restaurants/get-segments'
+import { updateSegments } from '@/api/manager/restaurants/update-segments'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {

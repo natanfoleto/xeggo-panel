@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { DollarSign, Loader2 } from 'lucide-react'
 
-import { getMonthReceipt } from '@/api/metrics/get-month-receipt'
+import { getMonthReceipt } from '@/api/manager/metrics/get-month-receipt'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { CardSkeleton } from './card-skeleton'

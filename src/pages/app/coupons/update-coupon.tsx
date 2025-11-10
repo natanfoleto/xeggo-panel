@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Loader2, Pencil } from 'lucide-react'
 
-import { getCoupon } from '@/api/coupons/get-coupon'
+import { getCoupon } from '@/api/manager/coupons/get-coupon'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Loader2, Utensils } from 'lucide-react'
 
-import { getMonthOrdersAmount } from '@/api/metrics/get-month-orders-amount'
+import { getMonthOrdersAmount } from '@/api/manager/metrics/get-month-orders-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { CardSkeleton } from './card-skeleton'

@@ -8,8 +8,8 @@ import { z } from 'zod'
 import {
   getOpeningHours,
   type WeekDay,
-} from '@/api/restaurants/get-opening-hours'
-import { updateOpeningHours } from '@/api/restaurants/update-opening-hours'
+} from '@/api/manager/restaurants/get-opening-hours'
+import { updateOpeningHours } from '@/api/manager/restaurants/update-opening-hours'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {

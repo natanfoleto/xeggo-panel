@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { getCoupons } from '@/api/coupons/get-coupons'
+import { getCoupons } from '@/api/manager/coupons/get-coupons'
 import { Pagination } from '@/components/pagination'
 import {
   Table,

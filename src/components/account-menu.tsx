@@ -2,9 +2,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { Building, ChevronDown, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-import { signOut } from '@/api/auth/sign-out'
-import { getManagerProfile } from '@/api/managers/get-manager-profile'
-import { getManagedRestaurant } from '@/api/restaurants/get-managed-restaurant'
+import { getProfile } from '@/api/manager/profile/get-profile'
+import { getManagedRestaurant } from '@/api/manager/restaurants/get-managed-restaurant'
+import { signOut } from '@/api/public/authentication/sign-out'
 
 import { RestaurantProfile } from './restaurant-profile'
 import { Button } from './ui/button'
@@ -25,7 +25,7 @@ export function AccountMenu() {
 
   const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['me'],
-    queryFn: getManagerProfile,
+    queryFn: getProfile,
     staleTime: Infinity,
   })
 

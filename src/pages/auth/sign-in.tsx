@@ -7,8 +7,8 @@ import { useSearchParams } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
-import { signInWithGoogle } from '@/api/auth/sign-in-with-google'
-import { signInWithLink } from '@/api/auth/sign-in-with-link'
+import { authenticateFromGoogle } from '@/api/public/authentication/authenticate-from-google'
+import { authenticateFromLink } from '@/api/public/authentication/authenticate-from-link'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { GoogleIcon } from '@/components/icon/google-icon'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -39,12 +39,12 @@ export function SignIn() {
     },
   })
 
-  const { mutateAsync: authenticateWithLink } = useMutation({
-    mutationFn: signInWithLink,
+  const { mutateAsync: authenticateFromLinkFn } = useMutation({
+    mutationFn: authenticateFromLink,
   })
 
-  async function handleAuthenticateWithLink({ email }: SignInSchema) {
-    await authenticateWithLink({ email })
+  async function handleAuthenticateFromLink({ email }: SignInSchema) {
+    await authenticateFromLinkFn({ email })
 
     appalert.info(
       'Excelente',
@@ -77,7 +77,7 @@ export function SignIn() {
         <div className="grid gap-6">
           {showEmailForm ? (
             <div className="grid gap-4">
-              <form onSubmit={handleSubmit(handleAuthenticateWithLink)}>
+              <form onSubmit={handleSubmit(handleAuthenticateFromLink)}>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Seu e-mail</Label>
@@ -117,7 +117,10 @@ export function SignIn() {
                 Continuar com e-mail
               </Button>
 
-              <Button onClick={() => signInWithGoogle()} variant="secondary">
+              <Button
+                onClick={() => authenticateFromGoogle()}
+                variant="secondary"
+              >
                 <GoogleIcon />
                 Continuar com Google
               </Button>

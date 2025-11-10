@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
-import { updateStatusCoupon } from '@/api/coupons/update-status-coupon'
+import { updateStatusCoupon } from '@/api/manager/coupons/update-status-coupon'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,

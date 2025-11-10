@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { getCategories } from '@/api/categories/get-categories'
+import { getCategories } from '@/api/manager/categories/get-categories'
 import { Pagination } from '@/components/pagination'
 import {
   Table,

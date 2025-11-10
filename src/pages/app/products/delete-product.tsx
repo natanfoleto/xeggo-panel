@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Loader2, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
-import { deleteProduct } from '@/api/products/delete-product'
+import { deleteProduct } from '@/api/manager/products/delete-product'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,

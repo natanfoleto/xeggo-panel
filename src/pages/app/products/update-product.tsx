@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Loader2, Pencil } from 'lucide-react'
 
-import { getProduct } from '@/api/products/get-product'
+import { getProduct } from '@/api/manager/products/get-product'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { deleteRestaurantAvatar } from '@/api/restaurants/delete-restaurant-avatar'
+import { deleteAvatar } from '@/api/manager/restaurants/delete-avatar'
 import {
   getManagedRestaurant,
   type GetManagedRestaurantResponse,
-} from '@/api/restaurants/get-managed-restaurant'
-import { updateRestaurant } from '@/api/restaurants/update-restaurant'
-import { uploadRestaurantAvatar } from '@/api/restaurants/upload-restaurant-avatar'
+} from '@/api/manager/restaurants/get-managed-restaurant'
+import { updateRestaurant } from '@/api/manager/restaurants/update-restaurant'
+import { uploadAvatar } from '@/api/manager/restaurants/upload-avatar'
 import { getInitialsName } from '@/utils/get-initials-name'
 
 import { FormInput } from './form/form-input'
@@ -147,12 +147,12 @@ export function RestaurantProfile() {
 
   const { mutateAsync: uploadAvatarFn, isPending: isUploadingAvatar } =
     useMutation({
-      mutationFn: uploadRestaurantAvatar,
+      mutationFn: uploadAvatar,
     })
 
   const { mutateAsync: deleteAvatarFn, isPending: isDeletingAvatar } =
     useMutation({
-      mutationFn: deleteRestaurantAvatar,
+      mutationFn: deleteAvatar,
     })
 
   const isLoading =
@@ -302,7 +302,7 @@ export function RestaurantProfile() {
               variant="success"
               disabled={isLoadingRestaurant || isLoading || !hasChanges}
             >
-              {!isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+              {isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
             </Button>
           </DialogFooter>
         </form>

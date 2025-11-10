@@ -8,8 +8,8 @@ import { z } from 'zod'
 import {
   getPaymentMethods,
   type PaymentMethod,
-} from '@/api/restaurants/get-payment-methods'
-import { updatePaymentMethods } from '@/api/restaurants/update-payment-methods'
+} from '@/api/manager/restaurants/get-payment-methods'
+import { updatePaymentMethods } from '@/api/manager/restaurants/update-payment-methods'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {

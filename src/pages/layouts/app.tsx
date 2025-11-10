@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react'
 import { useLayoutEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { authCheckManager } from '@/api/managers/auth-check-manager'
+import { authCheck } from '@/api/manager/profile/auth-check'
 import { Header } from '@/components/header'
 import { api } from '@/lib/axios'
 
@@ -13,7 +13,7 @@ export function AppLayout() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['auth-check'],
-    queryFn: authCheckManager,
+    queryFn: authCheck,
     retry: false,
     staleTime: Infinity,
   })
@@ -27,7 +27,7 @@ export function AppLayout() {
   }, [isAuthenticated, isLoading, navigate])
 
   useLayoutEffect(() => {
-    const interceptorId = api.auth.interceptors.response.use(
+    const interceptorId = api.manager.interceptors.response.use(
       (response) => response,
       (error) => {
         if (isAxiosError(error)) {
@@ -46,7 +46,7 @@ export function AppLayout() {
     )
 
     return () => {
-      api.auth.interceptors.response.eject(interceptorId)
+      api.manager.interceptors.response.eject(interceptorId)
     }
   }, [navigate])
 

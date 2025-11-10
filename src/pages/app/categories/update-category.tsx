@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Loader2, Pencil } from 'lucide-react'
 
-import { getCategory } from '@/api/categories/get-category'
+import { getCategory } from '@/api/manager/categories/get-category'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
