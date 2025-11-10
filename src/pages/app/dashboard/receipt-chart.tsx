@@ -14,7 +14,7 @@ import {
 } from 'recharts'
 import colors from 'tailwindcss/colors'
 
-import { getDailyReceiptInPeriod } from '@/api/metrics/get-daily-receipt-in-period'
+import { getDailyReceiptInPeriod } from '@/api/manager/metrics/get-daily-receipt-in-period'
 import { Button } from '@/components/ui/button'
 import {
   Card,

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Loader2, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
-import { deleteCategory } from '@/api/categories/delete-category'
+import { deleteCategory } from '@/api/manager/categories/delete-category'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,

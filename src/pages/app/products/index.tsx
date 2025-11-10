@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { getProducts } from '@/api/products/get-products'
+import { getProducts } from '@/api/manager/products/get-products'
 import { Pagination } from '@/components/pagination'
 import {
   Table,

@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { getCategories } from '@/api/categories/get-categories'
+import { getCategories } from '@/api/manager/categories/get-categories'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {

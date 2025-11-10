@@ -89,6 +89,26 @@ export function OrderTableFilters() {
     return () => clearTimeout(timer)
   }, [watchedCustomerName, searchParams, setSearchParams])
 
+  useEffect(() => {
+    if (period?.from && period?.to) {
+      setSearchParams((prev) => {
+        prev.set('from', period.from!.toISOString())
+        prev.set('to', period.to!.toISOString())
+        prev.set('page', '1')
+
+        return prev
+      })
+    } else if (!period?.from && !period?.to) {
+      setSearchParams((prev) => {
+        prev.delete('from')
+        prev.delete('to')
+        prev.set('page', '1')
+
+        return prev
+      })
+    }
+  }, [period, setSearchParams])
+
   function handleFilter(data: OrderFiltersSchema) {
     const orderId = data.orderId?.toString()
     const customerName = data.customerName?.toString()

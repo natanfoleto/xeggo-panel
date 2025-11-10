@@ -3,7 +3,7 @@ import { Download, Link, MessageCircle, QrCode } from 'lucide-react'
 import { QRCodeCanvas } from 'qrcode.react'
 import { useState } from 'react'
 
-import { getManagedRestaurant } from '@/api/restaurants/get-managed-restaurant'
+import { getManagedRestaurant } from '@/api/manager/restaurants/get-managed-restaurant'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

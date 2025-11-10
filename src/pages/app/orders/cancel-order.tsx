@@ -4,8 +4,8 @@ import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { cancelOrder } from '@/api/orders/cancel-order'
-import type { GetOrdersResponse } from '@/api/orders/get-orders'
+import { cancelOrder } from '@/api/manager/orders/cancel-order'
+import type { GetOrdersResponse } from '@/api/manager/orders/get-orders'
 import { FormTextarea } from '@/components/form/form-text-area'
 import { Button } from '@/components/ui/button'
 import {

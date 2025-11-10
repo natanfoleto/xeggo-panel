@@ -1,7 +1,7 @@
 import { AlertCircle } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 
-import { signInWithGoogle } from '@/api/auth/sign-in-with-google'
+import { authenticateFromGoogle } from '@/api/public/authentication/authenticate-from-google'
 import { GoogleIcon } from '@/components/icon/google-icon'
 import { Button } from '@/components/ui/button'
 import {
@@ -44,7 +44,7 @@ export function WrongAccount() {
 
             <div className="space-y-2">
               <Button
-                onClick={() => signInWithGoogle({ selectAccount: true })}
+                onClick={() => authenticateFromGoogle({ selectAccount: true })}
                 className="w-full"
                 variant="secondary"
               >

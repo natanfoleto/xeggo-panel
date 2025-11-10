@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
-import { RegisterRestaurant } from '@/api/restaurants/register-restaurant'
+import { registerRestaurant } from '@/api/public/restaurants/register-restaurant'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
 import { FormPhoneInput } from '@/components/form/form-phone-input'
@@ -42,8 +42,8 @@ export function SignUp() {
     },
   })
 
-  const { mutateAsync: registerRestaurant } = useMutation({
-    mutationFn: RegisterRestaurant,
+  const { mutateAsync: registerRestaurantFn } = useMutation({
+    mutationFn: registerRestaurant,
   })
 
   async function handleRegisteRestaurant({
@@ -52,7 +52,7 @@ export function SignUp() {
     email,
     phone,
   }: SignUpSchema) {
-    await registerRestaurant({ restaurantName, managerName, email, phone })
+    await registerRestaurantFn({ restaurantName, managerName, email, phone })
 
     appalert.success(
       'Restaurante cadastrado',

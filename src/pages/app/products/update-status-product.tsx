@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
-import { updateStatusProduct } from '@/api/products/update-status-product'
+import { updateStatusProduct } from '@/api/manager/products/update-status-product'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,

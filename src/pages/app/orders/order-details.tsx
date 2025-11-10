@@ -4,7 +4,7 @@ import { ptBR } from 'date-fns/locale'
 import { Loader2 } from 'lucide-react'
 import React from 'react'
 
-import { getOrderDetails } from '@/api/orders/get-order-details'
+import { getOrderDetails } from '@/api/manager/orders/get-order-details'
 import { OrderStatus } from '@/components/order-status'
 import {
   Accordion,

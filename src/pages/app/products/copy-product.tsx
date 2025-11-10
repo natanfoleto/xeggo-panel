@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Copy, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
-import { copyProduct } from '@/api/products/copy-product'
-import { getProduct } from '@/api/products/get-product'
+import { copyProduct } from '@/api/manager/products/copy-product'
+import { getProduct } from '@/api/manager/products/get-product'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import {
   AlertDialog,
