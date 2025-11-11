@@ -10,7 +10,7 @@ import {
 import { useState } from 'react'
 
 import { AccountMenu } from './account-menu'
-import { LogoIcon } from './icon/logo-icon'
+import { BrandIcon } from './icon/brand-icon'
 import { NavLink } from './nav-link'
 import { ModeToggle } from './theme-toggle'
 import { Button } from './ui/button'
@@ -31,7 +31,7 @@ export function Header() {
       <div className="flex h-16 items-center gap-6 px-6">
         <div className="hidden lg:block">
           <NavLink to="/">
-            <LogoIcon className="size-8 text-violet-400" />
+            <BrandIcon className="size-7 fill-violet-400" />
           </NavLink>
         </div>
 
