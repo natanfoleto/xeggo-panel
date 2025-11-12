@@ -8,7 +8,7 @@ import { z } from 'zod'
 import { deleteAvatar } from '@/api/manager/restaurants/delete-avatar'
 import {
   getManagedRestaurant,
-  type GetManagedRestaurantResponse,
+  type ManagedRestaurant,
 } from '@/api/manager/restaurants/get-managed-restaurant'
 import { updateRestaurant } from '@/api/manager/restaurants/update-restaurant'
 import { uploadAvatar } from '@/api/manager/restaurants/upload-avatar'
@@ -54,18 +54,21 @@ type UpdateRestaurantPayload = Omit<RestaurantProfileSchema, 'avatarUrl'>
 export function RestaurantProfile() {
   const queryClient = useQueryClient()
 
-  const { data: restaurant, isLoading: isLoadingRestaurant } = useQuery({
-    queryKey: ['managed-restaurant'],
-    queryFn: getManagedRestaurant,
-    staleTime: Infinity,
-  })
+  const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
+    useQuery({
+      queryKey: ['managed-restaurant'],
+      queryFn: getManagedRestaurant,
+      staleTime: Infinity,
+    })
 
   const [avatar, setAvatar] = useState<File | string | null>(
-    restaurant?.avatarUrl || null,
+    managedRestaurant?.restaurant?.avatarUrl || null,
   )
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [isAvatarDirty, setIsAvatarDirty] = useState(false)
   const [showNameChangeAlert, setShowNameChangeAlert] = useState(false)
+
+  const restaurant = managedRestaurant?.restaurant
 
   const {
     register,
@@ -103,20 +106,17 @@ export function RestaurantProfile() {
     description,
     primaryColor,
   }: RestaurantProfileSchema) {
-    const cached = queryClient.getQueryData<GetManagedRestaurantResponse>([
+    const cached = queryClient.getQueryData<ManagedRestaurant>([
       'managed-restaurant',
     ])
 
     if (cached) {
-      queryClient.setQueryData<GetManagedRestaurantResponse>(
-        ['managed-restaurant'],
-        {
-          ...cached,
-          name,
-          description,
-          primaryColor,
-        },
-      )
+      queryClient.setQueryData<ManagedRestaurant>(['managed-restaurant'], {
+        ...cached,
+        name,
+        description,
+        primaryColor,
+      })
     }
 
     return { cached }
@@ -257,7 +257,7 @@ export function RestaurantProfile() {
               </Label>
               <FormInput
                 id="name"
-                disabled={isLoadingRestaurant}
+                disabled={isLoadingManagedRestaurant}
                 {...register('name')}
                 error={errors.name?.message}
               />
@@ -270,7 +270,7 @@ export function RestaurantProfile() {
               <FormInput
                 id="primaryColor"
                 type="color"
-                disabled={isLoadingRestaurant}
+                disabled={isLoadingManagedRestaurant}
                 {...register('primaryColor')}
                 error={errors.primaryColor?.message}
               />
@@ -283,7 +283,7 @@ export function RestaurantProfile() {
               <FormTextarea
                 id="description"
                 className="min-h-[100px]"
-                disabled={isLoadingRestaurant}
+                disabled={isLoadingManagedRestaurant}
                 {...register('description')}
                 error={errors.description?.message}
               />
@@ -300,7 +300,7 @@ export function RestaurantProfile() {
             <Button
               type="submit"
               variant="success"
-              disabled={isLoadingRestaurant || isLoading || !hasChanges}
+              disabled={isLoadingManagedRestaurant || isLoading || !hasChanges}
             >
               {isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
             </Button>

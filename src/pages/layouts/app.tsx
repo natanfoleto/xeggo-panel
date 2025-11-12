@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 import { authCheck } from '@/api/manager/profile/auth-check'
 import { Header } from '@/components/header'
+import { TrialAlert } from '@/components/trial-alert'
 import { api } from '@/lib/axios'
 
 export function AppLayout() {
@@ -63,6 +64,7 @@ export function AppLayout() {
 
   return (
     <div className="flex min-h-screen flex-col antialiased">
+      <TrialAlert />
       <Header />
 
       <div className="flex flex-1 flex-col gap-4 p-6">

@@ -70,7 +70,7 @@ export function ReceiptChart() {
   })
 
   const {
-    data: dailyReceiptInPeriod,
+    data: dailyReceiptData,
     isFetching: isLoadingDailyReceiptInPeriod,
     error: dailyReceiptError,
   } = useQuery({
@@ -82,6 +82,8 @@ export function ReceiptChart() {
         to: period?.to,
       }),
   })
+
+  const dailyReceipts = dailyReceiptData?.dailyReceipts
 
   function handleResetPeriod() {
     setPeriod({
@@ -110,11 +112,11 @@ export function ReceiptChart() {
       </CardHeader>
 
       <CardContent>
-        {dailyReceiptInPeriod ? (
+        {dailyReceipts ? (
           <>
-            {dailyReceiptInPeriod.length > 0 ? (
+            {dailyReceipts.length > 0 ? (
               <ResponsiveContainer width="100%" height={240}>
-                <LineChart data={dailyReceiptInPeriod} style={{ fontSize: 12 }}>
+                <LineChart data={dailyReceipts} style={{ fontSize: 12 }}>
                   <XAxis
                     dataKey="date"
                     stroke="#888888"

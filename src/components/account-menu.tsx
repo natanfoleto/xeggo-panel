@@ -23,11 +23,13 @@ import { Skeleton } from './ui/skeleton'
 export function AccountMenu() {
   const navigate = useNavigate()
 
-  const { data: profile, isLoading: isLoadingProfile } = useQuery({
+  const { data: profileData, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['me'],
     queryFn: getProfile,
     staleTime: Infinity,
   })
+
+  const profile = profileData?.profile
 
   const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
     useQuery({
@@ -43,6 +45,8 @@ export function AccountMenu() {
     },
   })
 
+  const restaurant = managedRestaurant?.restaurant
+
   return (
     <Dialog>
       <DropdownMenu>
@@ -54,7 +58,7 @@ export function AccountMenu() {
             {isLoadingManagedRestaurant ? (
               <Skeleton className="h-4 w-40" />
             ) : (
-              managedRestaurant?.name
+              restaurant?.name
             )}
             <ChevronDown className="h-4 w-4" />
           </Button>

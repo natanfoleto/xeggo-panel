@@ -55,7 +55,9 @@ export function RestaurantShareLink() {
 
   if (!managedRestaurant) return null
 
-  const restaurantUrl = `${env.VITE_APP_MENU_URL}/${managedRestaurant.slug}`
+  const restaurant = managedRestaurant.restaurant
+
+  const restaurantUrl = `${env.VITE_APP_MENU_URL}/${restaurant.slug}`
 
   const handleCopyLink = async () => {
     await navigator.clipboard.writeText(restaurantUrl)
@@ -68,7 +70,7 @@ export function RestaurantShareLink() {
 
   const handleShareWhatsApp = () => {
     const message = encodeURIComponent(
-      `Confira o cardápio de ${managedRestaurant.name}: ${restaurantUrl}`,
+      `Confira o cardápio de ${restaurant.name}: ${restaurantUrl}`,
     )
 
     window.open(`https://wa.me/?text=${message}`, '_blank')
@@ -82,7 +84,7 @@ export function RestaurantShareLink() {
     const url = canvas.toDataURL('image/png')
     const link = document.createElement('a')
 
-    link.download = `qrcode-${managedRestaurant.slug}.png`
+    link.download = `qrcode-${restaurant.slug}.png`
     link.href = url
     link.click()
 
@@ -134,7 +136,7 @@ export function RestaurantShareLink() {
             <DialogTitle>QR Code do cardápio</DialogTitle>
             <DialogDescription>
               Clientes podem escanear este código para acessar o cardápio de{' '}
-              <span className="font-medium">{managedRestaurant.name}</span>
+              <span className="font-medium">{restaurant.name}</span>
             </DialogDescription>
           </DialogHeader>
 
