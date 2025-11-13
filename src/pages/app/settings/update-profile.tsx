@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Loader2, X } from 'lucide-react'
+import { Loader2, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -12,10 +12,8 @@ import {
 } from '@/api/manager/restaurants/get-managed-restaurant'
 import { updateRestaurant } from '@/api/manager/restaurants/update-restaurant'
 import { uploadAvatar } from '@/api/manager/restaurants/upload-avatar'
-import { getInitialsName } from '@/utils/get-initials-name'
-
-import { FormInput } from './form/form-input'
-import { FormTextarea } from './form/form-text-area'
+import { FormInput } from '@/components/form/form-input'
+import { FormTextarea } from '@/components/form/form-text-area'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,20 +23,20 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from './ui/alert-dialog'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Button } from './ui/button'
+} from '@/components/ui/alert-dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from './ui/dialog'
-import { Label } from './ui/label'
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { getInitialsName } from '@/utils/get-initials-name'
 
-const restaurantProfileSchema = z.object({
+const profileSchema = z.object({
   name: z.string().min(1),
   description: z.string().nullable(),
   primaryColor: z
@@ -47,11 +45,11 @@ const restaurantProfileSchema = z.object({
     .nullable(),
 })
 
-type RestaurantProfileSchema = z.infer<typeof restaurantProfileSchema>
+type ProfileSchema = z.infer<typeof profileSchema>
 
-type UpdateRestaurantPayload = Omit<RestaurantProfileSchema, 'avatarUrl'>
+type UpdatePayload = Omit<ProfileSchema, 'avatarUrl'>
 
-export function RestaurantProfile() {
+export function UpdateProfile() {
   const queryClient = useQueryClient()
 
   const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
@@ -73,9 +71,10 @@ export function RestaurantProfile() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty },
-  } = useForm<RestaurantProfileSchema>({
-    resolver: zodResolver(restaurantProfileSchema),
+    reset,
+    formState: { isSubmitting, errors, isDirty },
+  } = useForm<ProfileSchema>({
+    resolver: zodResolver(profileSchema),
     values: {
       name: restaurant?.name ?? '',
       description: restaurant?.description ?? '',
@@ -105,7 +104,7 @@ export function RestaurantProfile() {
     name,
     description,
     primaryColor,
-  }: RestaurantProfileSchema) {
+  }: ProfileSchema) {
     const cached = queryClient.getQueryData<ManagedRestaurant>([
       'managed-restaurant',
     ])
@@ -125,11 +124,7 @@ export function RestaurantProfile() {
   const { mutateAsync: updateRestaurantFn, isPending: isUpdatingRestaurant } =
     useMutation({
       mutationFn: updateRestaurant,
-      onMutate: ({
-        name,
-        description,
-        primaryColor,
-      }: UpdateRestaurantPayload) => {
+      onMutate: ({ name, description, primaryColor }: UpdatePayload) => {
         const { cached } = updateRestaurantDataOnCache({
           name,
           description,
@@ -156,10 +151,15 @@ export function RestaurantProfile() {
     })
 
   const isLoading =
-    isUpdatingRestaurant || isUploadingAvatar || isDeletingAvatar
+    isUpdatingRestaurant ||
+    isUploadingAvatar ||
+    isDeletingAvatar ||
+    isSubmitting
 
-  async function handleUpdateRestaurant(data: RestaurantProfileSchema) {
+  async function handleUpdateRestaurant(data: ProfileSchema) {
     await updateRestaurantFn(data)
+
+    reset(data)
 
     if (avatar instanceof File) {
       await uploadAvatarFn({ file: avatar })
@@ -171,7 +171,7 @@ export function RestaurantProfile() {
     setShowNameChangeAlert(false)
   }
 
-  function handleFormSubmit(data: RestaurantProfileSchema) {
+  function handleFormSubmit(data: ProfileSchema) {
     if (restaurant?.name !== data.name) {
       setShowNameChangeAlert(true)
     } else {
@@ -202,78 +202,94 @@ export function RestaurantProfile() {
     setIsAvatarDirty(true)
   }
 
+  function handleCancel() {
+    reset({
+      name: restaurant?.name ?? '',
+      description: restaurant?.description ?? '',
+      primaryColor: restaurant?.primaryColor ?? '#d4d4d8',
+    })
+
+    setAvatar(restaurant?.avatarUrl || null)
+    setIsAvatarDirty(false)
+  }
+
   const hasChanges = isDirty || isAvatarDirty
 
   return (
     <>
-      <DialogContent className="sm:max-w-[520px]">
-        <DialogHeader>
-          <DialogTitle>Perfil da loja</DialogTitle>
-          <DialogDescription>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            Perfil da loja
+          </CardTitle>
+
+          <CardDescription>
             Atualize as informações do seu estabelecimento visíveis aos seus
             clientes.
-          </DialogDescription>
-        </DialogHeader>
+          </CardDescription>
+        </CardHeader>
 
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <div className="grid gap-4 py-4">
-            <div className="mb-4 flex justify-center">
-              <div className="flex flex-col items-center gap-3">
-                <Avatar
-                  className="size-20 cursor-pointer"
-                  onClick={handleInputClick}
-                >
-                  <AvatarImage src={avatarPreview || undefined} alt="Avatar" />
-                  <AvatarFallback className="hover:text-foreground/75 transition-colors">
-                    {restaurant ? getInitialsName(restaurant.name) : ''}
-                  </AvatarFallback>
-                </Avatar>
+        <CardContent>
+          <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+            <div className="flex items-center gap-3">
+              <Avatar
+                className="size-20 cursor-pointer rounded-xl"
+                onClick={handleInputClick}
+              >
+                <AvatarImage src={avatarPreview || undefined} alt="Avatar" />
 
+                <AvatarFallback className="hover:text-foreground/75 rounded-xl transition-colors">
+                  {restaurant ? getInitialsName(restaurant.name) : ''}
+                </AvatarFallback>
+              </Avatar>
+
+              <div className="text-muted-foreground flex flex-col items-center gap-1">
                 {avatar && (
-                  <div
+                  <Trash2
                     onClick={handleFileRemove}
-                    className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-1 text-center text-xs transition-colors"
-                  >
-                    <span>
-                      {avatar instanceof File ? avatar.name : 'Remover'}
-                    </span>
-                    <X className="size-3" />
-                  </div>
+                    className="hover:text-foreground size-4 cursor-pointer transition-colors"
+                  />
+                )}
+
+                {avatar instanceof File && (
+                  <span className="text-sm">{avatar.name}</span>
                 )}
               </div>
-
-              <input
-                hidden
-                id="avatar"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-right">
-                Nome
-              </Label>
-              <FormInput
-                id="name"
-                disabled={isLoadingManagedRestaurant}
-                {...register('name')}
-                error={errors.name?.message}
-              />
-            </div>
+            <input
+              hidden
+              id="avatar"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
 
-            <div className="space-y-2">
-              <Label htmlFor="primaryColor" className="text-right">
-                Cor primária
-              </Label>
-              <FormInput
-                id="primaryColor"
-                type="color"
-                disabled={isLoadingManagedRestaurant}
-                {...register('primaryColor')}
-                error={errors.primaryColor?.message}
-              />
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-12 space-y-2 md:col-span-8">
+                <Label htmlFor="name" className="text-right">
+                  Nome
+                </Label>
+                <FormInput
+                  id="name"
+                  disabled={isLoadingManagedRestaurant}
+                  {...register('name')}
+                  error={errors.name?.message}
+                />
+              </div>
+
+              <div className="col-span-12 space-y-2 md:col-span-4">
+                <Label htmlFor="primaryColor" className="text-right">
+                  Cor primária
+                </Label>
+                <FormInput
+                  id="primaryColor"
+                  type="color"
+                  disabled={isLoadingManagedRestaurant}
+                  {...register('primaryColor')}
+                  error={errors.primaryColor?.message}
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -288,25 +304,26 @@ export function RestaurantProfile() {
                 error={errors.description?.message}
               />
             </div>
-          </div>
 
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="ghost" type="button">
-                Cancelar
-              </Button>
-            </DialogClose>
+            {hasChanges && (
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" type="button" onClick={handleCancel}>
+                  Cancelar
+                </Button>
 
-            <Button
-              type="submit"
-              variant="success"
-              disabled={isLoadingManagedRestaurant || isLoading || !hasChanges}
-            >
-              {isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+                <Button
+                  type="submit"
+                  disabled={
+                    isLoadingManagedRestaurant || isLoading || !hasChanges
+                  }
+                >
+                  {isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+                </Button>
+              </div>
+            )}
+          </form>
+        </CardContent>
+      </Card>
 
       <AlertDialog
         open={showNameChangeAlert}
@@ -319,13 +336,12 @@ export function RestaurantProfile() {
             </AlertDialogTitle>
 
             <AlertDialogDescription className="space-y-2">
-              <p>
-                Quando você altera o nome do restaurante, o link do seu cardápio
-                também muda. Não esqueça de enviar o novo link para seus
-                clientes para que eles possam continuar pedindo normalmente!
-              </p>
+              Quando você altera o nome do restaurante, o link do seu cardápio
+              também muda. Não esqueça de enviar o novo link para seus clientes
+              para que eles possam continuar pedindo normalmente!
             </AlertDialogDescription>
           </AlertDialogHeader>
+
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction onClick={handleSubmit(handleUpdateRestaurant)}>

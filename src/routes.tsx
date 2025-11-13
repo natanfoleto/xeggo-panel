@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 
+import { Account } from './pages/app/account'
 import { Categories } from './pages/app/categories'
 import { Coupons } from './pages/app/coupons'
 import { Dashboard } from './pages/app/dashboard'
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: '/settings',
         element: <Settings />,
+      },
+      {
+        path: '/account',
+        element: <Account />,
       },
       {
         path: '/upgrade',

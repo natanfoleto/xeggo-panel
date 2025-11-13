@@ -112,6 +112,12 @@ export function UpdatePaymentMethods() {
     }
   }
 
+  function handleCancel() {
+    reset({
+      selectedMethods: data?.paymentMethods,
+    })
+  }
+
   if (isLoading) return <PaymentMethodsSkeleton />
 
   return (
@@ -152,14 +158,20 @@ export function UpdatePaymentMethods() {
             })}
           </div>
 
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              disabled={isLoading || isSubmitting || !isDirty}
-            >
-              {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
-            </Button>
-          </div>
+          {isDirty && (
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" type="button" onClick={handleCancel}>
+                Cancelar
+              </Button>
+
+              <Button
+                type="submit"
+                disabled={isLoading || isSubmitting || !isDirty}
+              >
+                {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
+              </Button>
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>

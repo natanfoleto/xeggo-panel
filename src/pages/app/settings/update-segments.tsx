@@ -5,7 +5,10 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { getSegments, type Segment } from '@/api/manager/restaurants/get-segments'
+import {
+  getSegments,
+  type Segment,
+} from '@/api/manager/restaurants/get-segments'
 import { updateSegments } from '@/api/manager/restaurants/update-segments'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
@@ -124,6 +127,12 @@ export function UpdateSegments() {
     }
   }
 
+  function handleCancel() {
+    reset({
+      selectedSegments: data?.segments,
+    })
+  }
+
   if (isLoading) return <SegmentsSkeleton />
 
   return (
@@ -161,14 +170,20 @@ export function UpdateSegments() {
             })}
           </div>
 
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              disabled={isLoading || isSubmitting || !isDirty}
-            >
-              {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
-            </Button>
-          </div>
+          {isDirty && (
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" type="button" onClick={handleCancel}>
+                Cancelar
+              </Button>
+
+              <Button
+                type="submit"
+                disabled={isLoading || isSubmitting || !isDirty}
+              >
+                {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
+              </Button>
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>
