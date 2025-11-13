@@ -27,8 +27,8 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="border-b">
-      <div className="flex h-16 items-center gap-6 px-6">
+    <div className="border-b px-6">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-6 2xl:max-w-384">
         <div className="hidden lg:block">
           <NavLink to="/">
             <BrandIcon className="size-7 fill-violet-400" />

@@ -12,7 +12,7 @@ export function Settings() {
     <>
       <Helmet title="Configurações" />
 
-      <div className="flex flex-col gap-4">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 2xl:max-w-384">
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
           Configurações
         </h1>

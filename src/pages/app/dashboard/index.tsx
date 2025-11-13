@@ -13,7 +13,7 @@ export function Dashboard() {
     <>
       <Helmet title="Dashboard" />
 
-      <div className="flex flex-col gap-4">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 2xl:max-w-384">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
