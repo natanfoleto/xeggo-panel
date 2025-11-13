@@ -1,10 +1,10 @@
-import { Loader2Icon } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 
 import { UpdateDeliverySettings } from './delivery-settings'
 import { UpdateAddress } from './update-address'
 import { OpeningHoursSettings } from './update-opening-hours'
 import { UpdatePaymentMethods } from './update-payment-methods'
+import { UpdateProfile } from './update-profile'
 import { UpdateSegments } from './update-segments'
 
 export function Settings() {
@@ -12,19 +12,17 @@ export function Settings() {
     <>
       <Helmet title="Configurações" />
 
-      <div className="flex flex-col gap-4">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 2xl:max-w-384">
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
           Configurações
-          {false && (
-            <Loader2Icon className="text-muted-foreground size-5 animate-spin" />
-          )}
         </h1>
 
-        <UpdateDeliverySettings />
+        <UpdateProfile />
+        <UpdateAddress />
         <UpdateSegments />
         <UpdatePaymentMethods />
+        <UpdateDeliverySettings />
         <OpeningHoursSettings />
-        <UpdateAddress />
       </div>
     </>
   )

@@ -82,6 +82,7 @@ export function OpeningHoursSettings() {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { isSubmitting, isDirty },
   } = useForm<OpeningHoursSchema>({
     resolver: zodResolver(openingHoursSchema),
@@ -250,6 +251,12 @@ export function OpeningHoursSettings() {
     )
   }
 
+  function handleCancel() {
+    reset({
+      hours: data?.openingHours,
+    })
+  }
+
   if (isLoading) return <OpeningHoursSkeleton />
 
   return (
@@ -287,14 +294,24 @@ export function OpeningHoursSettings() {
               ))}
             </div>
 
-            <div className="flex items-center justify-end gap-2">
-              <Button
-                type="submit"
-                disabled={isLoading || isSubmitting || !isDirty}
-              >
-                {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
-              </Button>
-            </div>
+            {isDirty && (
+              <div className="flex items-center justify-end gap-2">
+                <Button variant="outline" type="button" onClick={handleCancel}>
+                  Cancelar
+                </Button>
+
+                <Button
+                  type="submit"
+                  disabled={isLoading || isSubmitting || !isDirty}
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    'Salvar'
+                  )}
+                </Button>
+              </div>
+            )}
           </form>
         </CardContent>
       </Card>

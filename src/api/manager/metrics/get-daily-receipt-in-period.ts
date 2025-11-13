@@ -5,10 +5,12 @@ export interface GetDailyReceiptInPeriodQuery {
   to?: Date
 }
 
-export type GetDailyReceiptInPeriodResponse = Array<{
-  date: string
-  receipt: number
-}>
+export interface GetDailyReceiptInPeriodResponse {
+  dailyReceipts: Array<{
+    date: string
+    receipt: number
+  }>
+}
 
 export async function getDailyReceiptInPeriod({
   from,

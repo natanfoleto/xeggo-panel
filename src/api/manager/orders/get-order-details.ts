@@ -1,11 +1,10 @@
-// src/api/orders/get-order-details.ts
 import { api } from '@/lib/axios'
 
 export interface GetOrderDetailsParams {
   orderId: string
 }
 
-export interface GetOrderDetailsResponse {
+export interface OrderDetails {
   id: string
   createdAt: string
   status: 'pending' | 'canceled' | 'processing' | 'delivering' | 'delivered'
@@ -42,6 +41,10 @@ export interface GetOrderDetailsResponse {
       }
     }[]
   }[]
+}
+
+export interface GetOrderDetailsResponse {
+  order: OrderDetails
 }
 
 export async function getOrderDetails({ orderId }: GetOrderDetailsParams) {

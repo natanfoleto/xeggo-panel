@@ -5,6 +5,7 @@ export const envSchema = z.object({
   VITE_PUBLIC_API_URL: z.string(),
   VITE_MANAGER_API_URL: z.string(),
   VITE_APP_MENU_URL: z.string(),
+  VITE_STRIPE_PUBLIC_KEY: z.string(),
   VITE_ENABLE_API_DELAY: z.string().transform((value) => value === 'true'),
 })
 

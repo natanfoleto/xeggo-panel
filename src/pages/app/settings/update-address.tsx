@@ -49,10 +49,12 @@ type AddressSchema = z.infer<typeof addressSchema>
 export function UpdateAddress() {
   const [isSearchingCep, setIsSearchingCep] = useState(false)
 
-  const { data, isLoading } = useQuery({
+  const { data: addressData, isLoading } = useQuery({
     queryKey: ['address'],
     queryFn: getAddress,
   })
+
+  const address = addressData?.address
 
   const {
     register,
@@ -77,18 +79,18 @@ export function UpdateAddress() {
   const zipCode = watch('zipCode')
 
   useEffect(() => {
-    if (data?.address) {
+    if (address) {
       reset({
-        zipCode: data.address.zipCode || '',
-        street: data.address.street || '',
-        number: data.address.number || '',
-        complement: data.address.complement || '',
-        neighborhood: data.address.neighborhood || '',
-        city: data.address.city || '',
-        state: data.address.state || '',
+        zipCode: address.zipCode || '',
+        street: address.street || '',
+        number: address.number || '',
+        complement: address.complement || '',
+        neighborhood: address.neighborhood || '',
+        city: address.city || '',
+        state: address.state || '',
       })
     }
-  }, [data, reset])
+  }, [address, reset])
 
   const { mutateAsync: updateAddressFn } = useMutation({
     mutationFn: updateAddress,
@@ -144,6 +146,18 @@ export function UpdateAddress() {
     } finally {
       setIsSearchingCep(false)
     }
+  }
+
+  function handleCancel() {
+    reset({
+      zipCode: address?.zipCode,
+      state: address?.state,
+      street: address?.street,
+      number: address?.number,
+      complement: address?.complement,
+      neighborhood: address?.neighborhood,
+      city: address?.city,
+    })
   }
 
   if (isLoading) return <AddressSkeleton />
@@ -243,14 +257,20 @@ export function UpdateAddress() {
             </div>
           </div>
 
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              disabled={isLoading || isSubmitting || !isDirty}
-            >
-              {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
-            </Button>
-          </div>
+          {isDirty && (
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" type="button" onClick={handleCancel}>
+                Cancelar
+              </Button>
+
+              <Button
+                type="submit"
+                disabled={isLoading || isSubmitting || !isDirty}
+              >
+                {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
+              </Button>
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>

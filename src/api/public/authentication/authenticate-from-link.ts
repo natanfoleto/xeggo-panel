@@ -7,5 +7,5 @@ export interface AuthenticateFromLinkRequest {
 export async function authenticateFromLink({
   email,
 }: AuthenticateFromLinkRequest) {
-  await api.public.post('/auth/link?app=panel', { email })
+  await api.public.post('/auth/link/send?app=panel', { email })
 }

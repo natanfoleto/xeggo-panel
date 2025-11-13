@@ -81,6 +81,12 @@ export function UpdateDeliverySettings() {
     reset(formData)
   }
 
+  function handleCancel() {
+    reset({
+      deliveryFeeInCents: data?.deliveryFeeInCents,
+    })
+  }
+
   if (isLoading) return <DeliverySettingsSkeleton />
 
   return (
@@ -113,14 +119,19 @@ export function UpdateDeliverySettings() {
             />
           </div>
 
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              disabled={isLoading || isSubmitting || !isDirty}
-            >
-              {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
-            </Button>
-          </div>
+          {isDirty && (
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" type="button" onClick={handleCancel}>
+                Cancelar
+              </Button>
+              <Button
+                type="submit"
+                disabled={isLoading || isSubmitting || !isDirty}
+              >
+                {isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
+              </Button>
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>

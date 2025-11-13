@@ -1,11 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom'
 
+import { Account } from './pages/app/account'
 import { Categories } from './pages/app/categories'
 import { Coupons } from './pages/app/coupons'
 import { Dashboard } from './pages/app/dashboard'
 import { Orders } from './pages/app/orders'
 import { Products } from './pages/app/products'
 import { Settings } from './pages/app/settings'
+import { Upgrade } from './pages/app/upgrade'
 import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
 import { WrongAccount } from './pages/auth/wrong-account'
@@ -42,6 +44,14 @@ export const router = createBrowserRouter([
       {
         path: '/settings',
         element: <Settings />,
+      },
+      {
+        path: '/account',
+        element: <Account />,
+      },
+      {
+        path: '/upgrade',
+        element: <Upgrade />,
       },
     ],
   },
