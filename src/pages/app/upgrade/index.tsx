@@ -3,12 +3,12 @@ import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import { getProfile } from '@/api/manager/profile/get-profile'
+import { getManagedRestaurant } from '@/api/manager/restaurants/get-managed-restaurant'
 import {
   createCheckout,
   type CreateCheckoutRequest,
-} from '@/api/manager/checkout/create-checkout'
-import { getProfile } from '@/api/manager/profile/get-profile'
-import { getManagedRestaurant } from '@/api/manager/restaurants/get-managed-restaurant'
+} from '@/api/manager/stripe/create-checkout'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -36,7 +36,7 @@ export function Upgrade() {
     })
 
   const { data: profileData, isLoading: isLoadingProfile } = useQuery({
-    queryKey: ['me'],
+    queryKey: ['profile'],
     queryFn: getProfile,
     staleTime: Infinity,
   })

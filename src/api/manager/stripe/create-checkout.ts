@@ -20,10 +20,13 @@ export async function createCheckout({
   plan,
   metadata,
 }: CreateCheckoutRequest): Promise<CreateCheckoutResponse> {
-  const response = await api.manager.post<CreateCheckoutResponse>('/checkout', {
-    plan,
-    metadata,
-  })
+  const response = await api.manager.post<CreateCheckoutResponse>(
+    '/stripe/checkout',
+    {
+      plan,
+      metadata,
+    },
+  )
 
   return response.data
 }

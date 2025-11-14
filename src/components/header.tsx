@@ -2,8 +2,8 @@ import {
   ChartPie,
   Menu,
   Pizza,
-  Settings,
   SquareChartGantt,
+  Store,
   Ticket,
   UtensilsCrossed,
 } from 'lucide-react'
@@ -63,9 +63,9 @@ export function Header() {
             Cupons
           </NavLink>
 
-          <NavLink to="/settings">
-            <Settings className="size-4" />
-            Configurações
+          <NavLink to="/restaurant">
+            <Store className="size-4" />
+            Restaurante
           </NavLink>
         </nav>
 
@@ -102,8 +102,8 @@ export function Header() {
                 Cupons
               </NavLink>
 
-              <NavLink to="/settings" onClick={() => setIsOpen(false)}>
-                Configurações
+              <NavLink to="/restaurant" onClick={() => setIsOpen(false)}>
+                Restaurante
               </NavLink>
             </nav>
           </SheetContent>

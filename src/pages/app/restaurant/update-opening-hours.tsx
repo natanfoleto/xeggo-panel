@@ -273,9 +273,12 @@ export function OpeningHoursSettings() {
 
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+            <div className="flex flex-wrap justify-center gap-4">
               {weekDayOptions.map((day) => (
-                <div key={day} className="flex flex-col gap-2">
+                <div
+                  key={day}
+                  className="flex max-w-80 min-w-64 flex-1 flex-col gap-2"
+                >
                   <div className="text-center">
                     <div className="font-semibold">{weekDayLabels[day]}</div>
                     <span className="text-muted-foreground text-xs">
