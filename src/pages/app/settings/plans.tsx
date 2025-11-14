@@ -107,7 +107,7 @@ export function Plans() {
 
       <CardContent className="space-y-8">
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold">Seu plano</h3>
+          <h3 className="text-sm font-semibold">Plano</h3>
 
           <div className="flex items-center justify-between">
             <div className="space-y-1">
@@ -245,7 +245,7 @@ export function Plans() {
                           </TableCell>
 
                           <TableCell>
-                            {formatCurrency(invoice.amountPaidInCents)}
+                            {formatCurrency(invoice.amountPaidInCents / 100)}
                           </TableCell>
 
                           <TableCell className="text-sm">
@@ -253,16 +253,29 @@ export function Plans() {
                           </TableCell>
 
                           <TableCell className="text-right">
-                            {invoice.hostedInvoiceUrl && (
-                              <a
-                                href={invoice.hostedInvoiceUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-sm hover:underline"
-                              >
-                                Ver
-                              </a>
-                            )}
+                            <div className="flex justify-end gap-2">
+                              {invoice.invoicePdf && (
+                                <a
+                                  href={invoice.invoicePdf}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm hover:underline"
+                                >
+                                  Ver
+                                </a>
+                              )}
+
+                              {invoice.hostedInvoiceUrl && (
+                                <a
+                                  href={invoice.hostedInvoiceUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm hover:underline"
+                                >
+                                  Baixar
+                                </a>
+                              )}
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
