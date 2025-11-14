@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-interface Profile {
+export interface Profile {
   id: string
   name: string
   email: string
@@ -9,7 +9,7 @@ interface Profile {
   updatedAt: Date
 }
 
-interface GetProfileResponse {
+export interface GetProfileResponse {
   profile: Profile
 }
 

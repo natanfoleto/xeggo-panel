@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import { Account } from './pages/app/account'
 import { Categories } from './pages/app/categories'
 import { Coupons } from './pages/app/coupons'
 import { Dashboard } from './pages/app/dashboard'
 import { Orders } from './pages/app/orders'
 import { Products } from './pages/app/products'
+import { Restaurant } from './pages/app/restaurant'
 import { Settings } from './pages/app/settings'
 import { Upgrade } from './pages/app/upgrade'
 import { SignIn } from './pages/auth/sign-in'
@@ -42,12 +42,12 @@ export const router = createBrowserRouter([
         element: <Coupons />,
       },
       {
-        path: '/settings',
-        element: <Settings />,
+        path: '/restaurant',
+        element: <Restaurant />,
       },
       {
-        path: '/account',
-        element: <Account />,
+        path: '/settings',
+        element: <Settings />,
       },
       {
         path: '/upgrade',

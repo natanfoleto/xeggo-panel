@@ -3,9 +3,9 @@ import {
   ChevronDown,
   CircleArrowUp,
   CircleQuestionMark,
-  CircleUser,
   ClipboardCheck,
   LogOut,
+  Settings,
   ShieldCheck,
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -29,7 +29,7 @@ export function AccountMenu() {
   const navigate = useNavigate()
 
   const { data: profileData, isLoading: isLoadingProfile } = useQuery({
-    queryKey: ['me'],
+    queryKey: ['profile'],
     queryFn: getProfile,
     staleTime: Infinity,
   })
@@ -75,10 +75,10 @@ export function AccountMenu() {
             <button
               type="button"
               className="text-muted-foreground flex w-full items-center gap-2"
-              onClick={() => navigate('account')}
+              onClick={() => navigate('settings')}
             >
-              <CircleUser className="mr-1 size-4" />
-              <span>Conta</span>
+              <Settings className="mr-1 size-4" />
+              <span>Configurações</span>
             </button>
           </DropdownMenuItem>
 

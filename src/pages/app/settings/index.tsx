@@ -1,28 +1,18 @@
 import { Helmet } from 'react-helmet-async'
 
-import { UpdateDeliverySettings } from './delivery-settings'
-import { UpdateAddress } from './update-address'
-import { OpeningHoursSettings } from './update-opening-hours'
-import { UpdatePaymentMethods } from './update-payment-methods'
-import { UpdateProfile } from './update-profile'
-import { UpdateSegments } from './update-segments'
+import { SettingsTabs } from './tabs'
 
 export function Settings() {
   return (
     <>
       <Helmet title="Configurações" />
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 2xl:max-w-384">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 space-y-4 2xl:max-w-384">
         <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
           Configurações
         </h1>
 
-        <UpdateProfile />
-        <UpdateAddress />
-        <UpdateSegments />
-        <UpdatePaymentMethods />
-        <UpdateDeliverySettings />
-        <OpeningHoursSettings />
+        <SettingsTabs />
       </div>
     </>
   )

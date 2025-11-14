@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { FormInput } from '@/components/form/form-input'
 
@@ -6,6 +6,7 @@ interface PhoneInputProps {
   value?: string
   onChange: (value: string) => void
   disabled?: boolean
+  className?: string
   error?: string
 }
 
@@ -13,8 +14,13 @@ export function FormPhoneInput({
   value = '',
   onChange,
   disabled,
+  className,
   error,
 }: PhoneInputProps) {
+  useEffect(() => {
+    setDisplayValue(formatPhone(value))
+  }, [value])
+
   const formatPhone = (phone: string): string => {
     if (!phone) return ''
 
@@ -57,6 +63,7 @@ export function FormPhoneInput({
       onFocus={handleFocus}
       disabled={disabled}
       error={error}
+      className={className}
       placeholder="(99) 99999-9999"
       maxLength={15}
     />
