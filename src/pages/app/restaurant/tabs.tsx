@@ -24,7 +24,7 @@ type TabId = (typeof tabs)[number]['id']
 export function RestaurantTabs() {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const activeTab = (searchParams.get('tab') as TabId) || 'geral'
+  const activeTab = (searchParams.get('tab') as TabId) || 'profile'
 
   const handleTabChange = (tabId: TabId) => {
     setSearchParams({ tab: tabId })
