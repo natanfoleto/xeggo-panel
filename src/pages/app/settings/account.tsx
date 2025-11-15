@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { getProfile } from '@/api/manager/profile/get-profile'
 import { signOut } from '@/api/public/authentication/sign-out'
+import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -30,6 +31,17 @@ export function Account() {
     },
   })
 
+  const handleCopyProfileId = async () => {
+    if (!profile) return
+
+    await navigator.clipboard.writeText(profile.id)
+
+    appalert.success(
+      'ID copiado',
+      'Envie para o suporte em caso de necessidade.',
+    )
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -45,21 +57,29 @@ export function Account() {
             <span className="cursor-pointer underline">Contatar suporte</span>
           </div>
 
-          <div className="flex items-center justify-between gap-2">
-            <span>ID da conta</span>
-
-            {profile && !isLoadingProfile ? (
-              <span className="bg-muted text-muted-foreground flex items-center gap-2 rounded-md px-2 py-1">
-                {profile.id}
-                <ClipboardList className="text-foreground size-4 cursor-pointer" />
-              </span>
-            ) : (
+          {isLoadingProfile ? (
+            <div className="flex items-center justify-between gap-2">
+              <span>ID da conta</span>
               <span className="bg-muted text-muted-foreground flex w-60 animate-pulse items-center gap-2 rounded-md py-3" />
-            )}
-          </div>
+            </div>
+          ) : (
+            profile && (
+              <div className="flex items-center justify-between gap-2">
+                <span>ID da conta</span>
+
+                <span className="bg-muted text-muted-foreground flex items-center gap-2 rounded-md px-2 py-1">
+                  {profile.id}
+                  <ClipboardList
+                    onClick={handleCopyProfileId}
+                    className="text-foreground size-4 cursor-pointer"
+                  />
+                </span>
+              </div>
+            )
+          )}
 
           <Button
-            variant="outline"
+            variant="destructive"
             disabled={isSigningOut}
             onClick={() => handleSignOut()}
           >

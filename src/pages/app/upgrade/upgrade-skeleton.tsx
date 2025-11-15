@@ -1,62 +1,56 @@
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function UpgradeSkeleton() {
   return (
-    <div className="flex min-h-[calc(100vh-150px)] items-center justify-center p-6">
-      <Card className="w-full max-w-2xl">
-        <CardHeader className="space-y-3 text-center">
+    <div className="from-background via-background to-muted/20 bg-linear-to-br py-12">
+      <div className="container mx-auto max-w-7xl px-4">
+        <div className="mb-12 space-y-4 text-center">
           <Skeleton className="mx-auto h-9 w-64" />
           <Skeleton className="mx-auto h-4 w-80" />
-        </CardHeader>
+        </div>
 
-        <CardContent className="grid gap-4 sm:grid-cols-2">
-          <div className="relative space-y-3 rounded-lg border p-6">
-            <div className="space-y-2">
-              <Skeleton className="h-6 w-20" />
-              <Skeleton className="h-4 w-32" />
-            </div>
-
-            <div className="space-y-1">
-              <Skeleton className="h-8 w-32" />
-              <Skeleton className="h-4 w-24" />
-            </div>
-
-            <div className="space-y-2 pt-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-            </div>
+        <div className="mb-8 flex justify-center">
+          <div className="bg-muted inline-flex items-center gap-1 rounded-full p-1">
+            <Skeleton className="h-8 w-24 rounded-full" />
+            <Skeleton className="h-8 w-24 rounded-full" />
           </div>
+        </div>
 
-          <div className="relative space-y-3 rounded-lg border p-6">
-            <div className="absolute -top-3 right-1/2 translate-x-1/2">
-              <Skeleton className="h-6 w-28 rounded-full" />
-            </div>
+        <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
+          {[1, 2].map((i) => (
+            <Card
+              key={i}
+              className="relative flex flex-col rounded-2xl border-2 p-8 shadow-lg"
+            >
+              <Skeleton className="absolute -top-3 left-1/2 h-6 w-28 -translate-x-1/2 rounded-full" />
 
-            <div className="space-y-2">
-              <Skeleton className="h-6 w-16" />
-              <Skeleton className="h-4 w-36" />
-            </div>
+              <div className="mb-6 space-y-3">
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-10 w-40" />
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-5 w-32 rounded-full" />
+              </div>
 
-            <div className="space-y-1">
-              <Skeleton className="h-8 w-36" />
-              <Skeleton className="h-4 w-24" />
-            </div>
+              <div className="flex-1 space-y-3">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+              </div>
 
-            <div className="space-y-2 pt-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-            </div>
-          </div>
-        </CardContent>
+              <div className="mt-8">
+                <Skeleton className="h-11 w-full rounded-md" />
+              </div>
+            </Card>
+          ))}
+        </div>
 
-        <CardFooter className="flex-col gap-3">
-          <Skeleton className="h-10 w-full" />
+        <div className="mt-12 space-y-3 text-center">
+          <Skeleton className="mx-auto h-4 w-72" />
           <Skeleton className="mx-auto h-3 w-64" />
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }
