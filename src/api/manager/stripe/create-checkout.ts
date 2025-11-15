@@ -7,7 +7,7 @@ interface CheckoutMetadata {
 }
 
 export interface CreateCheckoutRequest {
-  plan: 'monthly' | 'annual'
+  planId: string
   metadata: CheckoutMetadata
 }
 
@@ -17,13 +17,13 @@ export interface CreateCheckoutResponse {
 }
 
 export async function createCheckout({
-  plan,
+  planId,
   metadata,
 }: CreateCheckoutRequest): Promise<CreateCheckoutResponse> {
   const response = await api.manager.post<CreateCheckoutResponse>(
     '/stripe/checkout',
     {
-      plan,
+      planId,
       metadata,
     },
   )

@@ -1,4 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { CreditCard, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,7 +25,6 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { formatCurrency } from '@/utils/format-currency'
-import { formatDate } from '@/utils/format-date'
 
 export function Plans() {
   const navigate = useNavigate()
@@ -122,12 +123,19 @@ export function Plans() {
 
               {isTrial && subscription.trialEnd ? (
                 <p className="text-muted-foreground text-xs">
-                  Seu trial expira em {formatDate(subscription.trialEnd)}.
+                  Seu trial expira em{' '}
+                  {format(subscription.trialEnd, 'dd MMM yyyy', {
+                    locale: ptBR,
+                  })}
+                  .
                 </p>
               ) : (
                 <p className="text-muted-foreground text-xs">
                   Sua assinatura será renovada automaticamente em{' '}
-                  {formatDate(subscription.currentPeriodEnd)}.
+                  {format(subscription.currentPeriodEnd, 'dd MMM yyyy', {
+                    locale: ptBR,
+                  })}
+                  .
                 </p>
               )}
             </div>
@@ -137,7 +145,7 @@ export function Plans() {
               size="sm"
               onClick={() => navigate('/upgrade')}
             >
-              {isTrial ? 'Upgrade agora' : 'Atualizar plano'}
+              Atualizar plano
             </Button>
           </div>
         </div>
@@ -241,7 +249,9 @@ export function Plans() {
                       {invoicesData.invoices.map((invoice) => (
                         <TableRow key={invoice.id}>
                           <TableCell className="font-medium">
-                            {formatDate(invoice.createdAt)}
+                            {format(invoice.createdAt, 'dd MMM yyyy', {
+                              locale: ptBR,
+                            })}
                           </TableCell>
 
                           <TableCell>
@@ -302,7 +312,9 @@ export function Plans() {
                   <p className="text-muted-foreground text-sm">
                     Sua assinatura será encerrada em{' '}
                     <span className="text-foreground font-medium">
-                      {formatDate(subscription.cancelAt)}
+                      {format(subscription.cancelAt, 'dd MMM yyyy', {
+                        locale: ptBR,
+                      })}
                     </span>
                     . Você continuará com acesso até essa data.
                   </p>
