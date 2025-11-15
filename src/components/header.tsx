@@ -28,14 +28,16 @@ export function Header() {
 
   return (
     <div className="border-b px-6">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-6 2xl:max-w-384">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 2xl:max-w-384">
         <div className="hidden lg:block">
           <NavLink to="/">
-            <BrandIcon className="size-7 fill-violet-400" />
+            <span className="rounded-md bg-violet-500 p-1.5">
+              <BrandIcon className="size-6 fill-white" />
+            </span>
           </NavLink>
         </div>
 
-        <Separator orientation="vertical" className="hidden h-6! lg:block" />
+        <Separator orientation="vertical" className="hidden h-4! lg:block" />
 
         <nav className="hidden items-center space-x-4 lg:flex lg:space-x-6">
           <NavLink to="/">

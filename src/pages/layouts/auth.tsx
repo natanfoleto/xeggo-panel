@@ -33,8 +33,11 @@ export function AuthLayout() {
         </div>
       </div>
 
-      <div className="relative flex min-h-screen flex-col items-center justify-center gap-2">
-        <BrandIcon className="size-12 fill-white lg:hidden" />
+      <div className="relative flex min-h-screen flex-col items-center justify-center gap-4">
+        <span className="rounded-md bg-violet-500 p-2 lg:hidden">
+          <BrandIcon className="size-8 fill-white" />
+        </span>
+
         <Outlet />
       </div>
     </div>
