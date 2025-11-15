@@ -43,9 +43,7 @@ export function Usage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             Limites de uso do plano
-            {!isLoading && (
-              <Loader2 className="text-muted-foreground size-4 animate-spin" />
-            )}
+            <Loader2 className="text-muted-foreground size-4 animate-spin" />
           </CardTitle>
           <CardDescription>
             Acompanhe o consumo dos recursos do seu plano

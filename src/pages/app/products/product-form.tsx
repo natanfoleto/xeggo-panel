@@ -335,7 +335,7 @@ export function ProductForm({
               ) : (
                 <div
                   onClick={() => document.getElementById('file')?.click()}
-                  className="bg-primary dark:bg-input/30 border-input flex h-72 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-sm border"
+                  className="dark:bg-input/30 border-input flex h-72 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-sm border"
                 >
                   <ImageIcon className="text-muted-foreground size-20 stroke-[0.375]" />
 
