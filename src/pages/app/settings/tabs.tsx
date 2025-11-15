@@ -13,7 +13,7 @@ const tabs = [
   { id: 'geral', title: 'Geral' },
   { id: 'account', title: 'Conta' },
   { id: 'plans', title: 'Planos e cobranças' },
-  { id: 'usage', title: 'Limites de uso' },
+  { id: 'usage', title: 'Uso' },
   { id: 'notifications', title: 'Preferências de notificação' },
 ] as const
 

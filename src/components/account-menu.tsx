@@ -98,6 +98,7 @@ export function AccountMenu() {
             <button
               type="button"
               className="text-muted-foreground flex w-full items-center gap-2"
+              onClick={() => navigate('/upgrade')}
             >
               <CircleArrowUp className="mr-1 size-4" />
               <span>Fazer upgrade do plano</span>

@@ -145,7 +145,7 @@ export function Plans() {
               size="sm"
               onClick={() => navigate('/upgrade')}
             >
-              {isTrial ? 'Upgrade agora' : 'Atualizar plano'}
+              Atualizar plano
             </Button>
           </div>
         </div>

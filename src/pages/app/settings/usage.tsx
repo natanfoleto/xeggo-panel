@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Loader2, RotateCw } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 import { getUsageLimits } from '@/api/manager/usage/get-usage-limits'
 import { Button } from '@/components/ui/button'
@@ -17,6 +18,8 @@ import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
 export function Usage() {
+  const navigate = useNavigate()
+
   const { data, isLoading, refetch, isFetching, dataUpdatedAt } = useQuery({
     queryKey: ['usage-limits'],
     queryFn: getUsageLimits,
@@ -28,6 +31,7 @@ export function Usage() {
       ordersPerMonth: 'Pedidos este mês',
       products: 'Produtos cadastrados',
       categories: 'Categorias',
+      coupons: 'Cupons cadastrados',
     }
 
     return labels[key] || key
@@ -95,7 +99,11 @@ export function Usage() {
               </p>
             </div>
 
-            <Button variant="outline" size="sm">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/upgrade')}
+            >
               Atualizar plano
             </Button>
           </div>
@@ -121,21 +129,21 @@ export function Usage() {
                   </span>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground text-xs">
-                      {item.unlimited ? (
-                        <span className="text-primary font-semibold">
-                          Ilimitado
-                        </span>
-                      ) : (
-                        <>
+                    {item.unlimited ? (
+                      <div className="text-primary text-sm font-medium">
+                        {item.current}{' '}
+                        <span className="text-muted-foreground">/</span>{' '}
+                        Ilimitado
+                      </div>
+                    ) : (
+                      <>
+                        <span className="text-muted-foreground text-xs">
                           {item.current}/{item.limit}
-                        </>
-                      )}
-                    </span>
-                    {!item.unlimited && (
-                      <span className="text-xs font-medium">
-                        {item.percentage}%
-                      </span>
+                        </span>
+                        <span className="text-xs font-medium">
+                          {item.percentage}%
+                        </span>
+                      </>
                     )}
                   </div>
                 </div>
