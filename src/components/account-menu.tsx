@@ -106,23 +106,27 @@ export function AccountMenu() {
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <button
-              type="button"
+            <a
+              href="https://www.xeggo.app/terms-and-privacy"
+              target="_blank"
               className="text-muted-foreground flex w-full items-center gap-2"
+              rel="noreferrer"
             >
               <ClipboardCheck className="mr-1 size-4" />
               <span>Política de uso</span>
-            </button>
+            </a>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <button
-              type="button"
+            <a
+              href="https://www.xeggo.app/terms-and-privacy"
+              target="_blank"
               className="text-muted-foreground flex w-full items-center gap-2"
+              rel="noreferrer"
             >
               <ShieldCheck className="mr-1 size-4" />
               <span>Política privacidade</span>
-            </button>
+            </a>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
