@@ -32,7 +32,7 @@ export function Coupons() {
     .parse(searchParams.get('page') ?? '1')
 
   const {
-    data: result,
+    data: couponsData,
     isFetching: isFetchingCoupons,
     isLoading: isLoadingCoupons,
   } = useQuery({
@@ -87,14 +87,14 @@ export function Coupons() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoadingCoupons && !result && <CouponsTableSkeleton />}
+                {isLoadingCoupons && !couponsData && <CouponsTableSkeleton />}
 
-                {result &&
-                  result.coupons.map((coupon) => {
+                {couponsData &&
+                  couponsData.coupons.map((coupon) => {
                     return <CouponTableRow key={coupon.id} coupon={coupon} />
                   })}
 
-                {result && result.coupons.length === 0 && (
+                {couponsData && couponsData.coupons.length === 0 && (
                   <TableRow>
                     <TableCell
                       colSpan={7}
@@ -108,11 +108,11 @@ export function Coupons() {
             </Table>
           </div>
 
-          {result && (
+          {couponsData && (
             <Pagination
               pageIndex={pageIndex}
-              totalCount={result.meta.totalCount}
-              perPage={result.meta.perPage}
+              totalCount={couponsData.meta.totalCount}
+              perPage={couponsData.meta.perPage}
               onPageChange={handlePaginate}
             />
           )}

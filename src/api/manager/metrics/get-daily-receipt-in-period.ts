@@ -1,8 +1,8 @@
 import { api } from '@/lib/axios'
 
-export interface GetDailyReceiptInPeriodQuery {
-  from?: Date
-  to?: Date
+export interface GetDailyReceiptInPeriodRequest {
+  from?: string
+  to?: string
 }
 
 export interface GetDailyReceiptInPeriodResponse {
@@ -15,7 +15,7 @@ export interface GetDailyReceiptInPeriodResponse {
 export async function getDailyReceiptInPeriod({
   from,
   to,
-}: GetDailyReceiptInPeriodQuery) {
+}: GetDailyReceiptInPeriodRequest) {
   const response = await api.manager.get<GetDailyReceiptInPeriodResponse>(
     '/metrics/daily-receipt-in-period',
     {
@@ -26,5 +26,5 @@ export async function getDailyReceiptInPeriod({
     },
   )
 
-  return response.data
+  return response.data.dailyReceipts
 }

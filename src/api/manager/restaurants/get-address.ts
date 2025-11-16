@@ -17,5 +17,5 @@ export interface GetAddressResponse {
 export async function getAddress() {
   const response = await api.manager.get<GetAddressResponse>('/address')
 
-  return response.data
+  return response.data.address
 }

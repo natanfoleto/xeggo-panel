@@ -1,5 +1,11 @@
 import { api } from '@/lib/axios'
 
+export interface GetInvoicesRequest {
+  page?: number
+  limit?: number
+  status?: 'paid' | 'open' | 'void' | 'draft'
+}
+
 export interface Invoice {
   id: string
   stripeInvoiceId: string
@@ -9,10 +15,10 @@ export interface Invoice {
   billingReason: string | null
   hostedInvoiceUrl: string | null
   invoicePdf: string | null
-  paidAt: Date | null
-  periodStart: Date
-  periodEnd: Date
-  createdAt: Date
+  paidAt: string | null
+  periodStart: string
+  periodEnd: string
+  createdAt: string
 }
 
 export interface GetInvoicesResponse {
@@ -25,13 +31,7 @@ export interface GetInvoicesResponse {
   }
 }
 
-export interface GetInvoicesParams {
-  page?: number
-  limit?: number
-  status?: 'paid' | 'open' | 'void' | 'draft'
-}
-
-export async function getInvoices(params?: GetInvoicesParams) {
+export async function getInvoices(params?: GetInvoicesRequest) {
   const response = await api.manager.get<GetInvoicesResponse>('/invoices', {
     params,
   })

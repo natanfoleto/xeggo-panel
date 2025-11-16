@@ -24,5 +24,5 @@ export interface GetSegmentsResponse {
 export async function getSegments() {
   const response = await api.manager.get<GetSegmentsResponse>('/segments')
 
-  return response.data
+  return response.data.segments
 }

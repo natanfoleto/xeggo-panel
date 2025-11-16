@@ -21,14 +21,13 @@ import { env } from '@/env'
 export function RestaurantShareLink() {
   const [showQRDialog, setShowQRDialog] = useState(false)
 
-  const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
-    useQuery({
-      queryKey: ['managed-restaurant'],
-      queryFn: getManagedRestaurant,
-      staleTime: Infinity,
-    })
+  const { data: restaurant, isLoading } = useQuery({
+    queryKey: ['managed-restaurant'],
+    queryFn: getManagedRestaurant,
+    staleTime: Infinity,
+  })
 
-  if (isLoadingManagedRestaurant) {
+  if (isLoading) {
     return (
       <Card>
         <CardHeader className="space-y-0 pb-3">
@@ -53,9 +52,7 @@ export function RestaurantShareLink() {
     )
   }
 
-  if (!managedRestaurant) return null
-
-  const restaurant = managedRestaurant.restaurant
+  if (!restaurant) return null
 
   const restaurantUrl = `${env.VITE_APP_MENU_URL}/${restaurant.slug}`
 

@@ -23,7 +23,7 @@ export function CategoryTableFilters() {
     },
   })
 
-  function handleFilter(data: CategoryFiltersSchema) {
+  function onSubmit(data: CategoryFiltersSchema) {
     const categoryName = data.categoryName?.toString()
 
     setSearchParams((prev) => {
@@ -56,7 +56,7 @@ export function CategoryTableFilters() {
 
   return (
     <form
-      onSubmit={handleSubmit(handleFilter)}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center gap-2 md:flex-row"
     >
       <Input

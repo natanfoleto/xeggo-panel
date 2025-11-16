@@ -1,4 +1,3 @@
-// src/api/coupons/create-coupon.ts
 import { api } from '@/lib/axios'
 
 export interface CreateCouponRequest {

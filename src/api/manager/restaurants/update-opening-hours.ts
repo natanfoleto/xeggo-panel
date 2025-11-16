@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 
 import type { WeekDay } from './get-opening-hours'
 
-export interface UpdateOpeningHoursBody {
+export interface UpdateOpeningHoursRequest {
   openingHours: {
     newOrUpdatedHours: Array<{
       id?: string
@@ -14,7 +14,7 @@ export interface UpdateOpeningHoursBody {
   }
 }
 
-export async function updateOpeningHours(body: UpdateOpeningHoursBody) {
+export async function updateOpeningHours(body: UpdateOpeningHoursRequest) {
   const response = await api.manager.put('/opening-hours', body)
 
   return response.data

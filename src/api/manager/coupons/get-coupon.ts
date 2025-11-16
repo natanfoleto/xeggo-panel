@@ -27,5 +27,5 @@ export async function getCoupon({ couponId }: GetCouponRequest) {
     `/coupons/${couponId}`,
   )
 
-  return response.data
+  return response.data.coupon
 }

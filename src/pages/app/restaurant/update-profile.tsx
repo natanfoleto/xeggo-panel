@@ -52,21 +52,18 @@ type UpdatePayload = Omit<ProfileSchema, 'avatarUrl'>
 export function UpdateProfile() {
   const queryClient = useQueryClient()
 
-  const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
-    useQuery({
-      queryKey: ['managed-restaurant'],
-      queryFn: getManagedRestaurant,
-      staleTime: Infinity,
-    })
+  const { data: restaurant, isLoading } = useQuery({
+    queryKey: ['managed-restaurant'],
+    queryFn: getManagedRestaurant,
+    staleTime: Infinity,
+  })
 
   const [avatar, setAvatar] = useState<File | string | null>(
-    managedRestaurant?.restaurant?.avatarUrl || null,
+    restaurant?.avatarUrl || null,
   )
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [isAvatarDirty, setIsAvatarDirty] = useState(false)
   const [showNameChangeAlert, setShowNameChangeAlert] = useState(false)
-
-  const restaurant = managedRestaurant?.restaurant
 
   const {
     register,
@@ -150,12 +147,6 @@ export function UpdateProfile() {
       mutationFn: deleteAvatar,
     })
 
-  const isLoading =
-    isUpdatingRestaurant ||
-    isUploadingAvatar ||
-    isDeletingAvatar ||
-    isSubmitting
-
   async function handleUpdateRestaurant(data: ProfileSchema) {
     await updateRestaurantFn(data)
 
@@ -171,7 +162,7 @@ export function UpdateProfile() {
     setShowNameChangeAlert(false)
   }
 
-  function handleFormSubmit(data: ProfileSchema) {
+  function onSubmit(data: ProfileSchema) {
     if (restaurant?.name !== data.name) {
       setShowNameChangeAlert(true)
     } else {
@@ -228,7 +219,7 @@ export function UpdateProfile() {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="flex items-center gap-3">
               <Avatar
                 className="size-20 cursor-pointer rounded-xl"
@@ -270,7 +261,7 @@ export function UpdateProfile() {
                 </Label>
                 <FormInput
                   id="name"
-                  disabled={isLoadingManagedRestaurant}
+                  disabled={isLoading}
                   {...register('name')}
                   error={errors.name?.message}
                 />
@@ -283,7 +274,7 @@ export function UpdateProfile() {
                 <FormInput
                   id="primaryColor"
                   type="color"
-                  disabled={isLoadingManagedRestaurant}
+                  disabled={isLoading}
                   {...register('primaryColor')}
                   error={errors.primaryColor?.message}
                 />
@@ -297,7 +288,7 @@ export function UpdateProfile() {
               <FormTextarea
                 id="description"
                 className="min-h-[100px]"
-                disabled={isLoadingManagedRestaurant}
+                disabled={isLoading}
                 {...register('description')}
                 error={errors.description?.message}
               />
@@ -312,7 +303,12 @@ export function UpdateProfile() {
                 <Button
                   type="submit"
                   disabled={
-                    isLoadingManagedRestaurant || isLoading || !hasChanges
+                    isLoading ||
+                    isUpdatingRestaurant ||
+                    isUploadingAvatar ||
+                    isDeletingAvatar ||
+                    isSubmitting ||
+                    !hasChanges
                   }
                 >
                   {isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}

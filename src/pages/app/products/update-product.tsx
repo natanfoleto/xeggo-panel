@@ -20,13 +20,11 @@ interface UpdateProductProps {
 }
 
 export function UpdateProduct({ productId }: UpdateProductProps) {
-  const { data, isLoading, isFetching } = useQuery({
+  const { data: product, isLoading } = useQuery({
     queryKey: ['product', productId],
     queryFn: () => getProduct({ productId }),
-    staleTime: 1000 * 60 * 15, // 15 minutes
+    staleTime: 1000 * 60 * 15,
   })
-
-  const product = data?.product
 
   return (
     <Dialog>
@@ -39,7 +37,7 @@ export function UpdateProduct({ productId }: UpdateProductProps) {
       <DialogContent className="flex h-11/12 min-w-11/12 flex-col overflow-y-auto lg:min-w-2/3">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            {isFetching ? (
+            {isLoading ? (
               <>
                 Carregando produto
                 <Loader2 className="text-muted-foreground size-4 animate-spin" />
@@ -50,7 +48,7 @@ export function UpdateProduct({ productId }: UpdateProductProps) {
           </DialogTitle>
 
           <DialogDescription>
-            {product && `Atualize as informações de ${product?.name}.`}
+            {product && `Atualize as informações de ${product.name}.`}
           </DialogDescription>
         </DialogHeader>
 

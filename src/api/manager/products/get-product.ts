@@ -13,8 +13,8 @@ export interface Product {
   active: boolean
   categoryId: string
   restaurantId: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   category: {
     id: string
     name: string
@@ -24,8 +24,8 @@ export interface Product {
     id: string
     name: string
     productId: string
-    createdAt: Date
-    updatedAt: Date
+    createdAt: string
+    updatedAt: string
   }[]
   complementGroups: {
     id: string
@@ -34,16 +34,16 @@ export interface Product {
     min: number
     max: number
     productId: string
-    createdAt: Date
-    updatedAt: Date
+    createdAt: string
+    updatedAt: string
     complements: {
       id: string
       name: string
       priceInCents: number | null
       description: string | null
       complementGroupId: string
-      createdAt: Date
-      updatedAt: Date
+      createdAt: string
+      updatedAt: string
     }[]
   }[]
 }
@@ -57,5 +57,5 @@ export async function getProduct({ productId }: GetProductRequest) {
     `/products/${productId}`,
   )
 
-  return response.data
+  return response.data.product
 }

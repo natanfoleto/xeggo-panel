@@ -20,13 +20,11 @@ interface UpdateCategoryProps {
 }
 
 export function UpdateCategory({ categoryId }: UpdateCategoryProps) {
-  const { data, isLoading, isFetching } = useQuery({
+  const { data: category, isLoading } = useQuery({
     queryKey: ['category', categoryId],
     queryFn: () => getCategory({ categoryId }),
     staleTime: 1000 * 60 * 15,
   })
-
-  const category = data?.category
 
   return (
     <Dialog>
@@ -39,7 +37,7 @@ export function UpdateCategory({ categoryId }: UpdateCategoryProps) {
       <DialogContent className="max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            {isFetching ? (
+            {isLoading ? (
               <>
                 Carregando categoria
                 <Loader2 className="text-muted-foreground size-4 animate-spin" />

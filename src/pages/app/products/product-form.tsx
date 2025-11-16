@@ -114,12 +114,10 @@ export function ProductForm({
     name: 'complementGroups',
   })
 
-  const { data: responseCategories } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: () => getCategories(),
   })
-
-  const categories = responseCategories?.categories || []
 
   const { mutateAsync: createProductFn } = useMutation({
     mutationFn: createProduct,
@@ -153,7 +151,7 @@ export function ProductForm({
     mutationFn: deleteProductImage,
   })
 
-  const handleFormError = (errors: FieldErrors<ProductFormSchema>) => {
+  const onSubmitError = (errors: FieldErrors<ProductFormSchema>) => {
     if (
       errors.name ||
       errors.description ||
@@ -238,7 +236,7 @@ export function ProductForm({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit, handleFormError)}
+      onSubmit={handleSubmit(onSubmit, onSubmitError)}
       className="flex h-full flex-col justify-between space-y-4"
     >
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -270,7 +268,7 @@ export function ProductForm({
               className="w-full"
               error={errors.categoryId?.message}
             >
-              {categories.map((category) => (
+              {categoriesData?.categories.map((category) => (
                 <SelectItem key={category.id} value={category.id}>
                   {category.name}
                 </SelectItem>

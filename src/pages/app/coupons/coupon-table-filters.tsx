@@ -34,7 +34,7 @@ export function CouponTableFilters() {
       },
     })
 
-  function handleFilter(data: CouponFiltersSchema) {
+  function onSubmit(data: CouponFiltersSchema) {
     const search = data.search?.toString()
     const active = data.active?.toString()
 
@@ -76,7 +76,7 @@ export function CouponTableFilters() {
 
   return (
     <form
-      onSubmit={handleSubmit(handleFilter)}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-wrap items-center gap-2"
     >
       <Input

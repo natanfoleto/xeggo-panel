@@ -73,7 +73,7 @@ export function OpeningHoursSettings() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [selectedDay, setSelectedDay] = useState<WeekDay>()
 
-  const { data, isLoading } = useQuery({
+  const { data: openingHours, isLoading } = useQuery({
     queryKey: ['opening-hours'],
     queryFn: getOpeningHours,
   })
@@ -87,7 +87,7 @@ export function OpeningHoursSettings() {
   } = useForm<OpeningHoursSchema>({
     resolver: zodResolver(openingHoursSchema),
     values: {
-      hours: data?.openingHours || [],
+      hours: openingHours || [],
     },
   })
 
@@ -149,7 +149,7 @@ export function OpeningHoursSettings() {
   }
 
   const onSubmit = async (formData: OpeningHoursSchema) => {
-    const originalHours = data?.openingHours || []
+    const originalHours = openingHours || []
     const currentHours = formData.hours
 
     const deletedHourIds = originalHours
@@ -253,7 +253,7 @@ export function OpeningHoursSettings() {
 
   function handleCancel() {
     reset({
-      hours: data?.openingHours,
+      hours: openingHours,
     })
   }
 

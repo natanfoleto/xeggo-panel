@@ -26,12 +26,10 @@ type ProductFiltersSchema = z.infer<typeof productsFiltersSchema>
 export function ProductTableFilters() {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const { data: responseCategories } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: () => getCategories(),
   })
-
-  const categories = responseCategories?.categories || []
 
   const productName = searchParams.get('productName')
   const categoryId = searchParams.get('categoryId')
@@ -46,7 +44,7 @@ export function ProductTableFilters() {
       },
     })
 
-  function handleFilter(data: ProductFiltersSchema) {
+  function onSubmit(data: ProductFiltersSchema) {
     const productName = data.productName?.toString()
     const categoryId = data.categoryId?.toString()
     const active = data.active?.toString()
@@ -97,7 +95,7 @@ export function ProductTableFilters() {
 
   return (
     <form
-      onSubmit={handleSubmit(handleFilter)}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-wrap items-center gap-2"
     >
       <Input
@@ -123,7 +121,7 @@ export function ProductTableFilters() {
               <SelectContent>
                 <SelectItem value="all">Todas categorias</SelectItem>
 
-                {categories.map((category) => (
+                {categoriesData?.categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
                   </SelectItem>

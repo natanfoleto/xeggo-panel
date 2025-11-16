@@ -33,7 +33,7 @@ export function Products() {
     .parse(searchParams.get('page') ?? '1')
 
   const {
-    data: result,
+    data: productsData,
     isFetching: isFetchingProducts,
     isLoading: isLoadingProducts,
   } = useQuery({
@@ -90,16 +90,18 @@ export function Products() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoadingProducts && !result && <ProductsTableSkeleton />}
+                {isLoadingProducts && !productsData && (
+                  <ProductsTableSkeleton />
+                )}
 
-                {result &&
-                  result.products.map((product) => {
+                {productsData &&
+                  productsData.products.map((product) => {
                     return (
                       <ProductTableRow key={product.id} product={product} />
                     )
                   })}
 
-                {result && result.products.length === 0 && (
+                {productsData && productsData.products.length === 0 && (
                   <TableRow>
                     <TableCell
                       colSpan={7}
@@ -113,11 +115,11 @@ export function Products() {
             </Table>
           </div>
 
-          {result && (
+          {productsData && (
             <Pagination
               pageIndex={pageIndex}
-              totalCount={result.meta.totalCount}
-              perPage={result.meta.perPage}
+              totalCount={productsData.meta.totalCount}
+              perPage={productsData.meta.perPage}
               onPageChange={handlePaginate}
             />
           )}

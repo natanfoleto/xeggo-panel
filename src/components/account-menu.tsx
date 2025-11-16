@@ -28,13 +28,11 @@ import { Skeleton } from './ui/skeleton'
 export function AccountMenu() {
   const navigate = useNavigate()
 
-  const { data: profileData, isLoading: isLoadingProfile } = useQuery({
+  const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
     staleTime: Infinity,
   })
-
-  const profile = profileData?.profile
 
   const { isPending: isSigningOut, mutateAsync: handleSignOut } = useMutation({
     mutationFn: signOut,

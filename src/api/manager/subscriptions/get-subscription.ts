@@ -19,15 +19,15 @@ export interface Subscription {
   cardLast4: string | null
   cardExpMonth: number | null
   cardExpYear: number | null
-  currentPeriodStart: Date
-  currentPeriodEnd: Date
-  trialStart: Date | null
-  trialEnd: Date | null
-  canceledAt: Date | null
-  cancelAt: Date | null
+  currentPeriodStart: string
+  currentPeriodEnd: string
+  trialStart: string | null
+  trialEnd: string | null
+  canceledAt: string | null
+  cancelAt: string | null
   cancelAtPeriodEnd: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   plan: {
     id: string
     name: string
