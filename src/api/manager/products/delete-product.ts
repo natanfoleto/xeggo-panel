@@ -1,9 +1,9 @@
 import { api } from '@/lib/axios'
 
-export interface DeleteProductParams {
+export interface DeleteProductRequest {
   productId: string
 }
 
-export async function deleteProduct({ productId }: DeleteProductParams) {
+export async function deleteProduct({ productId }: DeleteProductRequest) {
   await api.manager.delete(`/products/${productId}`)
 }

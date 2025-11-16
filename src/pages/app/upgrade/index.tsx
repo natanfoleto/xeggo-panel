@@ -26,31 +26,27 @@ export function Upgrade() {
   )
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null)
 
-  const { data: subscription } = useQuery({
+  const { data: subscription, isLoading: isLoadingSubscription } = useQuery({
     queryKey: ['subscription'],
     queryFn: getSubscription,
   })
 
-  const { data: plansData, isLoading: isLoadingPlans } = useQuery({
+  const { data: plans, isLoading: isLoadingPlans } = useQuery({
     queryKey: ['plans'],
     queryFn: getPlans,
   })
 
-  const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
-    useQuery({
-      queryKey: ['managed-restaurant'],
-      queryFn: getManagedRestaurant,
-      staleTime: Infinity,
-    })
+  const { data: restaurant, isLoading: isLoadingManagedRestaurant } = useQuery({
+    queryKey: ['managed-restaurant'],
+    queryFn: getManagedRestaurant,
+    staleTime: Infinity,
+  })
 
-  const { data: profileData, isLoading: isLoadingProfile } = useQuery({
+  const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
     staleTime: Infinity,
   })
-
-  const restaurant = managedRestaurant?.restaurant
-  const profile = profileData?.profile
 
   const { mutateAsync: createCheckoutFn, isPending } = useMutation({
     mutationFn: async ({ planId, metadata }: CreateCheckoutRequest) => {
@@ -80,7 +76,7 @@ export function Upgrade() {
   const isTrialing = subscription?.status === 'trialing'
   const currentPlanName = subscription?.plan?.name
 
-  const filteredPlans = plansData?.plans.filter(
+  const filteredPlans = plans?.filter(
     (plan) => plan.type === billingPeriod && plan.name !== 'Trial',
   )
 
@@ -89,7 +85,12 @@ export function Upgrade() {
     return planName === 'Ilimitado' ? 20 : 15
   }
 
-  if (isLoadingProfile || isLoadingManagedRestaurant || isLoadingPlans)
+  if (
+    isLoadingSubscription ||
+    isLoadingProfile ||
+    isLoadingManagedRestaurant ||
+    isLoadingPlans
+  )
     return <UpgradeSkeleton />
 
   return (

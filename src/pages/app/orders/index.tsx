@@ -34,7 +34,7 @@ export function Orders() {
     .parse(searchParams.get('page') ?? '1')
 
   const {
-    data: result,
+    data: ordersData,
     isFetching: isFetchingOrders,
     isLoading: isLoadingOrders,
   } = useQuery({
@@ -87,14 +87,14 @@ export function Orders() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoadingOrders && !result && <OrdersTableSkeleton />}
+                {isLoadingOrders && !ordersData && <OrdersTableSkeleton />}
 
-                {result &&
-                  result.orders.map((order) => {
+                {ordersData &&
+                  ordersData.orders.map((order) => {
                     return <OrderTableRow key={order.orderId} order={order} />
                   })}
 
-                {result && result.orders.length === 0 && (
+                {ordersData && ordersData.orders.length === 0 && (
                   <TableRow>
                     <TableCell
                       colSpan={7}
@@ -108,11 +108,11 @@ export function Orders() {
             </Table>
           </div>
 
-          {result && (
+          {ordersData && (
             <Pagination
               pageIndex={pageIndex}
-              totalCount={result.meta.totalCount}
-              perPage={result.meta.perPage}
+              totalCount={ordersData.meta.totalCount}
+              perPage={ordersData.meta.perPage}
               onPageChange={handlePaginate}
             />
           )}

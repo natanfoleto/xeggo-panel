@@ -43,7 +43,7 @@ export function SignIn() {
     mutationFn: authenticateFromLink,
   })
 
-  async function handleAuthenticateFromLink({ email }: SignInSchema) {
+  async function onSubmit({ email }: SignInSchema) {
     await authenticateFromLinkFn({ email })
 
     appalert.info(
@@ -77,7 +77,7 @@ export function SignIn() {
         <div className="grid gap-6">
           {showEmailForm ? (
             <div className="grid gap-4">
-              <form onSubmit={handleSubmit(handleAuthenticateFromLink)}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Seu e-mail</Label>

@@ -52,7 +52,7 @@ const ORDER_TYPES: Record<string, string> = {
 
 export function OrderDetails({ orderId, open }: OrderDetailsProps) {
   const {
-    data: orderData,
+    data: order,
     isLoading: isLoadingOrder,
     isFetching: isFetchingOrder,
   } = useQuery({
@@ -62,7 +62,6 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
     enabled: open,
   })
 
-  const order = orderData?.order
   const hasCashPayment = order?.paymentMethods.includes('cash')
 
   return (

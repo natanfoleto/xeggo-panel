@@ -46,7 +46,7 @@ export function SignUp() {
     mutationFn: registerRestaurant,
   })
 
-  async function handleRegisteRestaurant({
+  async function onSubmit({
     restaurantName,
     managerName,
     email,
@@ -95,7 +95,7 @@ export function SignUp() {
         </div>
 
         <div className="grid gap-6">
-          <form onSubmit={handleSubmit(handleRegisteRestaurant)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Nome do negócio</Label>

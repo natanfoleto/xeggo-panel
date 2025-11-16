@@ -49,12 +49,10 @@ type AddressSchema = z.infer<typeof addressSchema>
 export function UpdateAddress() {
   const [isSearchingCep, setIsSearchingCep] = useState(false)
 
-  const { data: addressData, isLoading } = useQuery({
+  const { data: address, isLoading } = useQuery({
     queryKey: ['address'],
     queryFn: getAddress,
   })
-
-  const address = addressData?.address
 
   const {
     register,

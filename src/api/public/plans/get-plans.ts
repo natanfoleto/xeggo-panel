@@ -17,5 +17,6 @@ export interface GetPlansResponse {
 
 export async function getPlans() {
   const response = await api.public.get<GetPlansResponse>('/plans')
-  return response.data
+
+  return response.data.plans
 }

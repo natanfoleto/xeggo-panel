@@ -70,7 +70,7 @@ export function ReceiptChart() {
   })
 
   const {
-    data: dailyReceiptData,
+    data: dailyReceipts,
     isFetching: isLoadingDailyReceiptInPeriod,
     error: dailyReceiptError,
   } = useQuery({
@@ -82,8 +82,6 @@ export function ReceiptChart() {
         to: period?.to,
       }),
   })
-
-  const dailyReceipts = dailyReceiptData?.dailyReceipts
 
   function handleResetPeriod() {
     setPeriod({

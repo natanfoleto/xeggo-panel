@@ -51,6 +51,7 @@ export function OrderTableFilters() {
         to: to ? new Date(to) : undefined,
       }
     }
+
     return undefined
   })
 
@@ -109,7 +110,7 @@ export function OrderTableFilters() {
     }
   }, [period, setSearchParams])
 
-  function handleFilter(data: OrderFiltersSchema) {
+  function onSubmit(data: OrderFiltersSchema) {
     const orderId = data.orderId?.toString()
     const customerName = data.customerName?.toString()
     const status = data.status?.toString()
@@ -140,7 +141,7 @@ export function OrderTableFilters() {
     if (currentStatus === statusValue) setValue('status', 'all')
     else setValue('status', statusValue)
 
-    handleSubmit(handleFilter)()
+    handleSubmit(onSubmit)()
   }
 
   function handleQuickDateFilter(type: QuickDateFilterType) {
@@ -225,7 +226,7 @@ export function OrderTableFilters() {
     !!period?.to
 
   return (
-    <form onSubmit={handleSubmit(handleFilter)} className="flex flex-col gap-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
       <div className="flex flex-col gap-2 lg:flex-row">
         <div className="flex items-center gap-2">
           <div className="relative w-64">

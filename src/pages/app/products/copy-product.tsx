@@ -35,6 +35,7 @@ interface CopyProductProps {
 
 export function CopyProduct({ productId, productName }: CopyProductProps) {
   const queryClient = useQueryClient()
+
   const [isAlertOpen, setIsAlertOpen] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [newProductId, setNewProductId] = useState<string | null>(null)
@@ -52,14 +53,16 @@ export function CopyProduct({ productId, productName }: CopyProductProps) {
     },
   })
 
-  const { data, isLoading, isFetching } = useQuery({
+  const {
+    data: product,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ['product', newProductId],
     queryFn: () => getProduct({ productId: newProductId! }),
     enabled: !!newProductId && isDialogOpen,
     staleTime: 1000 * 60 * 15,
   })
-
-  const product = data?.product
 
   async function handleCopy() {
     await copyProductFn({ productId })

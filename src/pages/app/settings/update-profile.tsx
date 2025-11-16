@@ -32,12 +32,10 @@ type ProfileSchema = z.infer<typeof profileSchema>
 export function UpdateProfile() {
   const queryClient = useQueryClient()
 
-  const { data: profileData, isLoading: isLoadingProfile } = useQuery({
+  const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
   })
-
-  const profile = profileData?.profile
 
   const {
     register,
@@ -91,7 +89,7 @@ export function UpdateProfile() {
     },
   })
 
-  async function handleUpdateProfile(data: ProfileSchema) {
+  async function onSubmit(data: ProfileSchema) {
     await updateProfileFn({
       name: data.name,
       email: data.email,
@@ -120,10 +118,7 @@ export function UpdateProfile() {
       </CardHeader>
 
       <CardContent>
-        <form
-          onSubmit={handleSubmit(handleUpdateProfile)}
-          className="space-y-6"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="col-span-12 space-y-2 md:col-span-8">
             <Label htmlFor="name" className="text-right">
               Nome

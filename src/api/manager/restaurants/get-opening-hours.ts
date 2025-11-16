@@ -14,8 +14,8 @@ export interface OpeningHour {
   weekDay: WeekDay
   openTime: string
   closeTime: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }
 
 export interface GetOpeningHoursResponse {
@@ -25,5 +25,6 @@ export interface GetOpeningHoursResponse {
 export async function getOpeningHours() {
   const response =
     await api.manager.get<GetOpeningHoursResponse>('/opening-hours')
-  return response.data
+
+  return response.data.openingHours
 }

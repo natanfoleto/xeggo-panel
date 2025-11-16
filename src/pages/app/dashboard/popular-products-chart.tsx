@@ -49,6 +49,7 @@ const COLORS = [
   colors.amber[500],
   colors.violet[500],
   colors.emerald[500],
+  colors.rose[500],
 ]
 
 export function PopularProductsChart() {
@@ -75,7 +76,7 @@ export function PopularProductsChart() {
       </CardHeader>
 
       <CardContent>
-        {popularProducts ? (
+        {popularProducts && popularProducts.length > 0 ? (
           <ResponsiveContainer width="100%" height={240}>
             <PieChart style={{ fontSize: 14 }}>
               <Pie

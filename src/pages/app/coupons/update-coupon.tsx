@@ -20,13 +20,15 @@ interface UpdateCouponProps {
 }
 
 export function UpdateCoupon({ couponId }: UpdateCouponProps) {
-  const { data, isLoading, isFetching } = useQuery({
+  const {
+    data: coupon,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ['coupon', couponId],
     queryFn: () => getCoupon({ couponId }),
     staleTime: 1000 * 60 * 15,
   })
-
-  const coupon = data?.coupon
 
   return (
     <Dialog>

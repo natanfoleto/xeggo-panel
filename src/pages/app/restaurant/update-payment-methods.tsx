@@ -48,7 +48,7 @@ const paymentMethodsSchema = z.object({
 type PaymentMethodsSchema = z.infer<typeof paymentMethodsSchema>
 
 export function UpdatePaymentMethods() {
-  const { data, isLoading } = useQuery({
+  const { data: paymentMethods, isLoading } = useQuery({
     queryKey: ['payment-methods'],
     queryFn: getPaymentMethods,
   })
@@ -67,8 +67,8 @@ export function UpdatePaymentMethods() {
   })
 
   useEffect(() => {
-    if (data?.paymentMethods) setValue('selectedMethods', data.paymentMethods)
-  }, [data, setValue])
+    if (paymentMethods) setValue('selectedMethods', paymentMethods)
+  }, [paymentMethods, setValue])
 
   const { mutateAsync: updatePaymentMethodsFn } = useMutation({
     mutationFn: updatePaymentMethods,
@@ -114,7 +114,7 @@ export function UpdatePaymentMethods() {
 
   function handleCancel() {
     reset({
-      selectedMethods: data?.paymentMethods,
+      selectedMethods: paymentMethods,
     })
   }
 

@@ -17,12 +17,10 @@ import {
 export function Account() {
   const navigate = useNavigate()
 
-  const { data: profileData, isLoading: isLoadingProfile } = useQuery({
+  const { data: profile, isLoading } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
   })
-
-  const profile = profileData?.profile
 
   const { isPending: isSigningOut, mutateAsync: handleSignOut } = useMutation({
     mutationFn: signOut,
@@ -57,7 +55,7 @@ export function Account() {
             <span className="cursor-pointer underline">Contatar suporte</span>
           </div>
 
-          {isLoadingProfile ? (
+          {isLoading ? (
             <div className="flex items-center justify-between gap-2">
               <span>ID da conta</span>
               <span className="bg-muted text-muted-foreground flex w-60 animate-pulse items-center gap-2 rounded-md py-3" />

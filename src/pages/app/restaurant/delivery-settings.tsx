@@ -32,7 +32,7 @@ const deliverySettingsSchema = z.object({
 type DeliverySettingsSchema = z.infer<typeof deliverySettingsSchema>
 
 export function UpdateDeliverySettings() {
-  const { data, isLoading } = useQuery({
+  const { data: deliveryFeeInCents, isLoading } = useQuery({
     queryKey: ['delivery-settings'],
     queryFn: getDeliverySettings,
   })
@@ -51,12 +51,12 @@ export function UpdateDeliverySettings() {
   })
 
   useEffect(() => {
-    if (data) {
+    if (deliveryFeeInCents) {
       reset({
-        deliveryFeeInCents: data.deliveryFeeInCents ?? 0,
+        deliveryFeeInCents: deliveryFeeInCents ?? 0,
       })
     }
-  }, [data, reset])
+  }, [deliveryFeeInCents, reset])
 
   const { mutateAsync: updateDeliverySettingsFn } = useMutation({
     mutationFn: updateDeliverySettings,
@@ -83,7 +83,7 @@ export function UpdateDeliverySettings() {
 
   function handleCancel() {
     reset({
-      deliveryFeeInCents: data?.deliveryFeeInCents,
+      deliveryFeeInCents,
     })
   }
 

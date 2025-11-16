@@ -9,8 +9,8 @@ export interface Category {
   name: string
   description: string | null
   restaurantId: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   _count: {
     products: number
   }
@@ -25,5 +25,5 @@ export async function getCategory({ categoryId }: GetCategoryRequest) {
     `/categories/${categoryId}`,
   )
 
-  return response.data
+  return response.data.category
 }

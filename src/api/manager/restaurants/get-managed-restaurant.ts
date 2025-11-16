@@ -8,8 +8,8 @@ export interface ManagedRestaurant {
   primaryColor: string | null
   avatarUrl: string | null
   managerId: string | null
-  createdAt: Date | null
-  updatedAt: Date | null
+  createdAt: string | null
+  updatedAt: string | null
 }
 
 export interface GetManagedRestaurantResponse {
@@ -21,5 +21,5 @@ export async function getManagedRestaurant() {
     '/managed-restaurant',
   )
 
-  return response.data
+  return response.data.restaurant
 }

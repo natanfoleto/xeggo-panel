@@ -5,8 +5,8 @@ export interface Category {
   name: string
   description: string | null
   restaurantId: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   _count: {
     products: number
   }

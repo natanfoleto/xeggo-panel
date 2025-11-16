@@ -66,7 +66,7 @@ const segmentsSchema = z.object({
 type SegmentsSchema = z.infer<typeof segmentsSchema>
 
 export function UpdateSegments() {
-  const { data, isLoading } = useQuery({
+  const { data: segments, isLoading } = useQuery({
     queryKey: ['segments'],
     queryFn: getSegments,
   })
@@ -85,8 +85,8 @@ export function UpdateSegments() {
   })
 
   useEffect(() => {
-    if (data?.segments) setValue('selectedSegments', data.segments)
-  }, [data, setValue])
+    if (segments) setValue('selectedSegments', segments)
+  }, [segments, setValue])
 
   const { mutateAsync: updateSegmentsFn } = useMutation({
     mutationFn: updateSegments,
@@ -129,7 +129,7 @@ export function UpdateSegments() {
 
   function handleCancel() {
     reset({
-      selectedSegments: data?.segments,
+      selectedSegments: segments,
     })
   }
 

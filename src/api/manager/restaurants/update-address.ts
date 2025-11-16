@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-export interface UpdateAddressBody {
+export interface UpdateAddressRequest {
   address: {
     zipCode?: string | null
     street?: string | null
@@ -12,8 +12,8 @@ export interface UpdateAddressBody {
   }
 }
 
-export async function updateAddress(body: UpdateAddressBody) {
-  const response = await api.manager.put('/address', body)
+export async function updateAddress({ address }: UpdateAddressRequest) {
+  const response = await api.manager.put('/address', { address })
 
   return response.data
 }

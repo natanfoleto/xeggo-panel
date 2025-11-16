@@ -31,7 +31,7 @@ export function Categories() {
     .parse(searchParams.get('page') ?? '1')
 
   const {
-    data: result,
+    data: categoriesData,
     isFetching: isFetchingCategories,
     isLoading: isLoadingCategories,
   } = useQuery({
@@ -76,16 +76,18 @@ export function Categories() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoadingCategories && !result && <CategoriesTableSkeleton />}
+                {isLoadingCategories && !categoriesData && (
+                  <CategoriesTableSkeleton />
+                )}
 
-                {result &&
-                  result.categories.map((category) => {
+                {categoriesData &&
+                  categoriesData.categories.map((category) => {
                     return (
                       <CategoryTableRow key={category.id} category={category} />
                     )
                   })}
 
-                {result && result.categories.length === 0 && (
+                {categoriesData && categoriesData.categories.length === 0 && (
                   <TableRow>
                     <TableCell
                       colSpan={3}
@@ -99,11 +101,11 @@ export function Categories() {
             </Table>
           </div>
 
-          {result && (
+          {categoriesData && (
             <Pagination
               pageIndex={pageIndex}
-              totalCount={result.meta.totalCount}
-              perPage={result.meta.perPage}
+              totalCount={categoriesData.meta.totalCount}
+              perPage={categoriesData.meta.perPage}
               onPageChange={handlePaginate}
             />
           )}
