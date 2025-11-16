@@ -55,10 +55,8 @@ export function DeleteProduct({ productId, productName }: DeleteProductProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Deletar {productName}?</AlertDialogTitle>
           <AlertDialogDescription>
-            Tem certeza que deseja excluir o produto{' '}
-            <strong>{productName}</strong>? Essa ação não pode ser desfeita.
-            Caso queira remover do cardápio sem excluir, basta desativar o
-            produto.
+            Se o produto estiver vinculado a algum pedido, ele será apenas
+            desativado. Caso contrário, será removido permanentemente.
           </AlertDialogDescription>
         </AlertDialogHeader>
 

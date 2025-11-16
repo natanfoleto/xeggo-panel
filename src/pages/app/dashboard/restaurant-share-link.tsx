@@ -69,11 +69,9 @@ export function RestaurantShareLink() {
   }
 
   const handleShareWhatsApp = () => {
-    const message = encodeURIComponent(
-      `Confira o cardápio de ${restaurant.name}: ${restaurantUrl}`,
-    )
+    const message = `Olá! Esse é o contato de *${restaurant.name}*\nObrigado por entrar em contato!\n\nQue tal dar uma olhadinha no nosso cardápio?\nE só clicar aqui: ${restaurantUrl}`
 
-    window.open(`https://wa.me/?text=${message}`, '_blank')
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank')
   }
 
   const handleDownloadQRCode = () => {
