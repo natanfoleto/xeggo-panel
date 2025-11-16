@@ -20,7 +20,9 @@ export function Notifications() {
       </CardHeader>
 
       <CardContent>
-        <div>Notificações</div>
+        <p className="text-muted-foreground text-sm">
+          Nenhuma notificação para configurar.
+        </p>
       </CardContent>
     </Card>
   )

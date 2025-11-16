@@ -84,7 +84,7 @@ export function UpdateStatusProduct({
               disabled={isPending}
               className={
                 currentStatus
-                  ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                  ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90 text-white'
                   : ''
               }
             >
