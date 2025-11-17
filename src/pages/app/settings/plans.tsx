@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { CreditCard, Loader2 } from 'lucide-react'
+import { CreditCard, Info, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 import { getInvoices } from '@/api/manager/invoices/get-invoices'
@@ -24,6 +24,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { formatCurrency } from '@/utils/format-currency'
 
 export function Plans() {
@@ -55,6 +60,19 @@ export function Plans() {
     }
 
     return statusMap[status] || status
+  }
+
+  const getFailureCodeLabel = (status: string) => {
+    const statusMap: Record<string, string> = {
+      card_declined: 'Cartão recusado',
+    }
+
+    return statusMap[status] || status
+  }
+
+  const formatCardBrand = (brand?: string) => {
+    if (!brand) return ''
+    return brand.charAt(0).toUpperCase() + brand.slice(1)
   }
 
   if (isLoadingSubscription) {
@@ -166,7 +184,7 @@ export function Plans() {
                   <div>
                     <p className="text-sm font-medium">
                       {subscription.cardBrand && subscription.cardLast4
-                        ? `${subscription.cardBrand} •••• ${subscription.cardLast4}`
+                        ? `${formatCardBrand(subscription.cardBrand)} •••• ${subscription.cardLast4}`
                         : '•••• ••••'}
                     </p>
 
@@ -191,6 +209,14 @@ export function Plans() {
                   )}
                 </Button>
               </div>
+
+              <p className="text-muted-foreground text-xs">
+                Este método de pagamento será usado na próxima cobrança em{' '}
+                {format(subscription.currentPeriodEnd, 'dd MMM yyyy', {
+                  locale: ptBR,
+                })}
+                .
+              </p>
             </div>
           </>
         )}
@@ -213,12 +239,16 @@ export function Plans() {
                         <TableHead>Data</TableHead>
                         <TableHead>Total</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Método</TableHead>
                         <TableHead className="text-right">Ações</TableHead>
                       </TableRow>
                     </TableHeader>
 
                     <TableBody>
                       <TableRow>
+                        <TableCell>
+                          <div className="bg-muted h-4 w-20 animate-pulse rounded" />
+                        </TableCell>
                         <TableCell>
                           <div className="bg-muted h-4 w-20 animate-pulse rounded" />
                         </TableCell>
@@ -241,6 +271,7 @@ export function Plans() {
                         <TableHead>Data</TableHead>
                         <TableHead>Total</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Método</TableHead>
                         <TableHead className="text-right">Ações</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -259,14 +290,79 @@ export function Plans() {
                           </TableCell>
 
                           <TableCell className="text-sm">
-                            {getInvoiceStatusLabel(invoice.status)}
+                            <div className="flex items-center gap-1.5">
+                              <span>
+                                {getInvoiceStatusLabel(invoice.status)}
+                              </span>
+
+                              {invoice.status === 'open' &&
+                                invoice.failureMessage && (
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Info className="size-3.5 cursor-pointer text-red-400" />
+                                    </TooltipTrigger>
+
+                                    <TooltipContent
+                                      side="top"
+                                      className="bg-background text-muted-foreground max-w-72 space-y-2 pt-3 pb-0.5 text-center"
+                                      sideOffset={5}
+                                    >
+                                      <p className="font-medium text-red-400">
+                                        Não foi possível processar seu pagamento
+                                      </p>
+
+                                      {invoice.failedAt && (
+                                        <p>
+                                          Houve uma tentativa de cobrança no dia{' '}
+                                          {format(
+                                            invoice.failedAt,
+                                            "dd/MM/yyyy 'às' HH:mm",
+                                            { locale: ptBR },
+                                          )}
+                                        </p>
+                                      )}
+
+                                      <div>
+                                        {invoice.cardBrand &&
+                                          invoice.cardLast4 && (
+                                            <p>
+                                              {formatCardBrand(
+                                                invoice.cardBrand,
+                                              )}{' '}
+                                              •••• {invoice.cardLast4}
+                                            </p>
+                                          )}
+
+                                        {invoice.failureCode && (
+                                          <p>
+                                            {getFailureCodeLabel(
+                                              invoice.failureCode,
+                                            )}
+                                          </p>
+                                        )}
+                                      </div>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                )}
+                            </div>
+                          </TableCell>
+
+                          <TableCell className="text-sm">
+                            {invoice.cardBrand && invoice.cardLast4 ? (
+                              <span>
+                                {formatCardBrand(invoice.cardBrand)} ••••{' '}
+                                {invoice.cardLast4}
+                              </span>
+                            ) : (
+                              <span className="text-muted-foreground">N/A</span>
+                            )}
                           </TableCell>
 
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">
-                              {invoice.invoicePdf && (
+                              {invoice.hostedInvoiceUrl && (
                                 <a
-                                  href={invoice.invoicePdf}
+                                  href={invoice.hostedInvoiceUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="text-sm hover:underline"
@@ -275,9 +371,9 @@ export function Plans() {
                                 </a>
                               )}
 
-                              {invoice.hostedInvoiceUrl && (
+                              {invoice.invoicePdf && (
                                 <a
-                                  href={invoice.hostedInvoiceUrl}
+                                  href={invoice.invoicePdf}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="text-sm hover:underline"
@@ -342,6 +438,7 @@ export function Plans() {
                   <Button
                     variant="destructive"
                     size="sm"
+                    className="font-medium"
                     onClick={() => openPortal()}
                     disabled={isOpeningPortal}
                   >

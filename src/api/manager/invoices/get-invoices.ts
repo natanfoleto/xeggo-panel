@@ -9,6 +9,11 @@ export interface GetInvoicesRequest {
 export interface Invoice {
   id: string
   stripeInvoiceId: string
+  stripePaymentMethodId: string | null
+  cardBrand: string | null
+  cardLast4: string | null
+  cardExpMonth: number | null
+  cardExpYear: number | null
   amountPaidInCents: number
   amountDueInCents: number
   status: string
@@ -16,6 +21,11 @@ export interface Invoice {
   hostedInvoiceUrl: string | null
   invoicePdf: string | null
   paidAt: string | null
+  failedAt: string | null
+  failureMessage: string | null
+  failureCode: string | null
+  failureDeclineCode: string | null
+  failureReason: string | null
   periodStart: string
   periodEnd: string
   createdAt: string
