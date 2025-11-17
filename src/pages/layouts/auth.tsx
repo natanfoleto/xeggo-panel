@@ -7,13 +7,13 @@ export function AuthLayout() {
     <div className="relative min-h-screen flex-col items-center antialiased md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-linear-to-r from-violet-800 to-violet-600 p-10 lg:flex">
         <div className="text-foreground flex items-center gap-3 text-lg font-medium">
-          <span className="rounded-md bg-zinc-200 p-1.5">
+          <span className="rounded-md bg-zinc-50 p-1.5">
             <BrandIcon className="size-6 fill-violet-500" />
           </span>
         </div>
 
         <div className="flex flex-1 flex-col items-center justify-center gap-5 text-zinc-100">
-          <span className="rounded-xl bg-zinc-200 p-4">
+          <span className="rounded-xl bg-zinc-50 p-4">
             <BrandIcon className="size-14 fill-violet-500" />
           </span>
 
