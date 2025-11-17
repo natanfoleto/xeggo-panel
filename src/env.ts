@@ -6,6 +6,10 @@ export const envSchema = z.object({
   VITE_MANAGER_API_URL: z.string(),
   VITE_APP_MENU_URL: z.string(),
   VITE_STRIPE_PUBLIC_KEY: z.string(),
+  VITE_GRACE_PERIOD_DAYS: z.string().transform((value) => {
+    const num = Number(value)
+    return Number.isFinite(num) ? num : 3
+  }),
   VITE_ENABLE_API_DELAY: z.string().transform((value) => value === 'true'),
 })
 
