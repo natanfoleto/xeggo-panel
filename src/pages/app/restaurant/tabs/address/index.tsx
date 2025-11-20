@@ -74,8 +74,6 @@ export function UpdateAddress() {
     },
   })
 
-  const zipCode = watch('zipCode')
-
   useEffect(() => {
     if (address) {
       reset({
@@ -118,6 +116,8 @@ export function UpdateAddress() {
       },
     })
   }
+
+  const zipCode = watch('zipCode')
 
   const handleZipCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue('zipCode', formatCEP(event.target.value))
@@ -178,7 +178,7 @@ export function UpdateAddress() {
               <div className="relative">
                 <FormInput
                   id="zipCode"
-                  placeholder="00000-000"
+                  placeholder="12345-678"
                   maxLength={9}
                   {...register('zipCode')}
                   onChange={handleZipCodeChange}

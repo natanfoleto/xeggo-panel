@@ -5,6 +5,7 @@ export interface ManagedRestaurant {
   name: string
   description: string | null
   slug: string
+  cpfCnpj: string
   primaryColor: string | null
   avatarUrl: string | null
   managerId: string | null

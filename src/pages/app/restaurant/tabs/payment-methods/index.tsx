@@ -28,21 +28,10 @@ const paymentMethodLabels: Record<PaymentMethod, string> = {
   creditCard: 'Cartão de Crédito',
   debitCard: 'Cartão de Débito',
   pix: 'Pix',
-  voucher: 'Vale Refeição',
-  bankTransfer: 'Transferência Bancária',
 }
 
 const paymentMethodsSchema = z.object({
-  selectedMethods: z.array(
-    z.enum([
-      'cash',
-      'creditCard',
-      'debitCard',
-      'pix',
-      'voucher',
-      'bankTransfer',
-    ]),
-  ),
+  selectedMethods: z.array(z.enum(['cash', 'creditCard', 'debitCard', 'pix'])),
 })
 
 type PaymentMethodsSchema = z.infer<typeof paymentMethodsSchema>

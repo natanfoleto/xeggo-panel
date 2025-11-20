@@ -6,12 +6,14 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { deleteAvatar } from '@/api/manager/restaurants/delete-avatar'
+import { getAsaasAccount } from '@/api/manager/restaurants/get-asaas-account'
 import {
   getManagedRestaurant,
   type ManagedRestaurant,
 } from '@/api/manager/restaurants/get-managed-restaurant'
 import { updateRestaurant } from '@/api/manager/restaurants/update-restaurant'
 import { uploadAvatar } from '@/api/manager/restaurants/upload-avatar'
+import { FormCpfCnpjInput } from '@/components/form/form-cpf-cnpj-input'
 import { FormInput } from '@/components/form/form-input'
 import { FormTextarea } from '@/components/form/form-text-area'
 import {
@@ -35,9 +37,24 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { getInitialsName } from '@/utils/get-initials-name'
+import { isValidCNPJ, isValidCPF } from '@/utils/validate-document'
+
+import { UpdateRestaurantSkeleton } from './restaurant-skeleton'
 
 const profileSchema = z.object({
   name: z.string().min(1),
+  cpfCnpj: z
+    .string()
+    .min(11, 'Documento inválido')
+    .max(14, 'Documento inválido')
+    .refine(
+      (value) => {
+        const only = value.replace(/\D/g, '')
+
+        return only.length === 11 ? isValidCPF(only) : isValidCNPJ(only)
+      },
+      { message: 'CPF ou CNPJ inválido' },
+    ),
   description: z.string().nullable(),
   primaryColor: z
     .string()
@@ -49,13 +66,18 @@ type ProfileSchema = z.infer<typeof profileSchema>
 
 type UpdatePayload = Omit<ProfileSchema, 'avatarUrl'>
 
-export function UpdateProfile() {
+export function UpdateRestaurant() {
   const queryClient = useQueryClient()
 
-  const { data: restaurant, isLoading } = useQuery({
+  const { data: restaurant, isLoading: isLoadingRestaurant } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
     staleTime: Infinity,
+  })
+
+  const { data: asaasAccount, isLoading: isLoadingAsaasAccount } = useQuery({
+    queryKey: ['asaas-account'],
+    queryFn: getAsaasAccount,
   })
 
   const [avatar, setAvatar] = useState<File | string | null>(
@@ -68,12 +90,15 @@ export function UpdateProfile() {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     reset,
     formState: { isSubmitting, errors, isDirty },
   } = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
     values: {
       name: restaurant?.name ?? '',
+      cpfCnpj: restaurant?.cpfCnpj ?? '',
       description: restaurant?.description ?? '',
       primaryColor: restaurant?.primaryColor ?? '#d4d4d8',
     },
@@ -121,10 +146,16 @@ export function UpdateProfile() {
   const { mutateAsync: updateRestaurantFn, isPending: isUpdatingRestaurant } =
     useMutation({
       mutationFn: updateRestaurant,
-      onMutate: ({ name, description, primaryColor }: UpdatePayload) => {
+      onMutate: ({
+        name,
+        description,
+        cpfCnpj,
+        primaryColor,
+      }: UpdatePayload) => {
         const { cached } = updateRestaurantDataOnCache({
           name,
           description,
+          cpfCnpj,
           primaryColor,
         })
 
@@ -206,11 +237,20 @@ export function UpdateProfile() {
 
   const hasChanges = isDirty || isAvatarDirty
 
+  if (isLoadingRestaurant || isLoadingAsaasAccount)
+    return <UpdateRestaurantSkeleton />
+
+  const isUpdating =
+    isUpdatingRestaurant ||
+    isUploadingAvatar ||
+    isDeletingAvatar ||
+    isSubmitting
+
   return (
     <>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">Perfil</CardTitle>
+          <CardTitle className="flex items-center gap-2">Geral</CardTitle>
 
           <CardDescription>
             Atualize as informações do seu estabelecimento visíveis aos seus
@@ -255,26 +295,39 @@ export function UpdateProfile() {
             />
 
             <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-12 space-y-2 md:col-span-8">
+              <div className="col-span-12 space-y-2 lg:col-span-6">
                 <Label htmlFor="name" className="text-right">
                   Nome
                 </Label>
                 <FormInput
                   id="name"
-                  disabled={isLoading}
                   {...register('name')}
                   error={errors.name?.message}
                 />
               </div>
 
-              <div className="col-span-12 space-y-2 md:col-span-4">
+              <div className="col-span-12 space-y-2 md:col-span-8 lg:col-span-4">
+                <Label htmlFor="cpfCnpj">CPF ou CNPJ</Label>
+                <FormCpfCnpjInput
+                  value={watch('cpfCnpj')}
+                  onChange={(value) =>
+                    setValue('cpfCnpj', value, {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    })
+                  }
+                  disabled={!!asaasAccount?.asaasAccountId}
+                  error={errors.cpfCnpj?.message}
+                />
+              </div>
+
+              <div className="col-span-12 space-y-2 md:col-span-4 lg:col-span-2">
                 <Label htmlFor="primaryColor" className="text-right">
                   Cor primária
                 </Label>
                 <FormInput
                   id="primaryColor"
                   type="color"
-                  disabled={isLoading}
                   {...register('primaryColor')}
                   error={errors.primaryColor?.message}
                 />
@@ -288,7 +341,6 @@ export function UpdateProfile() {
               <FormTextarea
                 id="description"
                 className="min-h-[100px]"
-                disabled={isLoading}
                 {...register('description')}
                 error={errors.description?.message}
               />
@@ -300,18 +352,8 @@ export function UpdateProfile() {
                   Cancelar
                 </Button>
 
-                <Button
-                  type="submit"
-                  disabled={
-                    isLoading ||
-                    isUpdatingRestaurant ||
-                    isUploadingAvatar ||
-                    isDeletingAvatar ||
-                    isSubmitting ||
-                    !hasChanges
-                  }
-                >
-                  {isLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+                <Button type="submit" disabled={isUpdating || !hasChanges}>
+                  {isUpdating ? <Loader2 className="animate-spin" /> : 'Salvar'}
                 </Button>
               </div>
             )}

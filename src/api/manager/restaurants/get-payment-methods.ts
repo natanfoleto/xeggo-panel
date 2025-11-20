@@ -1,12 +1,6 @@
 import { api } from '@/lib/axios'
 
-export type PaymentMethod =
-  | 'cash'
-  | 'creditCard'
-  | 'debitCard'
-  | 'pix'
-  | 'voucher'
-  | 'bankTransfer'
+export type PaymentMethod = 'cash' | 'creditCard' | 'debitCard' | 'pix'
 
 export interface GetPaymentMethodsResponse {
   paymentMethods: PaymentMethod[]

@@ -146,7 +146,9 @@ export function PopularProductsChart() {
           </ResponsiveContainer>
         ) : (
           <div className="flex h-60 w-full items-center justify-center">
-            <Loader2 className="text-muted-foreground size-8 animate-spin" />
+            <p className="text-muted-foreground text-sm">
+              Nenhum resultado encontrado.
+            </p>
           </div>
         )}
       </CardContent>

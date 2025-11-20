@@ -29,7 +29,7 @@ export function SettingsTabs() {
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col gap-6 md:flex-row">
       <aside className="bg-card flex h-min flex-col gap-1.5 rounded-xl border p-5">
         {tabs.map((tab) => {
           return (

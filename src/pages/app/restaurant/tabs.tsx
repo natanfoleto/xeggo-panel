@@ -3,20 +3,22 @@ import { useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-import { UpdateDeliverySettings } from './delivery-settings'
-import { UpdateAddress } from './update-address'
-import { OpeningHoursSettings } from './update-opening-hours'
-import { UpdatePaymentMethods } from './update-payment-methods'
-import { UpdateProfile } from './update-profile'
-import { UpdateSegments } from './update-segments'
+import { UpdateAddress } from './tabs/address'
+import { UpdateAsaasAccount } from './tabs/asaas-account'
+import { UpdateDeliverySettings } from './tabs/delivery-settings'
+import { OpeningHoursSettings } from './tabs/opening-hours'
+import { UpdatePaymentMethods } from './tabs/payment-methods'
+import { UpdateRestaurant } from './tabs/restaurant'
+import { UpdateSegments } from './tabs/segments'
 
 const tabs = [
-  { id: 'profile', title: 'Perfil' },
+  { id: 'geral', title: 'Geral' },
   { id: 'address', title: 'Endereço' },
   { id: 'segments', title: 'Segmentos' },
   { id: 'payment-methods', title: 'Métodos de pagamento' },
   { id: 'update-delivery', title: 'Configurações de entrega' },
   { id: 'opening-hours', title: 'Horários de funcionamento' },
+  { id: 'online-payments', title: 'Pagamentos online' },
 ] as const
 
 type TabId = (typeof tabs)[number]['id']
@@ -24,14 +26,14 @@ type TabId = (typeof tabs)[number]['id']
 export function RestaurantTabs() {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const activeTab = (searchParams.get('tab') as TabId) || 'profile'
+  const activeTab = (searchParams.get('tab') as TabId) || 'geral'
 
   const handleTabChange = (tabId: TabId) => {
     setSearchParams({ tab: tabId })
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col gap-6 md:flex-row">
       <aside className="bg-card flex h-min flex-col gap-1.5 rounded-xl border p-5">
         {tabs.map((tab) => {
           return (
@@ -56,12 +58,13 @@ export function RestaurantTabs() {
       </aside>
 
       <div className="flex w-full flex-col gap-8 overflow-auto">
-        {activeTab === 'profile' && <UpdateProfile />}
+        {activeTab === 'geral' && <UpdateRestaurant />}
         {activeTab === 'address' && <UpdateAddress />}
         {activeTab === 'segments' && <UpdateSegments />}
         {activeTab === 'payment-methods' && <UpdatePaymentMethods />}
         {activeTab === 'update-delivery' && <UpdateDeliverySettings />}
         {activeTab === 'opening-hours' && <OpeningHoursSettings />}
+        {activeTab === 'online-payments' && <UpdateAsaasAccount />}
       </div>
     </div>
   )

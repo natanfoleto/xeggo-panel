@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-import { weekDayLabels, weekDayOptions } from './update-opening-hours'
+import { weekDayLabels, weekDayOptions } from '.'
 
 const timeOptions = Array.from({ length: 96 }, (_, i) => {
   const hours = Math.floor(i / 4)

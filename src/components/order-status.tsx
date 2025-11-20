@@ -2,10 +2,13 @@ import { cn } from '@/lib/utils'
 
 type OrderStatus =
   | 'pending'
-  | 'canceled'
+  | 'awaiting_payment'
+  | 'payment_failed'
+  | 'payment_confirmed'
   | 'processing'
   | 'delivering'
   | 'delivered'
+  | 'canceled'
 
 interface OrderStatusProps {
   status: OrderStatus
@@ -14,6 +17,9 @@ interface OrderStatusProps {
 
 const orderStatusMap: Record<OrderStatus, string> = {
   pending: 'Pendente',
+  awaiting_payment: 'Aguardando pagamento',
+  payment_failed: 'Pagamento falhou',
+  payment_confirmed: 'Pagamento confirmado',
   canceled: 'Cancelado',
   processing: 'Em preparo',
   delivering: 'Em entrega',
@@ -25,11 +31,15 @@ export function OrderStatus({ status, className }: OrderStatusProps) {
     <div
       className={cn('text-muted-foreground flex items-center gap-2', className)}
     >
-      {['pending'].includes(status) && (
+      {['pending', 'awaiting_payment'].includes(status) && (
         <span className="size-2 rounded-full bg-slate-400" />
       )}
 
-      {['canceled'].includes(status) && (
+      {['payment_confirmed'].includes(status) && (
+        <span className="size-2 rounded-full bg-blue-400" />
+      )}
+
+      {['canceled', 'payment_failed'].includes(status) && (
         <span className="size-2 rounded-full bg-rose-500" />
       )}
 

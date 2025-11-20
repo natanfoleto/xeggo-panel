@@ -1,7 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { ArrowRight, Ban, Loader2, RefreshCcw, Search } from 'lucide-react'
+import {
+  ArrowRight,
+  Ban,
+  Loader2,
+  RefreshCcw,
+  Search,
+  XCircle,
+} from 'lucide-react'
 import { useState } from 'react'
 
 import { approveOrder } from '@/api/manager/orders/approve-order'
@@ -20,10 +27,13 @@ import { OrderDetails } from './order-details'
 
 type OrderStatus =
   | 'pending'
-  | 'canceled'
+  | 'awaiting_payment'
+  | 'payment_failed'
+  | 'payment_confirmed'
   | 'processing'
   | 'delivering'
   | 'delivered'
+  | 'canceled'
 
 export interface OrderTableRowProps {
   order: {
@@ -118,6 +128,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       <TableCell className="font-mono text-xs font-medium">
         {order.orderId}
       </TableCell>
+
       <TableCell className="text-muted-foreground">
         {formatDistanceToNow(new Date(order.createdAt), {
           locale: ptBR,
@@ -144,9 +155,66 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       </TableCell>
 
       <TableCell className="space-x-2 text-right">
+        {order.status === 'payment_failed' && (
+          <>
+            <Button
+              title="Aguardar cliente tentar pagar novamente"
+              variant="outline"
+              size="xs"
+              disabled={isResettingOrder}
+              onClick={() => resetOrderFn({ orderId: order.orderId })}
+            >
+              {isResettingOrder ? (
+                <Loader2 className="size-3 animate-spin" />
+              ) : (
+                <RefreshCcw className="size-3" />
+              )}
+              Aguardar novo pagamento
+            </Button>
+
+            <Dialog
+              open={isCancelOrderOpen}
+              onOpenChange={setIsCancelOrderOpen}
+            >
+              <DialogTrigger asChild>
+                <Button
+                  title="Cancelar pedido com pagamento falho"
+                  variant="outline"
+                  size="xs"
+                >
+                  <XCircle className="size-3" />
+                  Cancelar
+                </Button>
+              </DialogTrigger>
+
+              <CancelOrder
+                orderId={order.orderId}
+                onClose={() => setIsCancelOrderOpen(false)}
+              />
+            </Dialog>
+          </>
+        )}
+
+        {['pending', 'payment_confirmed'].includes(order.status) && (
+          <Button
+            title="Aprovar para preparo"
+            variant="outline"
+            size="xs"
+            disabled={isApprovingOrder}
+            onClick={() => approveOrderFn({ orderId: order.orderId })}
+          >
+            {isApprovingOrder ? (
+              <Loader2 className="size-3 animate-spin" />
+            ) : (
+              <ArrowRight className="size-3" />
+            )}
+            Aprovar
+          </Button>
+        )}
+
         {order.status === 'processing' && (
           <Button
-            title="Marca para pedido em entrega"
+            title="Marcar para entrega"
             variant="outline"
             size="xs"
             disabled={isDispatchingOrder}
@@ -163,7 +231,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
 
         {order.status === 'delivering' && (
           <Button
-            title="Marca como entregue"
+            title="Marcar como entregue"
             variant="outline"
             size="xs"
             disabled={isDeliveringOrder}
@@ -178,26 +246,9 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           </Button>
         )}
 
-        {order.status === 'pending' && (
+        {!['awaiting_payment', 'delivered'].includes(order.status) && (
           <Button
-            title="Aprova para o preparo"
-            variant="outline"
-            size="xs"
-            disabled={isApprovingOrder}
-            onClick={() => approveOrderFn({ orderId: order.orderId })}
-          >
-            {isApprovingOrder ? (
-              <Loader2 className="size-3 animate-spin" />
-            ) : (
-              <ArrowRight className="size-3" />
-            )}
-            Aprovar
-          </Button>
-        )}
-
-        {order.status !== 'pending' && (
-          <Button
-            title="Marca como pendente"
+            title="Voltar para status pendente"
             variant="outline"
             size="xs"
             disabled={isResettingOrder}
@@ -215,7 +266,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
         {['pending', 'processing'].includes(order.status) && (
           <Dialog open={isCancelOrderOpen} onOpenChange={setIsCancelOrderOpen}>
             <DialogTrigger asChild>
-              <Button title="Cancela o pedido" variant="outline" size="xs">
+              <Button title="Cancelar pedido" variant="outline" size="xs">
                 <Ban className="size-3" />
                 Cancelar
               </Button>

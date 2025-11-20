@@ -73,7 +73,7 @@ class AlertManager {
         title,
         description,
         variant,
-        timeout: options.timeout ?? 5000,
+        timeout: options.timeout ?? 10000,
         onDismiss: options.onDismiss,
         action: options.action,
       })

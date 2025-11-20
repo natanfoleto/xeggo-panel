@@ -80,7 +80,7 @@ export function Orders() {
                   <TableHead className="w-16"></TableHead>
                   <TableHead className="w-52">Identificador</TableHead>
                   <TableHead className="w-28">Realizado há</TableHead>
-                  <TableHead className="w-36">Status</TableHead>
+                  <TableHead className="w-56">Status</TableHead>
                   <TableHead>Cliente</TableHead>
                   <TableHead className="w-36">Total do pedido</TableHead>
                   <TableHead className="w-[348px]"></TableHead>

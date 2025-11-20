@@ -64,7 +64,7 @@ export function FormPhoneInput({
       disabled={disabled}
       error={error}
       className={className}
-      placeholder="(99) 99999-9999"
+      placeholder="(01) 23456-7890"
       maxLength={15}
     />
   )

@@ -50,22 +50,22 @@ export function Account() {
 
       <CardContent>
         <div className="space-y-6 text-sm">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
             <span>Apagar conta</span>
             <span className="cursor-pointer underline">Contatar suporte</span>
           </div>
 
           {isLoading ? (
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
               <span>ID da conta</span>
               <span className="bg-muted text-muted-foreground flex w-60 animate-pulse items-center gap-2 rounded-md py-3" />
             </div>
           ) : (
             profile && (
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
                 <span>ID da conta</span>
 
-                <span className="bg-muted text-muted-foreground flex items-center gap-2 rounded-md px-2 py-1">
+                <span className="bg-muted text-muted-foreground flex w-min items-center gap-2 rounded-md px-2 py-1">
                   {profile.id}
                   <ClipboardList
                     onClick={handleCopyProfileId}

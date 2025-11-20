@@ -16,7 +16,15 @@ export interface GetOrdersResponse {
     customerName: string
     totalItemsQuantity: number
     total: number
-    status: 'pending' | 'canceled' | 'processing' | 'delivering' | 'delivered'
+    status:
+      | 'pending'
+      | 'awaiting_payment'
+      | 'payment_failed'
+      | 'payment_confirmed'
+      | 'processing'
+      | 'delivering'
+      | 'delivered'
+      | 'canceled'
   }[]
   meta: {
     pageIndex: number

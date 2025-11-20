@@ -2,6 +2,7 @@ import { api } from '@/lib/axios'
 
 export interface RegisterRestaurantRequest {
   restaurantName: string
+  cpfCnpj: string
   managerName: string
   email: string
   phone: string
@@ -9,12 +10,14 @@ export interface RegisterRestaurantRequest {
 
 export async function registerRestaurant({
   restaurantName,
+  cpfCnpj,
   managerName,
   email,
   phone,
 }: RegisterRestaurantRequest) {
   await api.public.post('/restaurants', {
     restaurantName,
+    cpfCnpj,
     managerName,
     email,
     phone,
