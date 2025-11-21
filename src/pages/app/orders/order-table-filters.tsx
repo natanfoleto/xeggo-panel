@@ -1,4 +1,4 @@
-import { Calendar, Search, X } from 'lucide-react'
+import { Calendar, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import type { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
@@ -10,19 +10,14 @@ import { Button } from '@/components/ui/button'
 import { DateRangePicker } from '@/components/ui/date-range-picker'
 import { Input } from '@/components/ui/input'
 
-const ordersFiltersSchema = z.object({
-  orderId: z.string().optional(),
-  customerName: z.string().optional(),
-  status: z.string().optional(),
-})
-
-type OrderFiltersSchema = z.infer<typeof ordersFiltersSchema>
-
 type OrderStatusType =
-  | 'pending'
   | 'awaiting_payment'
   | 'payment_failed'
   | 'payment_confirmed'
+  | 'payment_overdue'
+  | 'payment_refunded'
+  | 'chargeback_requested'
+  | 'pending'
   | 'processing'
   | 'delivering'
   | 'delivered'
@@ -38,6 +33,20 @@ const statusOptions: Array<{ value: OrderStatusType; label: string }> = [
   { value: 'delivered', label: 'Entregue' },
   { value: 'canceled', label: 'Cancelado' },
 ]
+
+const otherStatusOptions: Array<{ value: OrderStatusType; label: string }> = [
+  { value: 'payment_overdue', label: 'Pagamento vencido' },
+  { value: 'payment_refunded', label: 'Reembolsado' },
+  { value: 'chargeback_requested', label: 'Contestação solicitada' },
+]
+
+const ordersFiltersSchema = z.object({
+  orderId: z.string().optional(),
+  customerName: z.string().optional(),
+  status: z.string().optional(),
+})
+
+type OrderFiltersSchema = z.infer<typeof ordersFiltersSchema>
 
 type QuickDateFilterType = 'today' | 'yesterday' | 'last7days'
 
@@ -64,6 +73,8 @@ export function OrderTableFilters() {
   const [activeQuickFilter, setActiveQuickFilter] =
     useState<QuickDateFilterType | null>(null)
 
+  const [showOtherStatusOrders, setShowOtherStatusOrders] = useState(false)
+
   const { register, handleSubmit, reset, setValue, watch } =
     useForm<OrderFiltersSchema>({
       defaultValues: {
@@ -73,7 +84,7 @@ export function OrderTableFilters() {
       },
     })
 
-  const currentStatus = watch('status')
+  const currentStatus = watch('status') as OrderStatusType
   const watchedCustomerName = watch('customerName')
 
   useEffect(() => {
@@ -299,6 +310,70 @@ export function OrderTableFilters() {
               />
             </Button>
           ))}
+
+          {showOtherStatusOrders &&
+            otherStatusOptions.map((option) => (
+              <Button
+                key={option.value}
+                type="button"
+                variant={currentStatus === option.value ? 'default' : 'outline'}
+                size="xs"
+                onClick={() => handleStatusChange(option.value)}
+                className="w-auto"
+              >
+                <OrderStatus
+                  status={option.value}
+                  className={
+                    currentStatus === option.value
+                      ? 'text-background'
+                      : 'text-muted-foreground'
+                  }
+                />
+              </Button>
+            ))}
+
+          {!showOtherStatusOrders &&
+            currentStatus &&
+            otherStatusOptions.some(
+              (status) => status.value === currentStatus,
+            ) && (
+              <Button
+                type="button"
+                variant="default"
+                size="xs"
+                onClick={() => handleStatusChange(currentStatus)}
+                className="w-auto"
+              >
+                <OrderStatus
+                  status={currentStatus}
+                  className="text-background"
+                />
+              </Button>
+            )}
+
+          {showOtherStatusOrders ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="xs"
+              onClick={() => setShowOtherStatusOrders(false)}
+              className="text-muted-foreground w-auto"
+            >
+              Menas opções
+              <ChevronUp />
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="outline"
+              size="xs"
+              onClick={() => setShowOtherStatusOrders(true)}
+              className="text-muted-foreground w-auto"
+            >
+              Mais opções
+              <ChevronDown />
+            </Button>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">

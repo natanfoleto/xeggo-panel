@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { getAddressByCep } from '@/api/manager/addresses/get-address-by-cep'
-import { createAsaasAccount } from '@/api/manager/restaurants/create-asaas-account'
+import { createAsaasAccount } from '@/api/manager/restaurants/asaas/create-asaas-account'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormCpfCnpjInput } from '@/components/form/form-cpf-cnpj-input'
 import { FormInput } from '@/components/form/form-input'

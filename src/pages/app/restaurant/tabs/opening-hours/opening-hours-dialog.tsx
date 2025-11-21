@@ -1,7 +1,7 @@
 import { Plus, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import type { WeekDay } from '@/api/manager/restaurants/get-opening-hours'
+import type { WeekDay } from '@/api/manager/restaurants/opening-hours/get-opening-hours'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

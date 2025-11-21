@@ -8,8 +8,8 @@ import { z } from 'zod'
 import {
   getSegments,
   type Segment,
-} from '@/api/manager/restaurants/get-segments'
-import { updateSegments } from '@/api/manager/restaurants/update-segments'
+} from '@/api/manager/restaurants/segments/get-segments'
+import { updateSegments } from '@/api/manager/restaurants/segments/update-segments'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {

@@ -19,6 +19,7 @@ export interface OrderDetails {
   orderType: 'delivery' | 'pickup'
   totalInCents: number
   deliveryAddress: string | null
+  paymentType: string
   paymentMethod: string
   changeForInCents: number | null
   deliveryFeeInCents: number | null

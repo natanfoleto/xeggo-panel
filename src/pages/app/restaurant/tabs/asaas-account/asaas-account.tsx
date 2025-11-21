@@ -1,5 +1,10 @@
-import { CheckCircle2 } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import { CheckCircle2, Loader2 } from 'lucide-react'
 
+import { unlinkAsaasAccount } from '@/api/manager/restaurants/asaas/unlink-asaas-account'
+import { appalert } from '@/components/app-alert/app-alert-context'
+import { Button } from '@/components/ui/button'
+import { queryClient } from '@/lib/react-query'
 import { formatCpfCnpj } from '@/utils/format-cpf-cnpj'
 
 import {
@@ -34,6 +39,19 @@ export function AsaasAccount({
     asaasLoginEmail,
   },
 }: AsaasAccountProps) {
+  const { mutateAsync: unlinkAsaasAccountFn, isPending: isUnlinking } =
+    useMutation({
+      mutationFn: unlinkAsaasAccount,
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['asaas-account'] })
+
+        appalert.success(
+          'Conta desvinculada!',
+          'Sua conta Asaas foi desvinculada com sucesso. Agora você não pode mais receber pagamentos online.',
+        )
+      },
+    })
+
   return (
     <Card>
       <CardHeader>
@@ -104,6 +122,16 @@ export function AsaasAccount({
               Saque disponível para sua conta bancária (Tarifas Asaas no saque)
             </li>
           </ul>
+        </div>
+
+        <div className="flex justify-end">
+          <Button variant="destructive" onClick={() => unlinkAsaasAccountFn()}>
+            {isUnlinking ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              'Desvincular conta'
+            )}
+          </Button>
         </div>
       </CardContent>
     </Card>

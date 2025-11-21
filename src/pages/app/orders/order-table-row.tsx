@@ -1,14 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import {
-  ArrowRight,
-  Ban,
-  Loader2,
-  RefreshCcw,
-  Search,
-  XCircle,
-} from 'lucide-react'
+import { ArrowRight, Ban, Loader2, RefreshCcw, Search } from 'lucide-react'
 import { useState } from 'react'
 
 import { approveOrder } from '@/api/manager/orders/approve-order'
@@ -26,10 +19,13 @@ import { CancelOrder } from './cancel-order'
 import { OrderDetails } from './order-details'
 
 type OrderStatus =
-  | 'pending'
   | 'awaiting_payment'
   | 'payment_failed'
   | 'payment_confirmed'
+  | 'payment_overdue'
+  | 'payment_refunded'
+  | 'chargeback_requested'
+  | 'pending'
   | 'processing'
   | 'delivering'
   | 'delivered'
@@ -155,47 +151,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       </TableCell>
 
       <TableCell className="space-x-2 text-right">
-        {order.status === 'payment_failed' && (
-          <>
-            <Button
-              title="Aguardar cliente tentar pagar novamente"
-              variant="outline"
-              size="xs"
-              disabled={isResettingOrder}
-              onClick={() => resetOrderFn({ orderId: order.orderId })}
-            >
-              {isResettingOrder ? (
-                <Loader2 className="size-3 animate-spin" />
-              ) : (
-                <RefreshCcw className="size-3" />
-              )}
-              Aguardar novo pagamento
-            </Button>
-
-            <Dialog
-              open={isCancelOrderOpen}
-              onOpenChange={setIsCancelOrderOpen}
-            >
-              <DialogTrigger asChild>
-                <Button
-                  title="Cancelar pedido com pagamento falho"
-                  variant="outline"
-                  size="xs"
-                >
-                  <XCircle className="size-3" />
-                  Cancelar
-                </Button>
-              </DialogTrigger>
-
-              <CancelOrder
-                orderId={order.orderId}
-                onClose={() => setIsCancelOrderOpen(false)}
-              />
-            </Dialog>
-          </>
-        )}
-
-        {['pending', 'payment_confirmed'].includes(order.status) && (
+        {['payment_confirmed', 'pending'].includes(order.status) && (
           <Button
             title="Aprovar para preparo"
             variant="outline"
@@ -246,7 +202,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           </Button>
         )}
 
-        {!['awaiting_payment', 'delivered'].includes(order.status) && (
+        {['processing', 'canceled'].includes(order.status) && (
           <Button
             title="Voltar para status pendente"
             variant="outline"
@@ -263,7 +219,9 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           </Button>
         )}
 
-        {['pending', 'processing'].includes(order.status) && (
+        {['awaiting_payment', 'payment_failed', 'pending'].includes(
+          order.status,
+        ) && (
           <Dialog open={isCancelOrderOpen} onOpenChange={setIsCancelOrderOpen}>
             <DialogTrigger asChild>
               <Button title="Cancelar pedido" variant="outline" size="xs">

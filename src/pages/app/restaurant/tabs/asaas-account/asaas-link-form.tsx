@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { linkAsaasAccount } from '@/api/manager/restaurants/link-asaas-account'
+import { linkAsaasAccount } from '@/api/manager/restaurants/asaas/link-asaas-account'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormCpfCnpjInput } from '@/components/form/form-cpf-cnpj-input'
 import {
@@ -203,7 +203,7 @@ export function AsaasLinkForm({
             <AlertDialogCancel disabled={isLinking}>Cancelar</AlertDialogCancel>
 
             <AlertDialogAction
-              className="bg-red-500 text-white hover:bg-red-600"
+              className="bg-destructive hover:bg-destructive/90 dark:bg-destructive/60 text-white"
               disabled={isLinking}
               onClick={confirmLink}
             >

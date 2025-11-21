@@ -31,9 +31,9 @@ import { formatCurrency } from '@/utils/format-currency'
 
 import { OrderDetailsSkeleton } from './order-details-skeleton'
 
-interface OrderDetailsProps {
-  orderId: string
-  open: boolean
+const PAYMENT_TYPES: Record<string, string> = {
+  online: 'Pagamento online',
+  onDelivery: 'Pagamento na entrega/retirada',
 }
 
 const PAYMENT_METHODS: Record<string, string> = {
@@ -46,6 +46,11 @@ const PAYMENT_METHODS: Record<string, string> = {
 const ORDER_TYPES: Record<string, string> = {
   delivery: 'Entrega',
   pickup: 'Retirada',
+}
+
+interface OrderDetailsProps {
+  orderId: string
+  open: boolean
 }
 
 export function OrderDetails({ orderId, open }: OrderDetailsProps) {
@@ -145,7 +150,8 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   Pagamento
                 </TableCell>
                 <TableCell className="text-right text-sm">
-                  {PAYMENT_METHODS[order.paymentMethod]}
+                  {PAYMENT_METHODS[order.paymentMethod]} -{' '}
+                  {PAYMENT_TYPES[order.paymentType]}
                 </TableCell>
               </TableRow>
 

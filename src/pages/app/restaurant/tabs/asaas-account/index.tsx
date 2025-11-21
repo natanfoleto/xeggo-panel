@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { getProfile } from '@/api/manager/profile/get-profile'
-import { getAddress } from '@/api/manager/restaurants/get-address'
-import { getAsaasAccount } from '@/api/manager/restaurants/get-asaas-account'
+import { getAddress } from '@/api/manager/restaurants/address/get-address'
+import { getAsaasAccount } from '@/api/manager/restaurants/asaas/get-asaas-account'
 import { getManagedRestaurant } from '@/api/manager/restaurants/get-managed-restaurant'
 import {
   Card,

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { deleteAvatar } from '@/api/manager/restaurants/delete-avatar'
-import { getAsaasAccount } from '@/api/manager/restaurants/get-asaas-account'
+import { getAsaasAccount } from '@/api/manager/restaurants/asaas/get-asaas-account'
 import {
   getManagedRestaurant,
   type ManagedRestaurant,
