@@ -1,7 +1,7 @@
 import { Plus, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import type { WeekDay } from '@/api/manager/restaurants/get-opening-hours'
+import type { WeekDay } from '@/api/manager/restaurants/opening-hours/get-opening-hours'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-import { weekDayLabels, weekDayOptions } from './update-opening-hours'
+import { weekDayLabels, weekDayOptions } from '.'
 
 const timeOptions = Array.from({ length: 96 }, (_, i) => {
   const hours = Math.floor(i / 4)

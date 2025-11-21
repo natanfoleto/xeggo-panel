@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/card'
 import { DateRangePicker } from '@/components/ui/date-range-picker'
 import { Label } from '@/components/ui/label'
+import { formatCurrency } from '@/utils/format-currency'
 
 interface ReceiptDataPerMonth {
   date: string
@@ -46,16 +47,13 @@ interface CustomTooltipProps {
 
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (active && payload && payload.length) {
+    const value = payload[0].value
+
     return (
       <div className="bg-card text-card-foreground flex gap-1 rounded-l border p-2 text-sm shadow-sm">
         <span className="font-semibold">{label}</span>
         <span>-</span>
-        <span>
-          {payload[0].value?.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          })}
-        </span>
+        <span>{value ? formatCurrency(value / 100) : 0}</span>
       </div>
     )
   }
@@ -78,8 +76,8 @@ export function ReceiptChart() {
     queryKey: ['metrics', 'daily-receipt-in-period', period],
     queryFn: () =>
       getDailyReceiptInPeriod({
-        from: period?.from,
-        to: period?.to,
+        from: period?.from?.toISOString(),
+        to: period?.to?.toISOString(),
       }),
   })
 
@@ -129,10 +127,7 @@ export function ReceiptChart() {
                     axisLine={false}
                     width={80}
                     tickFormatter={(value: number) =>
-                      value.toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      })
+                      formatCurrency(value / 100)
                     }
                   />
 

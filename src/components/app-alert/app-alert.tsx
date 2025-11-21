@@ -88,7 +88,7 @@ export function AppAlert({
             {description && (
               <AlertDescription
                 id="dialog-description"
-                className="text-muted-foreground justify-center"
+                className="text-muted-foreground justify-center text-center"
               >
                 {description}
               </AlertDescription>

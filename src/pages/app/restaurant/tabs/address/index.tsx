@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { getAddressByCep } from '@/api/manager/addresses/get-address-by-cep'
-import { getAddress } from '@/api/manager/restaurants/get-address'
-import { updateAddress } from '@/api/manager/restaurants/update-address'
+import { getAddress } from '@/api/manager/restaurants/address/get-address'
+import { updateAddress } from '@/api/manager/restaurants/address/update-address'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
 import { Button } from '@/components/ui/button'
@@ -74,8 +74,6 @@ export function UpdateAddress() {
     },
   })
 
-  const zipCode = watch('zipCode')
-
   useEffect(() => {
     if (address) {
       reset({
@@ -118,6 +116,8 @@ export function UpdateAddress() {
       },
     })
   }
+
+  const zipCode = watch('zipCode')
 
   const handleZipCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue('zipCode', formatCEP(event.target.value))
@@ -178,7 +178,7 @@ export function UpdateAddress() {
               <div className="relative">
                 <FormInput
                   id="zipCode"
-                  placeholder="00000-000"
+                  placeholder="12345-678"
                   maxLength={9}
                   {...register('zipCode')}
                   onChange={handleZipCodeChange}

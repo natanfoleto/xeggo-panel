@@ -1,4 +1,4 @@
-import { Calendar, Search, X } from 'lucide-react'
+import { Calendar, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import type { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
@@ -10,6 +10,36 @@ import { Button } from '@/components/ui/button'
 import { DateRangePicker } from '@/components/ui/date-range-picker'
 import { Input } from '@/components/ui/input'
 
+type OrderStatusType =
+  | 'awaiting_payment'
+  | 'payment_failed'
+  | 'payment_confirmed'
+  | 'payment_overdue'
+  | 'payment_refunded'
+  | 'chargeback_requested'
+  | 'pending'
+  | 'processing'
+  | 'delivering'
+  | 'delivered'
+  | 'canceled'
+
+const statusOptions: Array<{ value: OrderStatusType; label: string }> = [
+  { value: 'awaiting_payment', label: 'Aguardando pagamento' },
+  { value: 'payment_failed', label: 'Pagamento falhou' },
+  { value: 'payment_confirmed', label: 'Pagamento confirmado' },
+  { value: 'pending', label: 'Pendente' },
+  { value: 'processing', label: 'Em preparo' },
+  { value: 'delivering', label: 'Em entrega' },
+  { value: 'delivered', label: 'Entregue' },
+  { value: 'canceled', label: 'Cancelado' },
+]
+
+const otherStatusOptions: Array<{ value: OrderStatusType; label: string }> = [
+  { value: 'payment_overdue', label: 'Pagamento vencido' },
+  { value: 'payment_refunded', label: 'Reembolsado' },
+  { value: 'chargeback_requested', label: 'Contestação solicitada' },
+]
+
 const ordersFiltersSchema = z.object({
   orderId: z.string().optional(),
   customerName: z.string().optional(),
@@ -17,21 +47,6 @@ const ordersFiltersSchema = z.object({
 })
 
 type OrderFiltersSchema = z.infer<typeof ordersFiltersSchema>
-
-type OrderStatusType =
-  | 'pending'
-  | 'canceled'
-  | 'processing'
-  | 'delivering'
-  | 'delivered'
-
-const statusOptions: Array<{ value: OrderStatusType; label: string }> = [
-  { value: 'pending', label: 'Pendente' },
-  { value: 'processing', label: 'Em preparo' },
-  { value: 'delivering', label: 'Em entrega' },
-  { value: 'delivered', label: 'Entregue' },
-  { value: 'canceled', label: 'Cancelado' },
-]
 
 type QuickDateFilterType = 'today' | 'yesterday' | 'last7days'
 
@@ -58,6 +73,8 @@ export function OrderTableFilters() {
   const [activeQuickFilter, setActiveQuickFilter] =
     useState<QuickDateFilterType | null>(null)
 
+  const [showOtherStatusOrders, setShowOtherStatusOrders] = useState(false)
+
   const { register, handleSubmit, reset, setValue, watch } =
     useForm<OrderFiltersSchema>({
       defaultValues: {
@@ -67,7 +84,7 @@ export function OrderTableFilters() {
       },
     })
 
-  const currentStatus = watch('status')
+  const currentStatus = watch('status') as OrderStatusType
   const watchedCustomerName = watch('customerName')
 
   useEffect(() => {
@@ -77,12 +94,11 @@ export function OrderTableFilters() {
 
     const timer = setTimeout(() => {
       setSearchParams((prev) => {
-        if (watchedCustomerName) {
-          prev.set('customerName', watchedCustomerName)
-        } else {
-          prev.delete('customerName')
-        }
+        if (watchedCustomerName) prev.set('customerName', watchedCustomerName)
+        else prev.delete('customerName')
+
         prev.set('page', '1')
+
         return prev
       })
     }, 500)
@@ -91,24 +107,32 @@ export function OrderTableFilters() {
   }, [watchedCustomerName, searchParams, setSearchParams])
 
   useEffect(() => {
-    if (period?.from && period?.to) {
-      setSearchParams((prev) => {
-        prev.set('from', period.from!.toISOString())
-        prev.set('to', period.to!.toISOString())
-        prev.set('page', '1')
+    const currentFrom = searchParams.get('from')
+    const currentTo = searchParams.get('to')
 
+    const newFrom = period?.from?.toISOString()
+    const newTo = period?.to?.toISOString()
+
+    if (newFrom && newTo) {
+      if (currentFrom === newFrom && currentTo === newTo) return
+
+      setSearchParams((prev) => {
+        prev.set('from', newFrom)
+        prev.set('to', newTo)
+        prev.set('page', '1')
         return prev
       })
     } else if (!period?.from && !period?.to) {
+      if (!currentFrom && !currentTo) return
+
       setSearchParams((prev) => {
         prev.delete('from')
         prev.delete('to')
         prev.set('page', '1')
-
         return prev
       })
     }
-  }, [period, setSearchParams])
+  }, [period, setSearchParams, searchParams])
 
   function onSubmit(data: OrderFiltersSchema) {
     const orderId = data.orderId?.toString()
@@ -226,7 +250,7 @@ export function OrderTableFilters() {
     !!period?.to
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2 lg:flex-row">
         <div className="flex items-center gap-2">
           <div className="relative w-64">
@@ -265,7 +289,7 @@ export function OrderTableFilters() {
         </Button>
       </div>
 
-      <div className="flex flex-col justify-between gap-2 xl:flex-row xl:items-center">
+      <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
           {statusOptions.map((option) => (
             <Button
@@ -286,6 +310,70 @@ export function OrderTableFilters() {
               />
             </Button>
           ))}
+
+          {showOtherStatusOrders &&
+            otherStatusOptions.map((option) => (
+              <Button
+                key={option.value}
+                type="button"
+                variant={currentStatus === option.value ? 'default' : 'outline'}
+                size="xs"
+                onClick={() => handleStatusChange(option.value)}
+                className="w-auto"
+              >
+                <OrderStatus
+                  status={option.value}
+                  className={
+                    currentStatus === option.value
+                      ? 'text-background'
+                      : 'text-muted-foreground'
+                  }
+                />
+              </Button>
+            ))}
+
+          {!showOtherStatusOrders &&
+            currentStatus &&
+            otherStatusOptions.some(
+              (status) => status.value === currentStatus,
+            ) && (
+              <Button
+                type="button"
+                variant="default"
+                size="xs"
+                onClick={() => handleStatusChange(currentStatus)}
+                className="w-auto"
+              >
+                <OrderStatus
+                  status={currentStatus}
+                  className="text-background"
+                />
+              </Button>
+            )}
+
+          {showOtherStatusOrders ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="xs"
+              onClick={() => setShowOtherStatusOrders(false)}
+              className="text-muted-foreground w-auto"
+            >
+              Menas opções
+              <ChevronUp />
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="outline"
+              size="xs"
+              onClick={() => setShowOtherStatusOrders(true)}
+              className="text-muted-foreground w-auto"
+            >
+              Mais opções
+              <ChevronDown />
+            </Button>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">

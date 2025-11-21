@@ -8,8 +8,10 @@ export interface UpdatePaymentMethodsRequest {
   }
 }
 
-export async function updatePaymentMethods(body: UpdatePaymentMethodsRequest) {
-  const response = await api.manager.put('/payment-methods', body)
+export async function updatePaymentMethods({
+  paymentMethods,
+}: UpdatePaymentMethodsRequest) {
+  const response = await api.manager.put('/payment-methods', { paymentMethods })
 
   return response.data
 }

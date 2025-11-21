@@ -31,9 +31,9 @@ import { formatCurrency } from '@/utils/format-currency'
 
 import { OrderDetailsSkeleton } from './order-details-skeleton'
 
-interface OrderDetailsProps {
-  orderId: string
-  open: boolean
+const PAYMENT_TYPES: Record<string, string> = {
+  online: 'Pagamento online',
+  onDelivery: 'Pagamento na entrega/retirada',
 }
 
 const PAYMENT_METHODS: Record<string, string> = {
@@ -41,13 +41,16 @@ const PAYMENT_METHODS: Record<string, string> = {
   creditCard: 'Cartão de Crédito',
   debitCard: 'Cartão de Débito',
   pix: 'PIX',
-  voucher: 'Voucher',
-  bankTransfer: 'Transferência Bancária',
 }
 
 const ORDER_TYPES: Record<string, string> = {
   delivery: 'Entrega',
   pickup: 'Retirada',
+}
+
+interface OrderDetailsProps {
+  orderId: string
+  open: boolean
 }
 
 export function OrderDetails({ orderId, open }: OrderDetailsProps) {
@@ -62,7 +65,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
     enabled: open,
   })
 
-  const hasCashPayment = order?.paymentMethods.includes('cash')
+  const hasCashPayment = order?.paymentMethod === 'cash'
 
   return (
     <DialogContent className="max-w-[95vw] sm:max-w-[640px] lg:max-w-3xl">
@@ -147,9 +150,8 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   Pagamento
                 </TableCell>
                 <TableCell className="text-right text-sm">
-                  {order.paymentMethods
-                    .map((method) => PAYMENT_METHODS[method] || method)
-                    .join(', ')}
+                  {PAYMENT_METHODS[order.paymentMethod]} -{' '}
+                  {PAYMENT_TYPES[order.paymentType]}
                 </TableCell>
               </TableRow>
 

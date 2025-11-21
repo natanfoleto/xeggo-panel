@@ -3,6 +3,7 @@ import { DollarSign, Loader2 } from 'lucide-react'
 
 import { getMonthReceipt } from '@/api/manager/metrics/get-month-receipt'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatCurrency } from '@/utils/format-currency'
 
 import { CardSkeleton } from './card-skeleton'
 
@@ -29,10 +30,7 @@ export function MonthReceiptCard() {
         {monthReceipt ? (
           <>
             <span className="text-2xl font-bold">
-              {monthReceipt.receipt.toLocaleString('pt-BR', {
-                currency: 'BRL',
-                style: 'currency',
-              })}
+              {formatCurrency(monthReceipt.receipt / 100)}
             </span>
             <p className="text-muted-foreground text-xs">
               <span

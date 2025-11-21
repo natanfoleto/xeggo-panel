@@ -8,8 +8,8 @@ import { z } from 'zod'
 import {
   getPaymentMethods,
   type PaymentMethod,
-} from '@/api/manager/restaurants/get-payment-methods'
-import { updatePaymentMethods } from '@/api/manager/restaurants/update-payment-methods'
+} from '@/api/manager/restaurants/payment-methods/get-payment-methods'
+import { updatePaymentMethods } from '@/api/manager/restaurants/payment-methods/update-payment-methods'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
 import {
@@ -28,21 +28,10 @@ const paymentMethodLabels: Record<PaymentMethod, string> = {
   creditCard: 'Cartão de Crédito',
   debitCard: 'Cartão de Débito',
   pix: 'Pix',
-  voucher: 'Vale Refeição',
-  bankTransfer: 'Transferência Bancária',
 }
 
 const paymentMethodsSchema = z.object({
-  selectedMethods: z.array(
-    z.enum([
-      'cash',
-      'creditCard',
-      'debitCard',
-      'pix',
-      'voucher',
-      'bankTransfer',
-    ]),
-  ),
+  selectedMethods: z.array(z.enum(['cash', 'creditCard', 'debitCard', 'pix'])),
 })
 
 type PaymentMethodsSchema = z.infer<typeof paymentMethodsSchema>

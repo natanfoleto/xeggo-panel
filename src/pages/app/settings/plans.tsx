@@ -72,6 +72,7 @@ export function Plans() {
 
   const formatCardBrand = (brand?: string) => {
     if (!brand) return ''
+
     return brand.charAt(0).toUpperCase() + brand.slice(1)
   }
 

@@ -19,11 +19,17 @@ import { CancelOrder } from './cancel-order'
 import { OrderDetails } from './order-details'
 
 type OrderStatus =
+  | 'awaiting_payment'
+  | 'payment_failed'
+  | 'payment_confirmed'
+  | 'payment_overdue'
+  | 'payment_refunded'
+  | 'chargeback_requested'
   | 'pending'
-  | 'canceled'
   | 'processing'
   | 'delivering'
   | 'delivered'
+  | 'canceled'
 
 export interface OrderTableRowProps {
   order: {
@@ -118,6 +124,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       <TableCell className="font-mono text-xs font-medium">
         {order.orderId}
       </TableCell>
+
       <TableCell className="text-muted-foreground">
         {formatDistanceToNow(new Date(order.createdAt), {
           locale: ptBR,
@@ -144,9 +151,26 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       </TableCell>
 
       <TableCell className="space-x-2 text-right">
+        {['payment_confirmed', 'pending'].includes(order.status) && (
+          <Button
+            title="Aprovar para preparo"
+            variant="outline"
+            size="xs"
+            disabled={isApprovingOrder}
+            onClick={() => approveOrderFn({ orderId: order.orderId })}
+          >
+            {isApprovingOrder ? (
+              <Loader2 className="size-3 animate-spin" />
+            ) : (
+              <ArrowRight className="size-3" />
+            )}
+            Aprovar
+          </Button>
+        )}
+
         {order.status === 'processing' && (
           <Button
-            title="Marca para pedido em entrega"
+            title="Marcar para entrega"
             variant="outline"
             size="xs"
             disabled={isDispatchingOrder}
@@ -163,7 +187,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
 
         {order.status === 'delivering' && (
           <Button
-            title="Marca como entregue"
+            title="Marcar como entregue"
             variant="outline"
             size="xs"
             disabled={isDeliveringOrder}
@@ -178,26 +202,9 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           </Button>
         )}
 
-        {order.status === 'pending' && (
+        {['processing', 'canceled'].includes(order.status) && (
           <Button
-            title="Aprova para o preparo"
-            variant="outline"
-            size="xs"
-            disabled={isApprovingOrder}
-            onClick={() => approveOrderFn({ orderId: order.orderId })}
-          >
-            {isApprovingOrder ? (
-              <Loader2 className="size-3 animate-spin" />
-            ) : (
-              <ArrowRight className="size-3" />
-            )}
-            Aprovar
-          </Button>
-        )}
-
-        {order.status !== 'pending' && (
-          <Button
-            title="Marca como pendente"
+            title="Voltar para status pendente"
             variant="outline"
             size="xs"
             disabled={isResettingOrder}
@@ -212,10 +219,12 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           </Button>
         )}
 
-        {['pending', 'processing'].includes(order.status) && (
+        {['awaiting_payment', 'payment_failed', 'pending'].includes(
+          order.status,
+        ) && (
           <Dialog open={isCancelOrderOpen} onOpenChange={setIsCancelOrderOpen}>
             <DialogTrigger asChild>
-              <Button title="Cancela o pedido" variant="outline" size="xs">
+              <Button title="Cancelar pedido" variant="outline" size="xs">
                 <Ban className="size-3" />
                 Cancelar
               </Button>
