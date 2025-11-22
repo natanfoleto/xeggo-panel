@@ -28,13 +28,13 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import type { OrderType } from '@/dtos/orders/order-type'
-import type { paymentType } from '@/dtos/orders/payment-type'
+import type { PaymentType } from '@/dtos/orders/payment-type'
 import type { PaymentMethod } from '@/dtos/payment-methods/payment-method'
 import { formatCurrency } from '@/utils/format-currency'
 
 import { OrderDetailsSkeleton } from './order-details-skeleton'
 
-const PAYMENT_TYPES: Record<paymentType, string> = {
+const PAYMENT_TYPES: Record<PaymentType, string> = {
   online: 'Pagamento online',
   onDelivery: 'Pagamento na entrega/retirada',
 }

@@ -1,6 +1,6 @@
 import type { OrderStatus } from '@/dtos/orders/order-status'
 import type { OrderType } from '@/dtos/orders/order-type'
-import type { paymentType } from '@/dtos/orders/payment-type'
+import type { PaymentType } from '@/dtos/orders/payment-type'
 import type { PaymentMethod } from '@/dtos/payment-methods/payment-method'
 import { api } from '@/lib/axios'
 
@@ -15,7 +15,7 @@ export interface OrderDetails {
   orderType: OrderType
   totalInCents: number
   deliveryAddress: string | null
-  paymentType: paymentType
+  paymentType: PaymentType
   paymentMethod: PaymentMethod
   changeForInCents: number | null
   deliveryFeeInCents: number | null

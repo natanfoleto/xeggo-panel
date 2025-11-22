@@ -1,1 +1,1 @@
-export type paymentType = 'online' | 'onDelivery'
+export type PaymentType = 'online' | 'onDelivery'
