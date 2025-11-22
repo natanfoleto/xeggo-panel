@@ -1,0 +1,12 @@
+export type OrderStatus =
+  | 'pending'
+  | 'awaiting_payment'
+  | 'payment_failed'
+  | 'payment_confirmed'
+  | 'payment_overdue'
+  | 'payment_refunded'
+  | 'chargeback_requested'
+  | 'processing'
+  | 'delivering'
+  | 'delivered'
+  | 'canceled'

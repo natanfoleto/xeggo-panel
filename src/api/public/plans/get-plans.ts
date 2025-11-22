@@ -1,13 +1,11 @@
+import type { PlanType } from '@/dtos/plans/plan-type'
 import { api } from '@/lib/axios'
 
 export interface Plan {
   id: string
   name: string
-  type: 'monthly' | 'annual'
+  type: PlanType
   priceInCents: number
-  stripePriceId: string
-  active: boolean
-  trialPeriodDays: number | null
   features: string[]
 }
 

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { createCategory } from '@/api/manager/categories/create-category'
+import type { Category } from '@/api/manager/categories/get-categories'
 import { updateCategory } from '@/api/manager/categories/update-category'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
@@ -21,7 +22,7 @@ const categoryFormSchema = z.object({
 export type CategoryFormSchema = z.infer<typeof categoryFormSchema>
 
 interface CategoryFormProps {
-  initialData?: Partial<CategoryFormSchema> & { id?: string }
+  initialData?: Category
   isLoading?: boolean
 }
 

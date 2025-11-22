@@ -1,21 +1,5 @@
+import type { Segment } from '@/dtos/segments/segment'
 import { api } from '@/lib/axios'
-
-export type Segment =
-  | 'restaurant'
-  | 'bakery'
-  | 'snackBar'
-  | 'pizzeria'
-  | 'iceCreamShop'
-  | 'coffee'
-  | 'fastFood'
-  | 'barbecue'
-  | 'japanese'
-  | 'brazilian'
-  | 'italian'
-  | 'chinese'
-  | 'mexican'
-  | 'arabic'
-  | 'bar'
 
 export interface GetSegmentsResponse {
   segments: Segment[]

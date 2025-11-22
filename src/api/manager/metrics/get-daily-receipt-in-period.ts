@@ -1,15 +1,17 @@
 import { api } from '@/lib/axios'
 
+export interface DailyReceipts {
+  date: string
+  receipt: number
+}
+
 export interface GetDailyReceiptInPeriodRequest {
   from?: string
   to?: string
 }
 
 export interface GetDailyReceiptInPeriodResponse {
-  dailyReceipts: Array<{
-    date: string
-    receipt: number
-  }>
+  dailyReceipts: DailyReceipts[]
 }
 
 export async function getDailyReceiptInPeriod({

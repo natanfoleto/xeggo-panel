@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 
 export interface RegisterRestaurantRequest {
   restaurantName: string
-  cpfCnpj: string
+  cpfCnpj?: string | null
   managerName: string
   email: string
   phone: string

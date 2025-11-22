@@ -1,3 +1,5 @@
+import type { OrderStatus } from '@/dtos/orders/order-status'
+import type { PaginationResponse } from '@/dtos/pagination/pagination-response'
 import { api } from '@/lib/axios'
 
 export interface GetOrdersRequest {
@@ -16,24 +18,9 @@ export interface GetOrdersResponse {
     customerName: string
     totalItemsQuantity: number
     total: number
-    status:
-      | 'awaiting_payment'
-      | 'payment_failed'
-      | 'payment_confirmed'
-      | 'payment_overdue'
-      | 'payment_refunded'
-      | 'chargeback_requested'
-      | 'pending'
-      | 'processing'
-      | 'delivering'
-      | 'delivered'
-      | 'canceled'
+    status: OrderStatus
   }[]
-  meta: {
-    pageIndex: number
-    totalCount: number
-    perPage: number
-  }
+  meta: PaginationResponse
 }
 
 export async function getOrders({

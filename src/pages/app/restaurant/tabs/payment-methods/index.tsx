@@ -5,10 +5,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import {
-  getPaymentMethods,
-  type PaymentMethod,
-} from '@/api/manager/restaurants/payment-methods/get-payment-methods'
+import { getPaymentMethods } from '@/api/manager/restaurants/payment-methods/get-payment-methods'
 import { updatePaymentMethods } from '@/api/manager/restaurants/payment-methods/update-payment-methods'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
@@ -19,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import type { PaymentMethod } from '@/dtos/payment-methods/payment-method'
 import { queryClient } from '@/lib/react-query'
 
 import { PaymentMethodsSkeleton } from './payment-methods-skeleton'

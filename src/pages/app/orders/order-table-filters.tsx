@@ -5,25 +5,13 @@ import { useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { OrderStatus } from '@/components/order-status'
+import { OrderStatusTag } from '@/components/order-status-tag'
 import { Button } from '@/components/ui/button'
 import { DateRangePicker } from '@/components/ui/date-range-picker'
 import { Input } from '@/components/ui/input'
+import type { OrderStatus } from '@/dtos/orders/order-status'
 
-type OrderStatusType =
-  | 'awaiting_payment'
-  | 'payment_failed'
-  | 'payment_confirmed'
-  | 'payment_overdue'
-  | 'payment_refunded'
-  | 'chargeback_requested'
-  | 'pending'
-  | 'processing'
-  | 'delivering'
-  | 'delivered'
-  | 'canceled'
-
-const statusOptions: Array<{ value: OrderStatusType; label: string }> = [
+const statusOptions: Array<{ value: OrderStatus; label: string }> = [
   { value: 'awaiting_payment', label: 'Aguardando pagamento' },
   { value: 'payment_failed', label: 'Pagamento falhou' },
   { value: 'payment_confirmed', label: 'Pagamento confirmado' },
@@ -34,7 +22,7 @@ const statusOptions: Array<{ value: OrderStatusType; label: string }> = [
   { value: 'canceled', label: 'Cancelado' },
 ]
 
-const otherStatusOptions: Array<{ value: OrderStatusType; label: string }> = [
+const otherStatusOptions: Array<{ value: OrderStatus; label: string }> = [
   { value: 'payment_overdue', label: 'Pagamento vencido' },
   { value: 'payment_refunded', label: 'Reembolsado' },
   { value: 'chargeback_requested', label: 'Contestação solicitada' },
@@ -84,7 +72,7 @@ export function OrderTableFilters() {
       },
     })
 
-  const currentStatus = watch('status') as OrderStatusType
+  const currentStatus = watch('status') as OrderStatus
   const watchedCustomerName = watch('customerName')
 
   useEffect(() => {
@@ -300,7 +288,7 @@ export function OrderTableFilters() {
               onClick={() => handleStatusChange(option.value)}
               className="w-auto"
             >
-              <OrderStatus
+              <OrderStatusTag
                 status={option.value}
                 className={
                   currentStatus === option.value
@@ -321,7 +309,7 @@ export function OrderTableFilters() {
                 onClick={() => handleStatusChange(option.value)}
                 className="w-auto"
               >
-                <OrderStatus
+                <OrderStatusTag
                   status={option.value}
                   className={
                     currentStatus === option.value
@@ -344,7 +332,7 @@ export function OrderTableFilters() {
                 onClick={() => handleStatusChange(currentStatus)}
                 className="w-auto"
               >
-                <OrderStatus
+                <OrderStatusTag
                   status={currentStatus}
                   className="text-background"
                 />

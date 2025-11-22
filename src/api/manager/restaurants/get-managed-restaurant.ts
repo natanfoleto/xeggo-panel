@@ -8,9 +8,7 @@ export interface ManagedRestaurant {
   cpfCnpj: string
   primaryColor: string | null
   avatarUrl: string | null
-  managerId: string | null
   createdAt: string | null
-  updatedAt: string | null
 }
 
 export interface GetManagedRestaurantResponse {

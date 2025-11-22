@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { createCoupon } from '@/api/manager/coupons/create-coupon'
+import type { Coupon } from '@/api/manager/coupons/get-coupon'
 import { updateCoupon } from '@/api/manager/coupons/update-coupon'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { FormInput } from '@/components/form/form-input'
@@ -31,7 +32,7 @@ const couponFormSchema = z.object({
 export type CouponFormSchema = z.infer<typeof couponFormSchema>
 
 interface CouponFormProps {
-  initialData?: Partial<CouponFormSchema> & { id?: string }
+  initialData?: Coupon
   isLoading?: boolean
 }
 

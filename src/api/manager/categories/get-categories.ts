@@ -1,24 +1,15 @@
+import type { PaginationResponse } from '@/dtos/pagination/pagination-response'
 import { api } from '@/lib/axios'
 
 export interface Category {
   id: string
   name: string
   description: string | null
-  restaurantId: string
-  createdAt: string
-  updatedAt: string
-  _count: {
-    products: number
-  }
 }
 
 export interface GetCategoriesResponse {
   categories: Category[]
-  meta: {
-    pageIndex: number
-    totalCount: number
-    perPage: number
-  }
+  meta: PaginationResponse
 }
 
 export interface GetCategoriesQuery {

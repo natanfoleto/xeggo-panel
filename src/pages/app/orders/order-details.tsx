@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react'
 import React from 'react'
 
 import { getOrderDetails } from '@/api/manager/orders/get-order-details'
-import { OrderStatus } from '@/components/order-status'
+import { OrderStatusTag } from '@/components/order-status-tag'
 import {
   Accordion,
   AccordionContent,
@@ -27,23 +27,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import type { OrderType } from '@/dtos/orders/order-type'
+import type { PaymentType } from '@/dtos/orders/payment-type'
+import type { PaymentMethod } from '@/dtos/payment-methods/payment-method'
 import { formatCurrency } from '@/utils/format-currency'
 
 import { OrderDetailsSkeleton } from './order-details-skeleton'
 
-const PAYMENT_TYPES: Record<string, string> = {
+const PAYMENT_TYPES: Record<PaymentType, string> = {
   online: 'Pagamento online',
   onDelivery: 'Pagamento na entrega/retirada',
 }
 
-const PAYMENT_METHODS: Record<string, string> = {
+const PAYMENT_METHODS: Record<PaymentMethod, string> = {
   cash: 'Dinheiro',
   creditCard: 'Cartão de Crédito',
   debitCard: 'Cartão de Débito',
   pix: 'PIX',
 }
 
-const ORDER_TYPES: Record<string, string> = {
+const ORDER_TYPES: Record<OrderType, string> = {
   delivery: 'Entrega',
   pickup: 'Retirada',
 }
@@ -90,7 +93,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   Status
                 </TableCell>
                 <TableCell className="flex justify-end">
-                  <OrderStatus status={order.status} />
+                  <OrderStatusTag status={order.status} />
                 </TableCell>
               </TableRow>
 

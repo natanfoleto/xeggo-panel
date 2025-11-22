@@ -1,3 +1,4 @@
+import type { Product } from '@/api/manager/products/get-products'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatCurrency } from '@/utils/format-currency'
 
@@ -7,19 +8,7 @@ import { UpdateProduct } from './update-product'
 import { UpdateStatusProduct } from './update-status-product'
 
 export interface ProductTableRowProps {
-  product: {
-    id: string
-    name: string
-    description: string | null
-    priceInCents: number
-    photoUrl: string | null
-    active: boolean
-    categoryId: string
-    category: {
-      id: string
-      name: string
-    }
-  }
+  product: Product
 }
 
 export function ProductTableRow({ product }: ProductTableRowProps) {

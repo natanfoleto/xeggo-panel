@@ -1,19 +1,16 @@
 import { api } from '@/lib/axios'
 
-export interface GetCategoryRequest {
-  categoryId: string
-}
-
 export interface Category {
   id: string
   name: string
   description: string | null
-  restaurantId: string
-  createdAt: string
-  updatedAt: string
   _count: {
     products: number
   }
+}
+
+export interface GetCategoryRequest {
+  categoryId: string
 }
 
 export interface GetCategoryResponse {

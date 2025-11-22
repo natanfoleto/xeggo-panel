@@ -1,12 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { Loader2, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { deleteAvatar } from '@/api/manager/restaurants/delete-avatar'
 import { getAsaasAccount } from '@/api/manager/restaurants/asaas/get-asaas-account'
+import { deleteAvatar } from '@/api/manager/restaurants/delete-avatar'
 import {
   getManagedRestaurant,
   type ManagedRestaurant,
@@ -250,7 +252,24 @@ export function UpdateRestaurant() {
     <>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">Geral</CardTitle>
+          <CardTitle>
+            <div className="flex justify-between gap-4">
+              Geral
+              {restaurant && (
+                <p className="text-muted-foreground text-sm font-normal">
+                  Registrado em{' '}
+                  {restaurant.createdAt &&
+                    format(
+                      new Date(restaurant.createdAt),
+                      "d 'de' MMMM 'de' yyyy",
+                      {
+                        locale: ptBR,
+                      },
+                    )}
+                </p>
+              )}
+            </div>
+          </CardTitle>
 
           <CardDescription>
             Atualize as informações do seu estabelecimento visíveis aos seus

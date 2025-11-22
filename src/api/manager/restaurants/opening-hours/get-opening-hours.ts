@@ -1,21 +1,11 @@
+import type { WeekDay } from '@/dtos/opening-hours/week-day'
 import { api } from '@/lib/axios'
-
-export type WeekDay =
-  | 'sunday'
-  | 'monday'
-  | 'tuesday'
-  | 'wednesday'
-  | 'thursday'
-  | 'friday'
-  | 'saturday'
 
 export interface OpeningHour {
   id: string
   weekDay: WeekDay
   openTime: string
   closeTime: string
-  createdAt: string
-  updatedAt: string
 }
 
 export interface GetOpeningHoursResponse {

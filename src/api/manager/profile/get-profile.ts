@@ -6,7 +6,6 @@ export interface Profile {
   email: string
   phone: string | null
   createdAt: string
-  updatedAt: string
 }
 
 export interface GetProfileResponse {

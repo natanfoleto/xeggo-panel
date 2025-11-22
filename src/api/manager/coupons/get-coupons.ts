@@ -1,4 +1,16 @@
+import type { PaginationResponse } from '@/dtos/pagination/pagination-response'
 import { api } from '@/lib/axios'
+
+export interface Coupon {
+  id: string
+  code: string
+  type: 'percentage' | 'fixed'
+  value: number
+  expiresAt: string | null
+  usageLimit: number | null
+  usageCount: number
+  active: boolean
+}
 
 export interface GetCouponsRequest {
   search?: string
@@ -7,24 +19,8 @@ export interface GetCouponsRequest {
 }
 
 export interface GetCouponsResponse {
-  coupons: {
-    id: string
-    code: string
-    type: 'percentage' | 'fixed'
-    value: number
-    minOrderInCents: number | null
-    maxDiscountInCents: number | null
-    expiresAt: string | null
-    usageLimit: number | null
-    usageCount: number
-    active: boolean
-    createdAt: string
-  }[]
-  meta: {
-    pageIndex: number
-    perPage: number
-    totalCount: number
-  }
+  coupons: Coupon[]
+  meta: PaginationResponse
 }
 
 export async function getCoupons({
