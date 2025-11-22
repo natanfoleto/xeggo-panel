@@ -1,11 +1,5 @@
+import type { PaginationResponse } from '@/dtos/pagination/pagination-response'
 import { api } from '@/lib/axios'
-
-export interface GetProductsRequest {
-  pageIndex?: number
-  productName?: string | null
-  categoryId?: string | null
-  active?: boolean | null
-}
 
 export interface Product {
   id: string
@@ -14,23 +8,22 @@ export interface Product {
   priceInCents: number
   photoUrl: string | null
   active: boolean
-  categoryId: string
-  restaurantId: string
-  createdAt: string
-  updatedAt: string
   category: {
     id: string
     name: string
   }
 }
 
+export interface GetProductsRequest {
+  pageIndex?: number
+  productName?: string | null
+  categoryId?: string | null
+  active?: boolean | null
+}
+
 export interface GetProductsResponse {
   products: Product[]
-  meta: {
-    pageIndex: number
-    totalCount: number
-    perPage: number
-  }
+  meta: PaginationResponse
 }
 
 export async function getProducts({

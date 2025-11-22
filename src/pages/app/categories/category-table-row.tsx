@@ -1,14 +1,11 @@
+import type { Category } from '@/api/manager/categories/get-categories'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import { DeleteCategory } from './delete-category'
 import { UpdateCategory } from './update-category'
 
 export interface CategoryTableRowProps {
-  category: {
-    id: string
-    name: string
-    description: string | null
-  }
+  category: Category
 }
 
 export function CategoryTableRow({ category }: CategoryTableRowProps) {

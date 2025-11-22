@@ -12,7 +12,7 @@ export function CouponsTableSkeleton() {
             </TableCell>
 
             <TableCell>
-              <Skeleton className="h-4 w-[80px]" />
+              <Skeleton className="h-4 w-20" />
             </TableCell>
 
             <TableCell>
@@ -20,7 +20,7 @@ export function CouponsTableSkeleton() {
             </TableCell>
 
             <TableCell>
-              <Skeleton className="h-4 w-[80px]" />
+              <Skeleton className="h-4 w-20" />
             </TableCell>
 
             <TableCell>

@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
+import type { Coupon } from '@/api/manager/coupons/get-coupons'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatCurrency } from '@/utils/format-currency'
 
@@ -9,19 +10,7 @@ import { UpdateCoupon } from './update-coupon'
 import { UpdateStatusCoupon } from './update-status-coupon'
 
 export interface CouponTableRowProps {
-  coupon: {
-    id: string
-    code: string
-    type: 'percentage' | 'fixed'
-    value: number
-    minOrderInCents: number | null
-    maxDiscountInCents: number | null
-    expiresAt: string | null
-    usageLimit: number | null
-    usageCount: number
-    active: boolean
-    createdAt: string
-  }
+  coupon: Coupon
 }
 
 export function CouponTableRow({ coupon }: CouponTableRowProps) {

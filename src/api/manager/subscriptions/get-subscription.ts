@@ -1,40 +1,23 @@
+import type { PlanType } from '@/dtos/plans/plan-type'
+import type { SubscriptionStatus } from '@/dtos/subscriptions/subscription-status'
 import { api } from '@/lib/axios'
 
 export interface Subscription {
   id: string
-  restaurantId: string
-  status:
-    | 'trialing'
-    | 'active'
-    | 'past_due'
-    | 'canceled'
-    | 'incomplete'
-    | 'incomplete_expired'
-    | 'unpaid'
-    | 'paused'
+  status: SubscriptionStatus
   stripeCustomerId: string | null
-  stripeSubscriptionId: string | null
-  stripePriceId: string | null
   cardBrand: string | null
   cardLast4: string | null
   cardExpMonth: number | null
   cardExpYear: number | null
-  currentPeriodStart: string
   currentPeriodEnd: string
-  trialStart: string | null
   trialEnd: string | null
   canceledAt: string | null
   cancelAt: string | null
-  cancelAtPeriodEnd: boolean
-  createdAt: string
   updatedAt: string
   plan: {
-    id: string
     name: string
-    type: 'monthly' | 'annual'
-    priceInCents: number
-    trialPeriodDays: number | null
-    features: string[]
+    type: PlanType
   }
 }
 

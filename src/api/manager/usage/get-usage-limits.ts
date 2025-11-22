@@ -1,3 +1,4 @@
+import type { PlanType } from '@/dtos/plans/plan-type'
 import { api } from '@/lib/axios'
 
 export interface UsageLimit {
@@ -12,7 +13,7 @@ export interface GetUsageLimitsResponse {
   limits: UsageLimit[]
   plan: {
     name: string
-    type: 'monthly' | 'annual'
+    type: PlanType
   }
 }
 

@@ -12,20 +12,9 @@ export interface Product {
   photoUrl: string | null
   active: boolean
   categoryId: string
-  restaurantId: string
-  createdAt: string
-  updatedAt: string
-  category: {
-    id: string
-    name: string
-    description: string | null
-  }
   ingredients: {
     id: string
     name: string
-    productId: string
-    createdAt: string
-    updatedAt: string
   }[]
   complementGroups: {
     id: string
@@ -33,17 +22,11 @@ export interface Product {
     mandatory: boolean
     min: number
     max: number
-    productId: string
-    createdAt: string
-    updatedAt: string
     complements: {
       id: string
       name: string
       priceInCents: number | null
       description: string | null
-      complementGroupId: string
-      createdAt: string
-      updatedAt: string
     }[]
   }[]
 }

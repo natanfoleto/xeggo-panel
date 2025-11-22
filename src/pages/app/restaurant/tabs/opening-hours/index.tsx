@@ -5,10 +5,7 @@ import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import {
-  getOpeningHours,
-  type WeekDay,
-} from '@/api/manager/restaurants/opening-hours/get-opening-hours'
+import { getOpeningHours } from '@/api/manager/restaurants/opening-hours/get-opening-hours'
 import { updateOpeningHours } from '@/api/manager/restaurants/opening-hours/update-opening-hours'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
@@ -19,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import type { WeekDay } from '@/dtos/opening-hours/week-day'
 import { queryClient } from '@/lib/react-query'
 
 import { OpeningHoursDialog } from './opening-hours-dialog'

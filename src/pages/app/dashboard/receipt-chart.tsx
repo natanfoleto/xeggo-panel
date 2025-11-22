@@ -14,7 +14,10 @@ import {
 } from 'recharts'
 import colors from 'tailwindcss/colors'
 
-import { getDailyReceiptInPeriod } from '@/api/manager/metrics/get-daily-receipt-in-period'
+import {
+  type DailyReceipts,
+  getDailyReceiptInPeriod,
+} from '@/api/manager/metrics/get-daily-receipt-in-period'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -27,13 +30,8 @@ import { DateRangePicker } from '@/components/ui/date-range-picker'
 import { Label } from '@/components/ui/label'
 import { formatCurrency } from '@/utils/format-currency'
 
-interface ReceiptDataPerMonth {
-  date: string
-  receipt: number
-}
-
 export interface ReceiptChartProps {
-  data: ReceiptDataPerMonth[]
+  data: DailyReceipts[]
 }
 
 interface CustomTooltipProps {

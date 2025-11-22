@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -110,7 +112,20 @@ export function UpdateProfile() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">Geral</CardTitle>
+        <CardTitle>
+          <div className="flex justify-between gap-4">
+            Geral
+            {profile && (
+              <p className="text-muted-foreground text-sm font-normal">
+                Entrou em{' '}
+                {profile.createdAt &&
+                  format(new Date(profile.createdAt), "d 'de' MMMM 'de' yyyy", {
+                    locale: ptBR,
+                  })}
+              </p>
+            )}
+          </div>
+        </CardTitle>
 
         <CardDescription>
           Atualize as informações gerais do seu perfil

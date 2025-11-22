@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
@@ -19,16 +20,17 @@ const signUpSchema = z.object({
     .min(1, { message: 'Informe o nome do restaurante' }),
   cpfCnpj: z
     .string()
-    .min(11, 'Documento inválido')
-    .max(14, 'Documento inválido')
     .refine(
       (value) => {
+        if (value.length === 0) return true
+
         const only = value.replace(/\D/g, '')
 
         return only.length === 11 ? isValidCPF(only) : isValidCNPJ(only)
       },
-      { message: 'CPF ou CNPJ inválido' },
-    ),
+      { message: 'CPF inválido' },
+    )
+    .nullable(),
   managerName: z.string().min(1, { message: 'Informe o nome do proprietário' }),
   phone: z.string(),
   email: z.string().email({ message: 'Informe um e-mail válido' }),
@@ -37,6 +39,8 @@ const signUpSchema = z.object({
 type SignUpSchema = z.infer<typeof signUpSchema>
 
 export function SignUp() {
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -47,7 +51,7 @@ export function SignUp() {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       restaurantName: '',
-      cpfCnpj: '',
+      cpfCnpj: null,
       managerName: '',
       email: '',
       phone: '',
@@ -76,6 +80,9 @@ export function SignUp() {
     appalert.success(
       'Restaurante cadastrado',
       'Faça login e acesse o painel do parceiro.',
+      {
+        onDismiss: () => navigate(`/sign-in?email=${email}`),
+      },
     )
   }
 
@@ -119,7 +126,7 @@ export function SignUp() {
             <div className="space-y-2">
               <Label htmlFor="cpfCnpj">CPF ou CNPJ</Label>
               <FormCpfCnpjInput
-                value={watch('cpfCnpj')}
+                value={watch('cpfCnpj') ?? ''}
                 onChange={(value) =>
                   setValue('cpfCnpj', value, {
                     shouldDirty: true,

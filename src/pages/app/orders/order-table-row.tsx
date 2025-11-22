@@ -9,27 +9,15 @@ import { deliverOrder } from '@/api/manager/orders/deliver-order'
 import { dispatchOrder } from '@/api/manager/orders/dispatch-order'
 import type { GetOrdersResponse } from '@/api/manager/orders/get-orders'
 import { resetOrder } from '@/api/manager/orders/reset-order'
-import { OrderStatus } from '@/components/order-status'
+import { OrderStatusTag } from '@/components/order-status-tag'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
+import type { OrderStatus } from '@/dtos/orders/order-status'
 import { formatCurrency } from '@/utils/format-currency'
 
 import { CancelOrder } from './cancel-order'
 import { OrderDetails } from './order-details'
-
-type OrderStatus =
-  | 'awaiting_payment'
-  | 'payment_failed'
-  | 'payment_confirmed'
-  | 'payment_overdue'
-  | 'payment_refunded'
-  | 'chargeback_requested'
-  | 'pending'
-  | 'processing'
-  | 'delivering'
-  | 'delivered'
-  | 'canceled'
 
 export interface OrderTableRowProps {
   order: {
@@ -133,7 +121,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       </TableCell>
 
       <TableCell>
-        <OrderStatus status={order.status} />
+        <OrderStatusTag status={order.status} />
       </TableCell>
 
       <TableCell className="font-medium">{order.customerName}</TableCell>

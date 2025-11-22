@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { getCategories } from '@/api/manager/categories/get-categories'
 import { createProduct } from '@/api/manager/products/create-product'
 import { deleteProductImage } from '@/api/manager/products/delete-product-image'
+import type { Product } from '@/api/manager/products/get-product'
 import { updateProduct } from '@/api/manager/products/update-product'
 import { uploadProductImage } from '@/api/manager/products/upload-product-image'
 import { appalert } from '@/components/app-alert/app-alert-context'
@@ -59,7 +60,7 @@ const productFormSchema = z.object({
 export type ProductFormSchema = z.infer<typeof productFormSchema>
 
 interface ProductFormProps {
-  initialData?: Partial<ProductFormSchema> & { id?: string }
+  initialData?: Product
   isLoading?: boolean
 }
 

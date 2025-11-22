@@ -29,6 +29,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import type { InvoiceStatus } from '@/dtos/invoices/invoice-status'
 import { formatCurrency } from '@/utils/format-currency'
 
 export function Plans() {
@@ -51,8 +52,8 @@ export function Plans() {
     },
   })
 
-  const getInvoiceStatusLabel = (status: string) => {
-    const statusMap: Record<string, string> = {
+  const getInvoiceStatusLabel = (status: InvoiceStatus) => {
+    const statusMap: Record<InvoiceStatus, string> = {
       paid: 'Pago',
       open: 'Pendente',
       void: 'Cancelado',

@@ -26,6 +26,13 @@ export function UpdateCategory({ categoryId }: UpdateCategoryProps) {
     staleTime: 1000 * 60 * 15,
   })
 
+  const products = category?._count.products ?? 0
+
+  const using =
+    category && products > 0
+      ? `Você tem ${products} ${products > 1 ? 'produtos' : 'produto'} usando a categoria ${category.name}`
+      : `Você não tem nenhum produto usando ${category ? `a categoria ${category.name}` : 'essa categoria'}`
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -47,9 +54,7 @@ export function UpdateCategory({ categoryId }: UpdateCategoryProps) {
             )}
           </DialogTitle>
 
-          <DialogDescription>
-            {category && `Atualize as informações de ${category?.name}.`}
-          </DialogDescription>
+          <DialogDescription>{using}</DialogDescription>
         </DialogHeader>
 
         {isLoading ? (

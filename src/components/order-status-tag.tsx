@@ -1,17 +1,5 @@
+import type { OrderStatus } from '@/dtos/orders/order-status'
 import { cn } from '@/lib/utils'
-
-type OrderStatus =
-  | 'awaiting_payment'
-  | 'payment_failed'
-  | 'payment_confirmed'
-  | 'payment_overdue'
-  | 'payment_refunded'
-  | 'chargeback_requested'
-  | 'pending'
-  | 'processing'
-  | 'delivering'
-  | 'delivered'
-  | 'canceled'
 
 const orderStatusMap: Record<OrderStatus, string> = {
   awaiting_payment: 'Aguardando pagamento',
@@ -32,7 +20,7 @@ interface OrderStatusProps {
   className?: string
 }
 
-export function OrderStatus({ status, className }: OrderStatusProps) {
+export function OrderStatusTag({ status, className }: OrderStatusProps) {
   return (
     <div
       className={cn('text-muted-foreground flex items-center gap-2', className)}

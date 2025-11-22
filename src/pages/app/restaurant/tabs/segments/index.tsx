@@ -5,10 +5,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import {
-  getSegments,
-  type Segment,
-} from '@/api/manager/restaurants/segments/get-segments'
+import { getSegments } from '@/api/manager/restaurants/segments/get-segments'
 import { updateSegments } from '@/api/manager/restaurants/segments/update-segments'
 import { appalert } from '@/components/app-alert/app-alert-context'
 import { Button } from '@/components/ui/button'
@@ -19,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import type { Segment } from '@/dtos/segments/segment'
 import { queryClient } from '@/lib/react-query'
 
 import { SegmentsSkeleton } from './segments-skeleton'
